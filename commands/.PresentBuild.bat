@@ -10,5 +10,3 @@ setlocal enabledelayedexpansion
 cd !originDir!
 
 xcopy .cpyorgn\00_01.vcxproj ..\.engine /e /y
-
-pause
