@@ -1,7 +1,7 @@
 @echo off
-cd ..\.engine
+cd..
+rmdir .engine
 git submodule init
 git submodule update
 
-git pull origin master
 pause
