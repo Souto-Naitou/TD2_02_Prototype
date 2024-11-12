@@ -13,10 +13,60 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{8bd91128-a796-4de7-850b-be01f77336dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Base">
+      <UniqueIdentifier>{19d67958-3e3c-4e07-9524-4ba4579aa67d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Scene">
+      <UniqueIdentifier>{b9ce9419-e975-48c7-9891-816d09a677db}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="scene\base\BaseScene.cpp">
+      <Filter>Scene\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="scene\base\MyGame.cpp">
+      <Filter>Scene\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="scene\base\SceneFactory.cpp">
+      <Filter>Scene\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="scene\base\SceneManager.cpp">
+      <Filter>Scene\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="scene\scene\GamePlayScene.cpp">
+      <Filter>Scene\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="scene\scene\TitleScene.cpp">
+      <Filter>Scene\Scene</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="scene\base\AbstractSceneFactory.h">
+      <Filter>Scene\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\base\BaseScene.h">
+      <Filter>Scene\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\base\MyGame.h">
+      <Filter>Scene\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\base\SceneFactory.h">
+      <Filter>Scene\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\base\SceneManager.h">
+      <Filter>Scene\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\scene\GamePlayScene.h">
+      <Filter>Scene\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\scene\TitleScene.h">
+      <Filter>Scene\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
