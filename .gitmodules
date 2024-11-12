@@ -1,3 +1,6 @@
 [submodule "engine"]
 	path = engine
 	url = https://github.com/kamiji-tomoyuki/TD2_02.git
+[submodule ".engine"]
+	path = .engine
+	url = https://github.com/kamiji-tomoyuki/TD2_02.git
