@@ -18,6 +18,12 @@ jobs:
 
       - name: Add MSBuild to Path
         uses: microsoft/setup-msbuild@v2
+
+      - name: Run batch file to initialize submodule
+        run: |
+          ./commands/.CreateSubmodule.bat
+          ./commands/.PresentBuild.bat
+        shell: cmd
       
       - name: Build
         run: |
