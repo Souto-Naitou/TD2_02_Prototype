@@ -20,6 +20,11 @@ jobs:
         run: |
           cd .\commands
           .\.CreateSubmodule.bat
+        shell: cmd
+
+      - name: Run batch file to copy vcxproj
+        run: |
+          cd .\commands
           .\.PresentBuild.bat
         shell: cmd
 
