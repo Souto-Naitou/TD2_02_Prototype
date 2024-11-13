@@ -19,7 +19,6 @@ jobs:
       - name: Run batch file to initialize submodule
         run: |
           cd .\commands
-          cd
           .\.CreateSubmodule.bat
           .\.PresentBuild.bat
         shell: cmd
