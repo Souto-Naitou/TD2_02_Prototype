@@ -18,9 +18,10 @@ jobs:
 
       - name: Run batch file to initialize submodule
         run: |
+          cd .\commands
           cd
-          .\commands\.CreateSubmodule.bat
-          .\commands\.PresentBuild.bat
+          .\.CreateSubmodule.bat
+          .\.PresentBuild.bat
         shell: cmd
 
       - name: Add MSBuild to Path
