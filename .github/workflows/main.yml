@@ -19,13 +19,13 @@ jobs:
       - name: Run batch file to initialize submodule
         run: |
           cd .\commands
-          .\.CreateSubmodule.bat
+          .\CreateSubmodule.bat
         shell: cmd
 
       - name: Run batch file to copy vcxproj
         run: |
           cd .\commands
-          .\.PresentBuild.bat
+          .\Pull_Engine_Repository.bat
         shell: cmd
 
       - name: Add MSBuild to Path

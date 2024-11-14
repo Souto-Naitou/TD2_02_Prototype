@@ -2,7 +2,6 @@
 
 void GamePlayScene::Initialize()
 {
-	
 	// --- カメラ ---
 	camera = new Camera();
 	camera->SetRotate({ 0.3f,0.0f,0.0f });
@@ -10,40 +9,36 @@ void GamePlayScene::Initialize()
 	Object3dCommon::GetInstance()->SetDefaultCamera(camera);
 
 	// --- スプライト ---
-	std::string textureFile[] = {"Resources/images/uvChecker.png","Resources/images/monsterBall.png" };
+	std::string textureFile[] = { "test/uvChecker.png","monsterBall.png" };
 	for (uint32_t i = 0; i < 1; ++i) {
 		Sprite* sprite = new Sprite();
-		sprite->Initialize(SpriteCommon::GetInstance(), textureFile[i]);
-		
+		sprite->Initialize(textureFile[i], { 0,0 }, { 1,1,1,1 }, { 0,0 });
+
 		sprites.push_back(sprite);
 	}
 
 	// --- 3Dオブジェクト ---
-	ModelManager::GetInstance()->LoadModel("plane.obj");
-	ModelManager::GetInstance()->LoadModel("axis.obj");
+	ModelManager::GetInstance()->LoadModel("test/obj/plane.obj");
+	ModelManager::GetInstance()->LoadModel("test/axis.obj");
 
 	for (uint32_t i = 0; i < 2; ++i) {
 		Object3d* object = new Object3d();
-		object->Initialize(Object3dCommon::GetInstance());
-
-		Vector3 position;
-		position.x = i * 2.0f;
-
-		object->SetPosition(position);
-
 		if (i == 0) {
-			object->SetModel("plane.obj");
+			object->Initialize("plane.obj");
 		}
 		if (i == 1) {
-			object->SetModel("axis.obj");
+			object->Initialize("axis.obj");
 		}
+		
+		Vector3 position;
+		position.x = i * 2.0f;
+		object->SetPosition(position);
 
 		object3ds.push_back(object);
 	}
 
-	// --- オーディオ ---
-	soundData = Audio::GetInstance()->LoadWav("fanfare.wav");
-
+    pBoss_ = std::make_unique<Boss>();
+	pBoss_->Initialize();
 
 	// --- 自作クラス ---
 
@@ -51,6 +46,12 @@ void GamePlayScene::Initialize()
 	player_ = std::make_shared<Player>();
 	player_->Initialize();
 
+  // --- オーディオ ---
+	soundDataSet = Audio::GetInstance()->LoadWav("fanfare.wav");
+	Audio::GetInstance()->PlayWave(soundDataSet, false, 0.02f);
+
+	soundDataSet2 = Audio::GetInstance()->LoadWav("test/xxx.wav");
+	Audio::GetInstance()->PlayWave(soundDataSet2, false, 0.01f);
 }
 
 void GamePlayScene::Finalize()
@@ -85,16 +86,14 @@ void GamePlayScene::Update()
 		float rotation = sprites[i]->GetRotate();
 		sprites[i]->SetRotate(rotation);
 
-		Vector2 size = { 200.0f,200.0f };
-		sprites[i]->SetSize(size);
+		//Vector2 size = { 200.0f,200.0f };
+		//sprites[i]->SetSize(size);
 
 		Vector4 color = sprites[i]->GetColor();
 		sprites[i]->SetColor(color);
 
 		sprites[i]->Update();
 	}
-
-
 
 #pragma endregion スプライト
 
@@ -115,6 +114,8 @@ void GamePlayScene::Update()
 		obj->SetRotate(rotate);
 	}
 
+    pBoss_->Update();
+
 #pragma endregion 3Dオブジェクト
 
 	// プレーヤーの更新処理
@@ -123,6 +124,9 @@ void GamePlayScene::Update()
 
 void GamePlayScene::Draw()
 {
+	// 描画前処理(Sprite)
+	SpriteCommon::GetInstance()->PreDraw();
+
 	// 描画前処理(Object)
 	Object3dCommon::GetInstance()->PreDraw();
 
@@ -131,16 +135,19 @@ void GamePlayScene::Draw()
 
 	// ↓ ↓ ↓ ↓ Draw を書き込む ↓ ↓ ↓ ↓
 
-	/*for (uint32_t i = 0; i < 1; ++i) {
-		sprites[i]->Draw();
-	}
+	//for (uint32_t i = 0; i < 1; ++i) {
+	//	sprites[i]->Draw();
+	//}
 
-	for (auto& obj : object3ds) {
-		obj->Draw();
-	}*/
+	//for (auto& obj : object3ds) {
+	//	obj->Draw();
+	//}
 
-	// プレーヤー描画
+  // プレーヤー描画
 	player_->Draw();
+    // ボス描画
+    pBoss_->Draw();
 
 	// ↑ ↑ ↑ ↑ Draw を書き込む ↑ ↑ ↑ ↑
+
 }
