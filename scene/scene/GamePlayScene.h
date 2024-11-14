@@ -4,6 +4,7 @@
 #include <Sprite.h>
 #include <Object3d.h>
 
+#include "../../Player.h"
 
 class GamePlayScene : public BaseScene
 {
@@ -31,5 +32,8 @@ private: // メンバ変数
 	// 3Dオブジェクト
 	std::vector<Object3d*> object3ds;
 
+
+	//player
+	std::shared_ptr<Player> player_ = nullptr;
 };
 

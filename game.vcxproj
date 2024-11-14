@@ -169,6 +169,7 @@ call .PostBuild.bat</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="scene\base\BaseScene.cpp" />
     <ClCompile Include="scene\base\MyGame.cpp" />
     <ClCompile Include="scene\base\SceneFactory.cpp" />
@@ -177,6 +178,7 @@ call .PostBuild.bat</Command>
     <ClCompile Include="scene\scene\TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Player.h" />
     <ClInclude Include="scene\base\AbstractSceneFactory.h" />
     <ClInclude Include="scene\base\BaseScene.h" />
     <ClInclude Include="scene\base\MyGame.h" />

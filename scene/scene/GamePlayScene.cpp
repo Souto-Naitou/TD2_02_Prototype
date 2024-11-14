@@ -43,6 +43,14 @@ void GamePlayScene::Initialize()
 
 	// --- オーディオ ---
 	soundData = Audio::GetInstance()->LoadWav("fanfare.wav");
+
+
+	// --- 自作クラス ---
+
+	// プレイヤー
+	player_ = std::make_shared<Player>();
+	player_->Initialize();
+
 }
 
 void GamePlayScene::Finalize()
@@ -58,6 +66,9 @@ void GamePlayScene::Finalize()
 	Object3dCommon::GetInstance()->Finalize();
 	ModelManager::GetInstance()->Finalize();
 	Audio::GetInstance()->SoundUnload(Audio::GetInstance()->GetXAudio2(), &soundData);
+
+	player_->Finalize();
+	//player_.reset();
 }
 
 void GamePlayScene::Update()
@@ -105,6 +116,9 @@ void GamePlayScene::Update()
 	}
 
 #pragma endregion 3Dオブジェクト
+
+	// プレーヤーの更新処理
+	player_->Update();
 }
 
 void GamePlayScene::Draw()
@@ -117,13 +131,16 @@ void GamePlayScene::Draw()
 
 	// ↓ ↓ ↓ ↓ Draw を書き込む ↓ ↓ ↓ ↓
 
-	for (uint32_t i = 0; i < 1; ++i) {
+	/*for (uint32_t i = 0; i < 1; ++i) {
 		sprites[i]->Draw();
 	}
 
 	for (auto& obj : object3ds) {
 		obj->Draw();
-	}
+	}*/
+
+	// プレーヤー描画
+	player_->Draw();
 
 	// ↑ ↑ ↑ ↑ Draw を書き込む ↑ ↑ ↑ ↑
 }
