@@ -43,7 +43,7 @@ void GamePlayScene::Initialize()
 	// --- 自作クラス ---
 
 	// プレイヤー
-	player_ = std::make_shared<Player>();
+	player_ = std::make_unique<Player>();
 	player_->Initialize();
 
   // --- オーディオ ---
@@ -70,7 +70,6 @@ void GamePlayScene::Finalize()
     Audio::GetInstance()->SoundUnload(Audio::GetInstance()->GetXAudio2(), &soundDataSet2);
 
 	player_->Finalize();
-	//player_.reset();
 }
 
 void GamePlayScene::Update()
@@ -99,6 +98,7 @@ void GamePlayScene::Update()
 #pragma endregion スプライト
 
 #pragma region 3Dオブジェクト
+
 
 	for (uint32_t i = 0; i < object3ds.size(); ++i) {
 		Object3d* obj = object3ds[i];

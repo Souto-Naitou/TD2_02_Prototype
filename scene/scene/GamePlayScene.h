@@ -32,7 +32,7 @@ private: // メンバ変数
     std::vector<Object3d*>  object3ds;
 
 	//player
-	std::shared_ptr<Player> player_ = nullptr;
+	std::unique_ptr<Player> player_ = nullptr;
     std::unique_ptr<Boss>   pBoss_      = nullptr; // ボス
 
 	// サウンド
