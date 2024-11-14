@@ -103,6 +103,13 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="gameEngine\math\impl\Color.cpp" />
+    <ClCompile Include="gameEngine\math\impl\Matrix4x4.cpp" />
+    <ClCompile Include="gameEngine\math\impl\Rect2.cpp" />
+    <ClCompile Include="gameEngine\math\impl\Vector2.cpp" />
+    <ClCompile Include="gameEngine\math\impl\Vector3.cpp" />
+    <ClCompile Include="gameEngine\math\impl\Vector3Fn.cpp" />
+    <ClCompile Include="gameEngine\math\impl\Vector4.cpp" />
     <ClCompile Include="scene\base\BaseScene.cpp" />
     <ClCompile Include="externals\imgui\imgui.cpp" />
     <ClCompile Include="externals\imgui\imgui_demo.cpp" />
@@ -134,8 +141,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="gameEngine\base\ImGuiManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="gameEngine\math\CalculateMath.cpp" />
-    <ClCompile Include="gameEngine\math\Matrix4x4.cpp" />
-    <ClCompile Include="gameEngine\math\Vector3.cpp" />
     <ClCompile Include="scene\base\MyGame.cpp" />
     <ClCompile Include="scene\scene\TitleScene.cpp" />
     <ClCompile Include="scene\base\SceneManager.cpp" />
