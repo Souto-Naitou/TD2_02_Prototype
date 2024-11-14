@@ -9,10 +9,10 @@ void TitleScene::Initialize()
 	Object3dCommon::GetInstance()->SetDefaultCamera(camera);
 
 	// --- スプライト ---
-	std::string textureFile[] = { "Resources/images/monsterBall.png" };
+	std::string textureFile[] = { "monsterBall.png" };
 	for (uint32_t i = 0; i < 1; ++i) {
 		Sprite* sprite = new Sprite();
-		sprite->Initialize(SpriteCommon::GetInstance(), textureFile[i]);
+		sprite->Initialize(textureFile[i], {});
 
 		sprites.push_back(sprite);
 	}

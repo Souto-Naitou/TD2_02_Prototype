@@ -5,7 +5,7 @@
 #include <memory>
 
 /// <summary>
-/// ƒ{ƒX
+/// ãƒœã‚¹
 /// </summary>
 class Boss : public GameObject
 {

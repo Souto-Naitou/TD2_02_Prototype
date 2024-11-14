@@ -2,7 +2,6 @@
 
 void GamePlayScene::Initialize()
 {
-	
 	// --- カメラ ---
 	camera = new Camera();
 	camera->SetRotate({ 0.3f,0.0f,0.0f });
@@ -10,11 +9,11 @@ void GamePlayScene::Initialize()
 	Object3dCommon::GetInstance()->SetDefaultCamera(camera);
 
 	// --- スプライト ---
-	std::string textureFile[] = {"Resources/images/uvChecker.png","Resources/images/monsterBall.png" };
+	std::string textureFile[] = {"uvChecker.png","monsterBall.png" };
 	for (uint32_t i = 0; i < 1; ++i) {
 		Sprite* sprite = new Sprite();
-		sprite->Initialize(SpriteCommon::GetInstance(), textureFile[i]);
-		
+		sprite->Initialize(textureFile[i], {});
+
 		sprites.push_back(sprite);
 	}
 
@@ -24,7 +23,6 @@ void GamePlayScene::Initialize()
 
 	for (uint32_t i = 0; i < 2; ++i) {
 		Object3d* object = new Object3d();
-		object->Initialize(Object3dCommon::GetInstance());
 
 		Vector3 position;
 		position.x = i * 2.0f;
@@ -32,14 +30,17 @@ void GamePlayScene::Initialize()
 		object->SetPosition(position);
 
 		if (i == 0) {
-			object->SetModel("plane.obj");
+			object->Initialize("plane.obj");
 		}
 		if (i == 1) {
-			object->SetModel("axis.obj");
+			object->Initialize("axis.obj");
 		}
 
 		object3ds.push_back(object);
 	}
+
+    pBoss_ = std::make_unique<Boss>();
+	pBoss_->Initialize();
 
 	// --- オーディオ ---
 	soundData = Audio::GetInstance()->LoadWav("fanfare.wav");
@@ -104,6 +105,8 @@ void GamePlayScene::Update()
 		obj->SetRotate(rotate);
 	}
 
+    pBoss_->Update();
+
 #pragma endregion 3Dオブジェクト
 }
 
@@ -117,13 +120,16 @@ void GamePlayScene::Draw()
 
 	// ↓ ↓ ↓ ↓ Draw を書き込む ↓ ↓ ↓ ↓
 
-	for (uint32_t i = 0; i < 1; ++i) {
-		sprites[i]->Draw();
-	}
+	//for (uint32_t i = 0; i < 1; ++i) {
+	//	sprites[i]->Draw();
+	//}
 
-	for (auto& obj : object3ds) {
-		obj->Draw();
-	}
+	//for (auto& obj : object3ds) {
+	//	obj->Draw();
+	//}
+
+    pBoss_->Draw();
 
 	// ↑ ↑ ↑ ↑ Draw を書き込む ↑ ↑ ↑ ↑
+
 }
