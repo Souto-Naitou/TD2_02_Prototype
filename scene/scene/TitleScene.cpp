@@ -12,7 +12,7 @@ void TitleScene::Initialize()
 	std::string textureFile[] = { "monsterBall.png" };
 	for (uint32_t i = 0; i < 1; ++i) {
 		Sprite* sprite = new Sprite();
-		sprite->Initialize(textureFile[i], {});
+		sprite->Initialize(textureFile[i], { 0,0 }, { 1,1,1,1 }, { 0,0 });
 
 		sprites.push_back(sprite);
 	}

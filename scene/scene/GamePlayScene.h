@@ -22,10 +22,8 @@ public:
     void Draw() override;
 
 private: // メンバ変数
-    // カメラ
-    Camera* camera = nullptr;
-    // サウンド
-    SoundData soundData;
+	// カメラ
+	Camera* camera = nullptr;
 
     // 2Dスプライト
     std::vector<Sprite*>    sprites;
@@ -34,5 +32,8 @@ private: // メンバ変数
 
     std::unique_ptr<Boss>   pBoss_      = nullptr; // ボス
 
+	// サウンド
+	SoundData soundDataSet;
+	SoundData soundDataSet2;
 };
 

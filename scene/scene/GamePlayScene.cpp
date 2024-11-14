@@ -9,32 +9,30 @@ void GamePlayScene::Initialize()
 	Object3dCommon::GetInstance()->SetDefaultCamera(camera);
 
 	// --- スプライト ---
-	std::string textureFile[] = {"uvChecker.png","monsterBall.png" };
+	std::string textureFile[] = { "test/uvChecker.png","monsterBall.png" };
 	for (uint32_t i = 0; i < 1; ++i) {
 		Sprite* sprite = new Sprite();
-		sprite->Initialize(textureFile[i], {});
+		sprite->Initialize(textureFile[i], { 0,0 }, { 1,1,1,1 }, { 0,0 });
 
 		sprites.push_back(sprite);
 	}
 
 	// --- 3Dオブジェクト ---
-	ModelManager::GetInstance()->LoadModel("plane.obj");
-	ModelManager::GetInstance()->LoadModel("axis.obj");
+	ModelManager::GetInstance()->LoadModel("test/obj/plane.obj");
+	ModelManager::GetInstance()->LoadModel("test/axis.obj");
 
 	for (uint32_t i = 0; i < 2; ++i) {
 		Object3d* object = new Object3d();
-
-		Vector3 position;
-		position.x = i * 2.0f;
-
-		object->SetPosition(position);
-
 		if (i == 0) {
 			object->Initialize("plane.obj");
 		}
 		if (i == 1) {
 			object->Initialize("axis.obj");
 		}
+		
+		Vector3 position;
+		position.x = i * 2.0f;
+		object->SetPosition(position);
 
 		object3ds.push_back(object);
 	}
@@ -43,7 +41,11 @@ void GamePlayScene::Initialize()
 	pBoss_->Initialize();
 
 	// --- オーディオ ---
-	soundData = Audio::GetInstance()->LoadWav("fanfare.wav");
+	soundDataSet = Audio::GetInstance()->LoadWav("fanfare.wav");
+	Audio::GetInstance()->PlayWave(soundDataSet, false, 0.02f);
+
+	soundDataSet2 = Audio::GetInstance()->LoadWav("test/xxx.wav");
+	Audio::GetInstance()->PlayWave(soundDataSet2, false, 0.01f);
 }
 
 void GamePlayScene::Finalize()
@@ -58,7 +60,6 @@ void GamePlayScene::Finalize()
 	}
 	Object3dCommon::GetInstance()->Finalize();
 	ModelManager::GetInstance()->Finalize();
-	Audio::GetInstance()->SoundUnload(Audio::GetInstance()->GetXAudio2(), &soundData);
 }
 
 void GamePlayScene::Update()
@@ -75,16 +76,14 @@ void GamePlayScene::Update()
 		float rotation = sprites[i]->GetRotate();
 		sprites[i]->SetRotate(rotation);
 
-		Vector2 size = { 200.0f,200.0f };
-		sprites[i]->SetSize(size);
+		//Vector2 size = { 200.0f,200.0f };
+		//sprites[i]->SetSize(size);
 
 		Vector4 color = sprites[i]->GetColor();
 		sprites[i]->SetColor(color);
 
 		sprites[i]->Update();
 	}
-
-
 
 #pragma endregion スプライト
 
@@ -112,6 +111,9 @@ void GamePlayScene::Update()
 
 void GamePlayScene::Draw()
 {
+	// 描画前処理(Sprite)
+	SpriteCommon::GetInstance()->PreDraw();
+
 	// 描画前処理(Object)
 	Object3dCommon::GetInstance()->PreDraw();
 
