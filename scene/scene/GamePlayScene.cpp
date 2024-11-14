@@ -40,7 +40,13 @@ void GamePlayScene::Initialize()
     pBoss_ = std::make_unique<Boss>();
 	pBoss_->Initialize();
 
-	// --- オーディオ ---
+	// --- 自作クラス ---
+
+	// プレイヤー
+	player_ = std::make_shared<Player>();
+	player_->Initialize();
+
+  // --- オーディオ ---
 	soundDataSet = Audio::GetInstance()->LoadWav("fanfare.wav");
 	Audio::GetInstance()->PlayWave(soundDataSet, false, 0.02f);
 
@@ -60,6 +66,10 @@ void GamePlayScene::Finalize()
 	}
 	Object3dCommon::GetInstance()->Finalize();
 	ModelManager::GetInstance()->Finalize();
+	Audio::GetInstance()->SoundUnload(Audio::GetInstance()->GetXAudio2(), &soundData);
+
+	player_->Finalize();
+	//player_.reset();
 }
 
 void GamePlayScene::Update()
@@ -107,6 +117,9 @@ void GamePlayScene::Update()
     pBoss_->Update();
 
 #pragma endregion 3Dオブジェクト
+
+	// プレーヤーの更新処理
+	player_->Update();
 }
 
 void GamePlayScene::Draw()
@@ -130,6 +143,9 @@ void GamePlayScene::Draw()
 	//	obj->Draw();
 	//}
 
+  // プレーヤー描画
+	player_->Draw();
+    // ボス描画
     pBoss_->Draw();
 
 	// ↑ ↑ ↑ ↑ Draw を書き込む ↑ ↑ ↑ ↑

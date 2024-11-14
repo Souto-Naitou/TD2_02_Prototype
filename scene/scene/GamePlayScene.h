@@ -4,6 +4,7 @@
 #include <Sprite.h>
 #include <Object3d.h>
 
+#include "../../Player.h"
 #include "../../Objects/Boss/Boss.h"
 
 class GamePlayScene : public BaseScene
@@ -30,6 +31,8 @@ private: // メンバ変数
     // 3Dオブジェクト
     std::vector<Object3d*>  object3ds;
 
+	//player
+	std::shared_ptr<Player> player_ = nullptr;
     std::unique_ptr<Boss>   pBoss_      = nullptr; // ボス
 
 	// サウンド
