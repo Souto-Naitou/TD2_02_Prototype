@@ -1,3 +1,6 @@
 [submodule ".engine"]
 	path = .engine
 	url = https://github.com/kamiji-tomoyuki/TD2_02.git
+[submodule ".Externals/Easing"]
+	path = .Externals/Easing
+	url = https://github.com/Souto-Naitou/Easing_ImGui.git
