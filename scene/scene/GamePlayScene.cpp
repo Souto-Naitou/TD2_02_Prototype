@@ -37,6 +37,9 @@ void GamePlayScene::Initialize()
 		object3ds.push_back(object);
 	}
 
+    pBoss_ = std::make_unique<Boss>();
+	pBoss_->Initialize();
+
 	// --- オーディオ ---
 	soundDataSet = Audio::GetInstance()->LoadWav("fanfare.wav");
 	Audio::GetInstance()->PlayWave(soundDataSet, false, 0.02f);
@@ -101,6 +104,8 @@ void GamePlayScene::Update()
 		obj->SetRotate(rotate);
 	}
 
+    pBoss_->Update();
+
 #pragma endregion 3Dオブジェクト
 }
 
@@ -117,13 +122,16 @@ void GamePlayScene::Draw()
 
 	// ↓ ↓ ↓ ↓ Draw を書き込む ↓ ↓ ↓ ↓
 
-	for (uint32_t i = 0; i < 1; ++i) {
-		sprites[i]->Draw();
-	}
+	//for (uint32_t i = 0; i < 1; ++i) {
+	//	sprites[i]->Draw();
+	//}
 
-	for (auto& obj : object3ds) {
-		obj->Draw();
-	}
+	//for (auto& obj : object3ds) {
+	//	obj->Draw();
+	//}
+
+    pBoss_->Draw();
 
 	// ↑ ↑ ↑ ↑ Draw を書き込む ↑ ↑ ↑ ↑
+
 }

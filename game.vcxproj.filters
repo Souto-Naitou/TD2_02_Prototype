@@ -22,6 +22,15 @@
     <Filter Include="Scene\Scene">
       <UniqueIdentifier>{b9ce9419-e975-48c7-9891-816d09a677db}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object">
+      <UniqueIdentifier>{1413c2a7-d331-45f3-84c4-a23499e4e9b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Boss">
+      <UniqueIdentifier>{d96ed104-bcb6-4455-967e-111745f3c4f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\GameObject">
+      <UniqueIdentifier>{6c3f5ffd-1e1e-4b1b-a54e-c34cfe721fb7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -45,6 +54,9 @@
     <ClCompile Include="scene\scene\GamePlayScene.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Objects\Boss\Boss.cpp">
+      <Filter>Object\Boss</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="scene\base\AbstractSceneFactory.h">
@@ -67,6 +79,12 @@
     </ClInclude>
     <ClInclude Include="scene\scene\GamePlayScene.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Boss\Boss.h">
+      <Filter>Object\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\.GameObject\GameObject.h">
+      <Filter>Object\GameObject</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
