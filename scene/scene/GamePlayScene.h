@@ -22,13 +22,14 @@ public:
 private: // メンバ変数
 	// カメラ
 	Camera* camera = nullptr;
-	// サウンド
-	SoundData soundData;
 
 	// 2Dスプライト
 	std::vector<Sprite*> sprites;
 	// 3Dオブジェクト
 	std::vector<Object3d*> object3ds;
 
+	// サウンド
+	SoundData soundDataSet;
+	SoundData soundDataSet2;
 };
 
