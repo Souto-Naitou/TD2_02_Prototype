@@ -29,7 +29,7 @@ void GamePlayScene::Initialize()
 		if (i == 1) {
 			object->Initialize("axis.obj");
 		}
-		
+
 		Vector3 position;
 		position.x = i * 2.0f;
 		object->SetPosition(position);
@@ -66,7 +66,8 @@ void GamePlayScene::Finalize()
 	}
 	Object3dCommon::GetInstance()->Finalize();
 	ModelManager::GetInstance()->Finalize();
-	Audio::GetInstance()->SoundUnload(Audio::GetInstance()->GetXAudio2(), &soundData);
+	Audio::GetInstance()->SoundUnload(Audio::GetInstance()->GetXAudio2(), &soundDataSet);
+    Audio::GetInstance()->SoundUnload(Audio::GetInstance()->GetXAudio2(), &soundDataSet2);
 
 	player_->Finalize();
 	//player_.reset();

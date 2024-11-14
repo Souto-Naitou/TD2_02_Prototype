@@ -6,29 +6,29 @@
 class Player
 {
 public:
-	// ‰Šú‰»
+	// åˆæœŸåŒ–
 	void Initialize();
 
-	// I—¹
+	// çµ‚äº†
 	void Finalize();
 
-	// XVˆ—
+	// æ›´æ–°å‡¦ç†
 	void Update();
 
-	// •`‰æˆ—
+	// æç”»å‡¦ç†
 	void Draw();
 
-private: // ƒƒ“ƒo•Ï”
-	// ƒJƒƒ‰
+private: // ãƒ¡ãƒ³ãƒå¤‰æ•°
+	// ã‚«ãƒ¡ãƒ©
 	Camera* camera = nullptr;
 
-	// 3DƒIƒuƒWƒFƒNƒg
+	// 3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	std::vector<Object3d*> object3ds;
 
-	// ˆÊ’u
+	// ä½ç½®
 	Vector3 position_{};
 
-	// ‘¬“x
+	// é€Ÿåº¦
 	Vector3 velocity_{};
 
 };

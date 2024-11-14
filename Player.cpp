@@ -2,25 +2,23 @@
 
 void Player::Initialize()
 {
-	// --- ƒJƒƒ‰ ---
+	// --- ã‚«ãƒ¡ãƒ© ---
 	camera = new Camera();
 	camera->SetRotate({ 0.3f,0.0f,0.0f });
 	camera->SetTranslate({ 0.0f,4.0f,-10.0f });
 	Object3dCommon::GetInstance()->SetDefaultCamera(camera);
 
-	// --- 3DƒIƒuƒWƒFƒNƒg ---
+	// --- 3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ ---
 	ModelManager::GetInstance()->LoadModel("plane.obj");
 
-	for (uint32_t i = 0; i < 1; ++i) 
+	for (uint32_t i = 0; i < 1; ++i)
 	{
 		Object3d* object = new Object3d();
-		object->Initialize(Object3dCommon::GetInstance());
+		object->Initialize("plane.obj");
 
 
 		position_ = { 0.0f,0.0f,0.0f };
 		object->SetPosition(position_);
-
-		object->SetModel("plane.obj");
 
 		object->SetSize({ 0.5f,0.5f,0.5f });
 
@@ -32,9 +30,9 @@ void Player::Initialize()
 
 void Player::Finalize()
 {
-	// Še‰ğ•úˆ—
+	// å„è§£æ”¾å‡¦ç†
 	delete camera;
-	for (auto& obj : object3ds) 
+	for (auto& obj : object3ds)
 	{
 		delete obj;
 	}
@@ -45,7 +43,7 @@ void Player::Finalize()
 
 void Player::Update()
 {
-	//ƒJƒƒ‰‚ÌXV
+	//ã‚«ãƒ¡ãƒ©ã®æ›´æ–°
 	camera->Update();
 
 
@@ -54,7 +52,7 @@ void Player::Update()
 		Object3d* obj = object3ds[i];
 		obj->Update();
 
-		// ˆÚ“®ˆ—
+		// ç§»å‹•å‡¦ç†
 		if (Input::GetInstance()->PushKey(DIK_W))
 		{
 			position_.y += velocity_.y;
@@ -79,15 +77,15 @@ void Player::Update()
 
 void Player::Draw()
 {
-	// •`‰æ‘Oˆ—(Object)
+	// æç”»å‰å‡¦ç†(Object)
 	Object3dCommon::GetInstance()->PreDraw();
 
-	// « « « « Draw ‚ğ‘‚«‚Ş « « « «
+	// â†“ â†“ â†“ â†“ Draw ã‚’æ›¸ãè¾¼ã‚€ â†“ â†“ â†“ â†“
 
 	for (auto& obj : object3ds)
 	{
 		obj->Draw();
 	}
 
-	// ª ª ª ª Draw ‚ğ‘‚«‚Ş ª ª ª ª
+	// â†‘ â†‘ â†‘ â†‘ Draw ã‚’æ›¸ãè¾¼ã‚€ â†‘ â†‘ â†‘ â†‘
 }
