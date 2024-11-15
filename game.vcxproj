@@ -169,6 +169,7 @@ call .PostBuild.bat</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Objects\Skydome\Skydome.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Objects\Boss\Boss.cpp" />
     <ClCompile Include="PlayerBullet.cpp" />
@@ -180,6 +181,7 @@ call .PostBuild.bat</Command>
     <ClCompile Include="scene\scene\TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Objects\Skydome\Skydome.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Objects\.GameObject\GameObject.h" />
     <ClInclude Include="Objects\Boss\Boss.h" />

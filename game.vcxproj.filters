@@ -31,6 +31,9 @@
     <Filter Include="Object\GameObject">
       <UniqueIdentifier>{6c3f5ffd-1e1e-4b1b-a54e-c34cfe721fb7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Skydome">
+      <UniqueIdentifier>{b5f812ea-9e77-4dc1-aad4-5876ac6a6629}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -62,6 +65,9 @@
     </ClCompile>
     <ClCompile Include="PlayerBullet.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Skydome\Skydome.cpp">
+      <Filter>Object\Skydome</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -97,6 +103,9 @@
     </ClInclude>
     <ClInclude Include="PlayerBullet.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Skydome\Skydome.h">
+      <Filter>Object\Skydome</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

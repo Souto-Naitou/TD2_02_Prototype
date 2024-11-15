@@ -1,36 +1,36 @@
-#include "Boss.h"
+#include "Skydome.h"
 
 #include <ModelManager.h>
 
-void Boss::Initialize()
+void Skydome::Initialize()
 {
     /// モデルの読み込みと登録
-    ModelManager::GetInstance()->LoadModel("cube.obj");
+    ModelManager::GetInstance()->LoadModel("skydome/tenkyurs.obj");
 
     /// Transformの初期化
-    scale_ = { 0.5f, 0.5f, 0.5f };
-    position_ = { 0.0f, 0.0f, 10.0f };
+    scale_ ={ 10.0f, 10.0f, 10.0f };
+    position_ = { 0.0f, 0.0f, 0.0f };
     rotation_ = { 0.0f, 0.0f, 0.0f };
 
     object_ = std::make_unique<Object3d>();
 
-    object_->Initialize("cube.obj");
+    object_->Initialize("tenkyurs.obj");
     object_->SetSize(scale_);
     object_->SetRotate(rotation_);
     object_->SetPosition(position_);
 }
 
-void Boss::Update()
+void Skydome::Update()
 {
     object_->Update();
 }
 
-void Boss::Draw()
+void Skydome::Draw()
 {
     object_->Draw();
 }
 
-void Boss::Finalize()
+void Skydome::Finalize()
 {
 
 }
