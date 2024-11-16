@@ -7,6 +7,7 @@
 #include <EasingManager/EasingManager.h>
 #include "../../Player.h"
 #include "../../Objects/Boss/Boss.h"
+#include "../../Objects/Skydome/Skydome.h"
 
 class GamePlayScene : public BaseScene
 {
@@ -24,8 +25,8 @@ public:
     void Draw() override;
 
 private: // メンバ変数
-	// カメラ
-	Camera* camera = nullptr;
+    // カメラ
+    Camera* camera = nullptr;
     EasingManager* easingManager_ = nullptr;
 
     // 2Dスプライト
@@ -33,12 +34,13 @@ private: // メンバ変数
     // 3Dオブジェクト
     std::vector<Object3d*>  object3ds;
 
-	//player
-	std::shared_ptr<Player> player_ = nullptr;
-    std::unique_ptr<Boss>   pBoss_      = nullptr; // ボス
+    //player
+    std::unique_ptr<Player>     player_     = nullptr;
+    std::unique_ptr<Boss>       pBoss_      = nullptr; // ボス
+    std::unique_ptr<Skydome>    pSkydome_   = nullptr; // 天球
 
-	// サウンド
-	SoundData soundDataSet;
-	SoundData soundDataSet2;
+    // サウンド
+    SoundData soundDataSet;
+    SoundData soundDataSet2;
 };
 

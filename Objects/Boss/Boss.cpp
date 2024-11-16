@@ -8,8 +8,8 @@ void Boss::Initialize()
     ModelManager::GetInstance()->LoadModel("cube.obj");
 
     /// Transformの初期化
-    scale_ = { 0.1f, 0.1f, 0.1f };
-    position_ = { 0.0f, 0.0f, 0.0f };
+    scale_ = { 0.5f, 0.5f, 0.5f };
+    position_ = { 0.0f, 0.0f, 10.0f };
     rotation_ = { 0.0f, 0.0f, 0.0f };
 
     object_ = std::make_unique<Object3d>();

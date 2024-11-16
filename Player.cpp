@@ -1,29 +1,20 @@
 #include "Player.h"
 
+
 void Player::Initialize()
 {
-	// --- カメラ ---
-	camera = new Camera();
-	camera->SetRotate({ 0.3f,0.0f,0.0f });
-	camera->SetTranslate({ 0.0f,4.0f,-10.0f });
-	Object3dCommon::GetInstance()->SetDefaultCamera(camera);
-
 	// --- 3Dオブジェクト ---
 	ModelManager::GetInstance()->LoadModel("plane.obj");
 
-	for (uint32_t i = 0; i < 1; ++i)
-	{
-		Object3d* object = new Object3d();
-		object->Initialize("plane.obj");
+	object_ = std::make_unique<Object3d>();
+	object_->Initialize("plane.obj");
 
+	position_ = { 0.0f,0.0f,0.0f };
+	object_->SetPosition(position_);
 
-		position_ = { 0.0f,0.0f,0.0f };
-		object->SetPosition(position_);
+	// 仮置き
+	object_->SetSize({ 0.5f,0.5f,0.5f });
 
-		object->SetSize({ 0.5f,0.5f,0.5f });
-
-		object3ds.push_back(object);
-	}
 
 	velocity_ = { 0.05f,0.05f,0.0f };
 }
@@ -31,61 +22,110 @@ void Player::Initialize()
 void Player::Finalize()
 {
 	// 各解放処理
-	delete camera;
-	for (auto& obj : object3ds)
-	{
-		delete obj;
+
+	for (auto& bullet : bullets_) {
+		bullet->Finalize();
+		//delete bullet;
 	}
 
-	Object3dCommon::GetInstance()->Finalize();
+	bullets_.remove_if([](PlayerBullet* bullet) {
+		if (bullet->IsDead()) {
+			delete bullet;
+			//bullet->Finalize();
+			return true;
+		}
+		return false;
+		});
+
 	ModelManager::GetInstance()->Finalize();
 }
 
 void Player::Update()
 {
-	//カメラの更新
-	camera->Update();
+
+	//デスフラグの立った弾を削除
+	bullets_.remove_if([](PlayerBullet* bullet) {
+		if (bullet->IsDead()) {
+			delete bullet;
+			//bullet->Finalize();
+			return true;
+		}
+		return false;
+		});
 
 
-	for (uint32_t i = 0; i < object3ds.size(); ++i)
+
+	object_->Update();
+
+	// 移動処理
+	if (Input::GetInstance()->PushKey(DIK_W))
 	{
-		Object3d* obj = object3ds[i];
-		obj->Update();
-
-		// 移動処理
-		if (Input::GetInstance()->PushKey(DIK_W))
-		{
-			position_.y += velocity_.y;
-		}
-		if (Input::GetInstance()->PushKey(DIK_S))
-		{
-			position_.y -= velocity_.y;
-		}
-		if (Input::GetInstance()->PushKey(DIK_A))
-		{
-			position_.x -= velocity_.x;
-		}
-		if (Input::GetInstance()->PushKey(DIK_D))
-		{
-			position_.x += velocity_.x;
-		}
-
-		obj->SetPosition(position_);
+		position_.y += velocity_.y;
 	}
+	if (Input::GetInstance()->PushKey(DIK_S))
+	{
+		position_.y -= velocity_.y;
+	}
+	if (Input::GetInstance()->PushKey(DIK_A))
+	{
+		position_.x -= velocity_.x;
+	}
+	if (Input::GetInstance()->PushKey(DIK_D))
+	{
+		position_.x += velocity_.x;
+	}
+	object_->SetPosition(position_);
 
+
+	// 攻撃
+	Attack();
+
+	// 弾更新
+	for (auto& bullet : bullets_) {
+		bullet->Update();
+	}
 }
 
 void Player::Draw()
 {
-	// 描画前処理(Object)
-	Object3dCommon::GetInstance()->PreDraw();
+	object_->Draw();
 
-	// ↓ ↓ ↓ ↓ Draw を書き込む ↓ ↓ ↓ ↓
 
-	for (auto& obj : object3ds)
-	{
-		obj->Draw();
+	// 弾描画
+	for (auto& bullet : bullets_) {
+		bullet->Draw();
 	}
 
-	// ↑ ↑ ↑ ↑ Draw を書き込む ↑ ↑ ↑ ↑
+}
+
+void Player::Attack()
+{
+	if (Input::GetInstance()->PushKey(DIK_SPACE))
+	{
+		//for (uint32_t i = 0; i < 1; ++i)
+		//{
+		//	Object3d* object = new Object3d();
+		//	object->Initialize("cube.obj");
+
+		//	// 速度ベクトルを自機の向きに合わせて回転させる
+		//	bltVelocity_ = TransformNormal(bltVelocity_, worldTransformBlock.matWorld_);
+		//}
+
+		bltVelocity_ = { 0.0f,0.0f,0.1f };
+
+		if (bltCoolTime_ <= 0)
+		{
+			// 弾を生成し、初期化
+			PlayerBullet* newBullet = new PlayerBullet();
+			newBullet->Initialize();
+			newBullet->SetPosition(position_);
+			newBullet->SetVelocity(bltVelocity_);
+
+			// 弾を登録する
+			bullets_.push_back(newBullet);
+
+			bltCoolTime_ = kBltCoolTime;
+		}
+	}
+	bltCoolTime_--;
 }

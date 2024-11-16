@@ -40,14 +40,21 @@ void GamePlayScene::Initialize()
 		object3ds.push_back(object);
 	}
 
-    pBoss_ = std::make_unique<Boss>();
-	pBoss_->Initialize();
-
 	// --- 自作クラス ---
 
+    // ボス
+	pBoss_ = std::make_unique<Boss>();
+	pBoss_->Initialize();
+
+
 	// プレイヤー
-	player_ = std::make_shared<Player>();
+	player_ = std::make_unique<Player>();
 	player_->Initialize();
+
+
+    // 天球
+    pSkydome_ = std::make_unique<Skydome>();
+    pSkydome_->Initialize();
 
   // --- オーディオ ---
 	soundDataSet = Audio::GetInstance()->LoadWav("fanfare.wav");
@@ -73,7 +80,8 @@ void GamePlayScene::Finalize()
     Audio::GetInstance()->SoundUnload(Audio::GetInstance()->GetXAudio2(), &soundDataSet2);
 
 	player_->Finalize();
-	//player_.reset();
+    pBoss_->Finalize();
+    pSkydome_->Finalize();
 }
 
 void GamePlayScene::Update()
@@ -106,6 +114,7 @@ void GamePlayScene::Update()
 
 #pragma region 3Dオブジェクト
 
+
 	for (uint32_t i = 0; i < object3ds.size(); ++i) {
 		Object3d* obj = object3ds[i];
 		obj->Update();
@@ -121,12 +130,16 @@ void GamePlayScene::Update()
 		obj->SetRotate(rotate);
 	}
 
-    pBoss_->Update();
-
 #pragma endregion 3Dオブジェクト
 
 	// プレーヤーの更新処理
-	player_->Update();
+    player_->Update();
+
+    // ボスの更新処理
+    pBoss_->Update();
+
+    // 天球の更新処理
+    pSkydome_->Update();
 }
 
 void GamePlayScene::Draw()
@@ -154,6 +167,8 @@ void GamePlayScene::Draw()
 	player_->Draw();
     // ボス描画
     pBoss_->Draw();
+    // 天球描画
+    pSkydome_->Draw();
 
 	// ↑ ↑ ↑ ↑ Draw を書き込む ↑ ↑ ↑ ↑
 
