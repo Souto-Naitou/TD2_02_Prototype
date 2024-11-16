@@ -4,6 +4,7 @@
 #include <Sprite.h>
 #include <Object3d.h>
 
+#include <EasingManager/EasingManager.h>
 #include "../../Player.h"
 #include "../../Objects/Boss/Boss.h"
 #include "../../Objects/Skydome/Skydome.h"
@@ -26,6 +27,7 @@ public:
 private: // メンバ変数
     // カメラ
     Camera* camera = nullptr;
+    EasingManager* easingManager_ = nullptr;
 
     // 2Dスプライト
     std::vector<Sprite*>    sprites;

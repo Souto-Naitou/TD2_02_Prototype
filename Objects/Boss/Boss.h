@@ -3,6 +3,7 @@
 #include "../.GameObject/GameObject.h"
 #include <Object3d.h>
 #include <memory>
+#include <Easing.h>
 
 /// <summary>
 /// ボス
@@ -20,4 +21,5 @@ public:
 
 private:
     std::unique_ptr<Object3d> object_ = nullptr;
+    std::unique_ptr<Easing> easing_ = nullptr;
 };
