@@ -3,6 +3,9 @@
 #include <ModelManager.h>
 #include <fstream>
 
+#include "../../BossStateFirst.h"
+#include "../../BossStateSecond.h"
+
 void Boss::Initialize()
 {
     /// モデルの読み込みと登録
@@ -23,8 +26,14 @@ void Boss::Initialize()
     easing_ = std::make_unique<Easing>("TEST");
     easing_->Initialize();
 
+    // HPマックスにする
+    hitPoint_ = kMaxHitPoint;
+
     // 通常攻撃発生ファイル読み込み
     LoadNormalAttackPopData();
+
+    // ステート
+    ChangeState(std::make_unique<BossStateFirst>(this));
 }
 
 void Boss::Update()
@@ -54,6 +63,9 @@ void Boss::Update()
 
     //NormalAttack();
     UpdateNormalAttackPopCommands();
+
+    // ステート
+    pState_->Update();
 
     // 弾更新
     for (auto& bullet : bullets_) {
@@ -170,4 +182,9 @@ void Boss::UpdateNormalAttackPopCommands()
             break;
         }
     }
+}
+
+void Boss::ChangeState(std::unique_ptr<BaseBossState> _pState)
+{
+    pState_ = std::move(_pState);
 }

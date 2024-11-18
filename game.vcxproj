@@ -168,7 +168,12 @@ call .PostBuild.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BaseBossState.cpp" />
     <ClCompile Include="BossNormalBullet.cpp" />
+    <ClCompile Include="BossStateFirst.cpp" />
+    <ClCompile Include="BossStateFourth.cpp" />
+    <ClCompile Include="BossStateSecond.cpp" />
+    <ClCompile Include="BossStateThird.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Objects\Skydome\Skydome.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -182,7 +187,12 @@ call .PostBuild.bat</Command>
     <ClCompile Include="scene\scene\TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BaseBossState.h" />
     <ClInclude Include="BossNormalBullet.h" />
+    <ClInclude Include="BossStateFirst.h" />
+    <ClInclude Include="BossStateFourth.h" />
+    <ClInclude Include="BossStateSecond.h" />
+    <ClInclude Include="BossStateThird.h" />
     <ClInclude Include="Objects\Skydome\Skydome.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Objects\.GameObject\GameObject.h" />
