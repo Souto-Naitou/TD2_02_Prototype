@@ -5,7 +5,7 @@
 void PlayerBullet::Initialize()
 {
 	// --- 3Dオブジェクト ---
-	ModelManager::GetInstance()->LoadModel("cube.obj");	
+	ModelManager::GetInstance()->LoadModel("cube.obj");
 
 	object_ = std::make_unique<Object3d>();
 	object_->Initialize("cube.obj");

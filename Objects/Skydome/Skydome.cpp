@@ -8,7 +8,7 @@ void Skydome::Initialize()
     ModelManager::GetInstance()->LoadModel("skydome/tenkyurs.obj");
 
     /// Transformの初期化
-    scale_ ={ 10.0f, 10.0f, 10.0f };
+    scale_ ={ 30.0f, 30.0f, 30.0f };
     position_ = { 0.0f, 0.0f, 0.0f };
     rotation_ = { 0.0f, 0.0f, 0.0f };
 

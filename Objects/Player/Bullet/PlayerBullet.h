@@ -30,8 +30,6 @@ public: // ゲッター
 
 public: // セッター
 
-	Vector3 SetPosition(const Vector3 _position) { return position_ = _position; }
-
 	Vector3 SetVelocity(const Vector3 _velocity) { return velocity_ = _velocity; }
 
 	bool SetIsDead(const bool _isDead) { return isDead_ = _isDead; }
