@@ -24,6 +24,7 @@ void Player::Finalize()
 	// 各解放処理
 
 	for (auto& bullet : bullets_) {
+		bullet->SetIsDead(true);
 		bullet->Finalize();
 		//delete bullet;
 	}
@@ -117,8 +118,9 @@ void Player::Attack()
 		{
 			// 弾を生成し、初期化
 			PlayerBullet* newBullet = new PlayerBullet();
-			newBullet->Initialize();
+
 			newBullet->SetPosition(position_);
+			newBullet->Initialize();
 			newBullet->SetVelocity(bltVelocity_);
 
 			// 弾を登録する
