@@ -33,9 +33,6 @@ private: // メンバ変数
 	// 3Dオブジェクト
 	std::unique_ptr<Object3d> object_ = nullptr;
 
-	// 位置
-	Vector3 position_{};
-
 	// 速度
 	Vector3 velocity_{};
 

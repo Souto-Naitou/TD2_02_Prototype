@@ -104,11 +104,11 @@ void Player::Attack()
 	{
 		//for (uint32_t i = 0; i < 1; ++i)
 		//{
-		//	Object3d* object = new Object3d();
-		//	object->Initialize("cube.obj");
+		//    Object3d* object = new Object3d();
+		//    object->Initialize("cube.obj");
 
-		//	// 速度ベクトルを自機の向きに合わせて回転させる
-		//	bltVelocity_ = TransformNormal(bltVelocity_, worldTransformBlock.matWorld_);
+		//    // 速度ベクトルを自機の向きに合わせて回転させる
+		//    bltVelocity = TransformNormal(bltVelocity, worldTransformBlock.matWorld);
 		//}
 
 		bltVelocity_ = { 0.0f,0.0f,0.1f };
@@ -117,8 +117,9 @@ void Player::Attack()
 		{
 			// 弾を生成し、初期化
 			PlayerBullet* newBullet = new PlayerBullet();
-			newBullet->Initialize();
+
 			newBullet->SetPosition(position_);
+			newBullet->Initialize();
 			newBullet->SetVelocity(bltVelocity_);
 
 			// 弾を登録する
