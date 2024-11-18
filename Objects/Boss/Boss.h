@@ -20,7 +20,17 @@ public:
     void Draw()         override;
     void Finalize()     override;
 
+    // 通常攻撃
     void NormalAttack();
+
+    // 通常攻撃発生コマンド
+    std::stringstream normalAttackPopCommands;
+
+    // 通常攻撃発生データの読み込み
+    void LoadNormalAttackPopData();
+
+    // 通常攻撃発生のコマンド更新
+    void UpdateNormalAttackPopCommands();
 
 public: // セッター
 
@@ -36,9 +46,11 @@ private:
     // 弾
     std::list<BossNormalBullet*> bullets_;
 
-    // 弾CT
-    const float kBltCoolTime = 120.0f;
-    float bltCoolTime_ = 0.0f;
+    // 待機中フラグ
+    bool isWaiting = true;
+    // 待機タイマー
+    int32_t waitingTimer = 0;
+
     // 弾速
     Vector3 bltVelocity_ = { 0.0f,0.0f,-0.05f };
 };

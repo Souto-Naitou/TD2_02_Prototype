@@ -1,6 +1,7 @@
 #include "Boss.h"
 
 #include <ModelManager.h>
+#include <fstream>
 
 void Boss::Initialize()
 {
@@ -21,6 +22,9 @@ void Boss::Initialize()
 
     easing_ = std::make_unique<Easing>("TEST");
     easing_->Initialize();
+
+    // 通常攻撃発生ファイル読み込み
+    LoadNormalAttackPopData();
 }
 
 void Boss::Update()
@@ -48,7 +52,8 @@ void Boss::Update()
     object_->SetPosition(position_);
     object_->Update();
 
-    NormalAttack();
+    //NormalAttack();
+    UpdateNormalAttackPopCommands();
 
     // 弾更新
     for (auto& bullet : bullets_) {
@@ -86,21 +91,83 @@ void Boss::Finalize()
 
 void Boss::NormalAttack()
 {
-    if (bltCoolTime_ <= 0)
-    {
-        // 弾を生成し、初期化
-        BossNormalBullet* newBullet = new BossNormalBullet();
+    // 弾を生成し、初期化
+    BossNormalBullet* newBullet = new BossNormalBullet();
 
-        newBullet->SetPosition(position_);
-        newBullet->SetPlayerPosition(playerPosition_);
-        newBullet->Initialize();
-        newBullet->SetVelocity(bltVelocity_);
+    newBullet->SetPosition(position_);
+    newBullet->SetPlayerPosition(playerPosition_);
+    newBullet->Initialize();
+    newBullet->SetVelocity(bltVelocity_);
 
-        // 弾を登録する
-        bullets_.push_back(newBullet);
+    // 弾を登録する
+    bullets_.push_back(newBullet);
+}
 
-        bltCoolTime_ = kBltCoolTime;
+void Boss::LoadNormalAttackPopData()
+{
+    //ファイルを開く
+    std::ifstream file;
+    file.open("Resources/CSV/BossNormalBulletPop.csv");
+    assert(file.is_open());
+
+    //ファイルの内容を文字列ストリームにコピー
+    normalAttackPopCommands << file.rdbuf();
+
+    //ファイルを閉じる
+    file.close();
+}
+
+void Boss::UpdateNormalAttackPopCommands()
+{
+
+    //待機処理
+    if (isWaiting) {
+        waitingTimer--;
+
+        if (waitingTimer <= 0) {
+            //待機完了
+            isWaiting = false;
+        }
+        return;
     }
 
-    bltCoolTime_--;
+
+    //1行分の文字列を入れる変数
+    std::string line;
+
+    //コマンドループ
+    while (getline(normalAttackPopCommands, line)) {
+        //1行分の文字列を入れる変数
+        std::istringstream line_stream(line);
+
+        std::string word;
+        // ,区切りで行の先頭列を取得
+        getline(line_stream, word, ',');
+
+        // "//"から始まる行はコメント
+        if (word.find("//") == 0) {
+            //コメント行を飛ばす
+            continue;
+        }
+
+      
+        // WAITコマンド
+        if (word.find("WAIT") == 0) {
+
+            getline(line_stream, word, ',');
+
+            // 待ち時間
+            int32_t waitTime = atoi(word.c_str());
+
+            //待機時間
+            isWaiting = true;
+            waitingTimer = waitTime;
+
+            // 通常攻撃発生
+            NormalAttack();
+
+            //コマンドループを抜ける
+            break;
+        }
+    }
 }
