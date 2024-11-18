@@ -13,6 +13,8 @@ void PlayerBullet::Initialize()
 	// 仮置き
 	object_->SetSize({ 0.2f,0.2f,0.2f });
 
+
+	object_->SetPosition(position_);
 }
 
 void PlayerBullet::Finalize()

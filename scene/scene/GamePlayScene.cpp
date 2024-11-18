@@ -4,8 +4,8 @@ void GamePlayScene::Initialize()
 {
 	// --- カメラ ---
 	camera = new Camera();
-	camera->SetRotate({ 0.3f,0.0f,0.0f });
-	camera->SetTranslate({ 0.0f,4.0f,-10.0f });
+	camera->SetRotate({ 0.2f,0.0f,0.0f });
+	camera->SetTranslate({ 0.0f,3.0f,-10.0f });
 	Object3dCommon::GetInstance()->SetDefaultCamera(camera);
 
 	// --- スプライト ---

@@ -117,8 +117,9 @@ void Player::Attack()
 		{
 			// 弾を生成し、初期化
 			PlayerBullet* newBullet = new PlayerBullet();
-			newBullet->Initialize();
+
 			newBullet->SetPosition(position_);
+			newBullet->Initialize();
 			newBullet->SetVelocity(bltVelocity_);
 
 			// 弾を登録する
