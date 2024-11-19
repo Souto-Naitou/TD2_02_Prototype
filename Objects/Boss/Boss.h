@@ -3,6 +3,7 @@
 #include "../.GameObject/GameObject.h"
 #include "../../BossNormalBullet.h"
 #include "../../BossPillow.h"
+#include "../../BossMoon.h"
 #include "../../BaseBossState.h"
 #include <Object3d.h>
 #include <memory>
@@ -41,6 +42,15 @@ public:
     void UpdatePillowPopCommands();
 
 
+    // 月攻撃
+    void MoonAttack();
+    // 月攻撃発生コマンド
+    std::stringstream moonAttackPopCommands;
+    // 月攻撃発生データの読み込み
+    void LoadMoonPopData();
+    // 月攻撃発生のコマンド更新
+    void UpdateMoonPopCommands();
+
     // 弾削除
     void DeleteBullet();
 
@@ -72,7 +82,7 @@ private:
     Vector3 playerPosition_{};
 
     // 通常弾
-    std::list<BossNormalBullet*> normalBullets_;
+    std::list<BossNormalBullet*> pNormalBullets_;
     // 通常弾速
     Vector3 bltVelocity_ = { 0.0f,0.0f,-0.05f };
     // 待機中フラグ
@@ -81,7 +91,7 @@ private:
     int32_t normalWaitingTimer_ = 120;
 
     // 枕弾
-    std::list<BossPillow*> pillowBullets_;
+    std::list<BossPillow*> pPillowBullets_;
     // 枕弾速
     Vector3 pillowVelocity_ = { 0.0f,0.0f,-0.05f };
     // 枕待機中フラグ
@@ -89,6 +99,16 @@ private:
     // 枕待機タイマー
     int32_t pillowWaitingTimer_ = 220;
 
+    // 月弾
+    std::list<BossMoon*> pMoonBullets_;
+    // 月弾速
+    Vector3 moonVelocity_ = { 0.0f,0.0f,-0.3f };
+    // 月角度
+    Vector3 moonRotate_{};
+    // 月待機中フラグ
+    bool isMoonWaiting_ = true;
+    // 月待機タイマー
+    int32_t moonWaitingTimer_ = 9;
 
     // ステート
     std::unique_ptr<BaseBossState> pState_ = nullptr;

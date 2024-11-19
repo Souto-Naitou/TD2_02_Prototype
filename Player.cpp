@@ -77,6 +77,15 @@ void Player::Update()
 	}
 	object_->SetPosition(position_);
 
+	if (Input::GetInstance()->TriggerKey(DIK_LEFT))
+	{
+		rotation_.z += 0.1f;
+	}
+	if (Input::GetInstance()->TriggerKey(DIK_RIGHT))
+	{
+		rotation_.z -= 0.1f;
+	}
+	object_->SetRotate(rotation_);
 
 	// 攻撃
 	Attack();

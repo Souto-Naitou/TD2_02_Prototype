@@ -169,6 +169,7 @@ call .PostBuild.bat</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BaseBossState.cpp" />
+    <ClCompile Include="BossMoon.cpp" />
     <ClCompile Include="BossNormalBullet.cpp" />
     <ClCompile Include="BossPillow.cpp" />
     <ClCompile Include="BossStateFirst.cpp" />
@@ -189,6 +190,7 @@ call .PostBuild.bat</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseBossState.h" />
+    <ClInclude Include="BossMoon.h" />
     <ClInclude Include="BossNormalBullet.h" />
     <ClInclude Include="BossPillow.h" />
     <ClInclude Include="BossStateFirst.h" />

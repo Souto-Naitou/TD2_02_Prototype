@@ -5,6 +5,8 @@
 
 #include "../../BossStateFirst.h"
 #include "../../BossStateSecond.h"
+#include "../../BossStateThird.h"
+#include "../../BossStateFourth.h"
 
 void Boss::Initialize()
 {
@@ -33,7 +35,7 @@ void Boss::Initialize()
     //LoadNormalAttackPopData();
 
     // ステート
-    ChangeState(std::make_unique<BossStateFirst>(this));
+    ChangeState(std::make_unique<BossStateFourth>(this));
 }
 
 void Boss::Update()
@@ -61,13 +63,17 @@ void Boss::Update()
     pState_->Attack();
 
     // 通常弾更新
-    for (auto& bullet : normalBullets_) {
+    for (auto& bullet : pNormalBullets_) {
         bullet->Update();
     }
 
+    // 枕弾更新
+    for (auto& bullet : pPillowBullets_) {
+        bullet->Update();
+    }
 
     // 枕弾更新
-    for (auto& bullet : pillowBullets_) {
+    for (auto& bullet : pMoonBullets_) {
         bullet->Update();
     }
 }
@@ -77,12 +83,17 @@ void Boss::Draw()
     object_->Draw();
 
     // 通常弾描画
-    for (auto& bullet : normalBullets_) {
+    for (auto& bullet : pNormalBullets_) {
         bullet->Draw();
     }
 
     // 枕描画
-    for (auto& bullet : pillowBullets_) {
+    for (auto& bullet : pPillowBullets_) {
+        bullet->Draw();
+    }
+
+    // 月描画
+    for (auto& bullet : pMoonBullets_) {
         bullet->Draw();
     }
 }
@@ -90,18 +101,21 @@ void Boss::Draw()
 void Boss::Finalize()
 {
     // 通常弾終了
-    for (auto& bullet : normalBullets_) {
+    for (auto& bullet : pNormalBullets_) {
         bullet->SetIsDead(true);
         bullet->Finalize();
-        //delete bullet;
     }
 
-
     // 枕終了
-    for (auto& bullet : pillowBullets_) {
+    for (auto& bullet : pPillowBullets_) {
         bullet->SetIsDead(true);
         bullet->Finalize();
-        //delete bullet;
+    }
+
+    // 月終了
+    for (auto& bullet : pMoonBullets_) {
+        bullet->SetIsDead(true);
+        bullet->Finalize();
     }
 
     DeleteBullet();
@@ -118,7 +132,7 @@ void Boss::NormalAttack()
     newBullet->SetVelocity(bltVelocity_);
 
     // 通常弾を登録する
-    normalBullets_.push_back(newBullet);
+    pNormalBullets_.push_back(newBullet);
 }
 
 void Boss::LoadNormalAttackPopData()
@@ -201,7 +215,7 @@ void Boss::PillowAttack()
     newBullet->SetVelocity(bltVelocity_);
 
     // 枕弾を登録する
-    pillowBullets_.push_back(newBullet);
+    pPillowBullets_.push_back(newBullet);
 }
 
 void Boss::LoadPillowPopData()
@@ -212,7 +226,7 @@ void Boss::LoadPillowPopData()
     assert(file.is_open());
 
     //ファイルの内容を文字列ストリームにコピー
-    normalAttackPopCommands << file.rdbuf();
+    pillowAttackPopCommands << file.rdbuf();
 
     //ファイルを閉じる
     file.close();
@@ -221,12 +235,12 @@ void Boss::LoadPillowPopData()
 void Boss::UpdatePillowPopCommands()
 {
     //待機処理
-    if (isNormalWaiting_) {
-        normalWaitingTimer_--;
+    if (isPillowWaiting_) {
+        pillowWaitingTimer_--;
 
-        if (normalWaitingTimer_ <= 0) {
+        if (pillowWaitingTimer_ <= 0) {
             //待機完了
-            isNormalWaiting_ = false;
+            isPillowWaiting_ = false;
         }
         return;
     }
@@ -236,7 +250,7 @@ void Boss::UpdatePillowPopCommands()
     std::string line;
 
     //コマンドループ
-    while (getline(normalAttackPopCommands, line)) {
+    while (getline(pillowAttackPopCommands, line)) {
         //1行分の文字列を入れる変数
         std::istringstream line_stream(line);
 
@@ -260,8 +274,8 @@ void Boss::UpdatePillowPopCommands()
             int32_t waitTime = atoi(word.c_str());
 
             //待機時間
-            isNormalWaiting_ = true;
-            normalWaitingTimer_ = waitTime;
+            isPillowWaiting_ = true;
+            pillowWaitingTimer_ = waitTime;
 
             // 枕攻撃発生
             PillowAttack();
@@ -272,10 +286,114 @@ void Boss::UpdatePillowPopCommands()
     }
 }
 
+void Boss::MoonAttack()
+{
+    // 枕弾を生成し、初期化
+    BossMoon* newBullet = new BossMoon();
+
+    newBullet->SetPosition(position_);
+    newBullet->SetRotation(moonRotate_);
+    newBullet->Initialize();
+    newBullet->SetVelocity(bltVelocity_);
+
+    // 枕弾を登録する
+    pMoonBullets_.push_back(newBullet);
+}
+
+void Boss::LoadMoonPopData()
+{
+    //ファイルを開く
+    std::ifstream file;
+    file.open("Resources/CSV/BossMoonPop.csv");
+    assert(file.is_open());
+
+    //ファイルの内容を文字列ストリームにコピー
+    moonAttackPopCommands << file.rdbuf();
+
+    //ファイルを閉じる
+    file.close();
+}
+
+void Boss::UpdateMoonPopCommands()
+{
+    //待機処理
+    if (isMoonWaiting_) {
+        moonWaitingTimer_--;
+
+        if (moonWaitingTimer_ <= 0) {
+            //待機完了
+            isMoonWaiting_ = false;
+        }
+        return;
+    }
+
+
+    //1行分の文字列を入れる変数
+    std::string line;
+
+    //コマンドループ
+    while (getline(moonAttackPopCommands, line)) {
+        //1行分の文字列を入れる変数
+        std::istringstream line_stream(line);
+
+        std::string word;
+        // ,区切りで行の先頭列を取得
+        getline(line_stream, word, ',');
+
+        // "//"から始まる行はコメント
+        if (word.find("//") == 0) {
+            //コメント行を飛ばす
+            continue;
+        }
+
+        // ROTATEコマンド
+        if (word.find("ROTATE") == 0) {
+            // X座標
+            getline(line_stream, word, ',');
+            float x = (float)std::atof(word.c_str());
+
+            // Y座標
+            getline(line_stream, word, ',');
+            float y = (float)std::atof(word.c_str());
+
+            // Z座標
+            getline(line_stream, word, ',');
+            float z = (float)std::atof(word.c_str());
+
+            // 度数法からラジアンに変換
+            x *= (std::numbers::pi / 180);
+            y *= (std::numbers::pi / 180);
+            z *= (std::numbers::pi / 180);
+
+            // 月を回転させる
+            moonRotate_ = {x, y, z};
+
+        }
+        // WAITコマンド
+        else if (word.find("WAIT") == 0) {
+
+            getline(line_stream, word, ',');
+
+            // 待ち時間
+            int32_t waitTime = atoi(word.c_str());
+
+            //待機時間
+            isMoonWaiting_ = true;
+            moonWaitingTimer_ = waitTime;
+
+            // 月攻撃発生
+            MoonAttack();
+
+            //コマンドループを抜ける
+            break;
+        }
+    }
+}
+
 void Boss::DeleteBullet()
 {
     // デスフラグの立った通常弾を削除
-    normalBullets_.remove_if([](BossNormalBullet* bullet) {
+    pNormalBullets_.remove_if([](BossNormalBullet* bullet) {
         if (bullet->IsDead()) {
             delete bullet;
             //bullet->Finalize();
@@ -285,7 +403,17 @@ void Boss::DeleteBullet()
         });
 
     // デスフラグの立った枕弾を削除
-    pillowBullets_.remove_if([](BossPillow* bullet) {
+    pPillowBullets_.remove_if([](BossPillow* bullet) {
+        if (bullet->IsDead()) {
+            delete bullet;
+            //bullet->Finalize();
+            return true;
+        }
+        return false;
+        });
+
+    // デスフラグの立った月を削除
+    pMoonBullets_.remove_if([](BossMoon* bullet) {
         if (bullet->IsDead()) {
             delete bullet;
             //bullet->Finalize();

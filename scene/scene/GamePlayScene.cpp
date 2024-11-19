@@ -1,14 +1,5 @@
 #include "GamePlayScene.h"
 
-#ifdef _DEBUG
-
-#include "../../BossStateFirst.h"
-#include "../../BossStateSecond.h"
-#include "../../BossStateThird.h"
-#include "../../BossStateFourth.h"
-
-#endif // _DEBUG
-
 void GamePlayScene::Initialize()
 {
 	// --- カメラ ---
@@ -152,25 +143,6 @@ void GamePlayScene::Update()
     // 天球の更新処理
     pSkydome_->Update();
 
-
-
-
-	/*if (Input::GetInstance()->PushKey(DIK_1))
-	{
-		pBoss_->ChangeState(std::make_unique<BossStateFirst>(pBoss_));
-	}
-	if (Input::GetInstance()->PushKey(DIK_2))
-	{
-		pBoss_->ChangeState(std::make_unique<BossStateSecond>(pBoss_));
-	}
-	if (Input::GetInstance()->PushKey(DIK_3))
-	{
-		pBoss_->ChangeState(std::make_unique<BossStateThird>(pBoss_));
-	}
-	if (Input::GetInstance()->PushKey(DIK_4))
-	{
-		pBoss_->ChangeState(std::make_unique<BossStateFourth>(pBoss_));
-	}*/
 }
 
 void GamePlayScene::Draw()
