@@ -7,6 +7,6 @@ git submodule init
 git submodule update
 
 cd .engine
-git pull
+git pull origin master
 
 exit
