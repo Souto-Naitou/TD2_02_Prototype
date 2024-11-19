@@ -81,9 +81,14 @@ private:
     void DebugWindow();
     void CheckCollisionPair(Collider* _colA, Collider* _colB);
     void ProjectShapeOnAxis(const std::vector<Vector3>* _v, const Vector3& _axis, float& _min, float& _max);
+
     bool IsCollision(const AABB* _aabb1, const AABB* _aabb2);
-    bool IsCollision(const OBB* _obb1, const OBB* _obb2);
+    bool IsCollision(const AABB& _aabb, const Sphere& _sphere);
+
     bool IsCollision(const Sphere* _sphere1, const Sphere* _sphere2);
+    bool IsCollision(const OBB* _obb1, const OBB* _obb2);
+
+    bool IsCollision(const OBB& _obb, const Sphere& _sphere);
 
     float ProjectOntoAxis(const OBB* _obb, const Vector3& axis);
     bool OverlapOnAxis(const OBB* _obb1, const OBB* _obb2, const Vector3& axis);

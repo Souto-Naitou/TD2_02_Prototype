@@ -1,8 +1,12 @@
 #include "CollisionManager.h"
 #include "Helper/Shape.h"
-#include <Vector3.h>
 #include "Helper/ImGuiDebugManager/DebugManager.h"
+
+#include <Vector3.h>
+#include <Matrix4x4.h>
+
 #include <cmath>
+#include <algorithm>
 
 void CollisionManager::Initialize()
 {
@@ -195,6 +199,21 @@ bool CollisionManager::IsCollision(const AABB* _aabb1, const AABB* _aabb2)
     return false;
 }
 
+bool CollisionManager::IsCollision(const AABB& _aabb, const Sphere& _sphere)
+{
+    Vector3 _closestPoint{
+        std::clamp(_sphere.center.x, _aabb.min.x, _aabb.max.x),
+        std::clamp(_sphere.center.y, _aabb.min.y, _aabb.max.y),
+        std::clamp(_sphere.center.z, _aabb.min.z, _aabb.max.z)
+    };
+    float distance = (_closestPoint - _sphere.center).LengthWithoutRoot();
+    if (distance <= _sphere.radius * _sphere.radius)
+    {
+        return true;
+    }
+    return false;
+}
+
 bool CollisionManager::IsCollision(const OBB* _obb1, const OBB* _obb2)
 {
     // 分離軸のリスト
@@ -234,11 +253,30 @@ bool CollisionManager::IsCollision(const Sphere* _sphere1, const Sphere* _sphere
     return false;
 }
 
+bool CollisionManager::IsCollision(const OBB& _obb, const Sphere& _sphere)
+{
+    Matrix4x4 obbWorldMatrix{};
+    for (int i = 0; i < 3; i++)
+        obbWorldMatrix.m[0][i] = _obb.orientations[i].x;
+    for (int i = 0; i < 3; i++)
+        obbWorldMatrix.m[1][i] = _obb.orientations[i].y;
+    for (int i = 0; i < 3; i++)
+        obbWorldMatrix.m[2][i] = _obb.orientations[i].z;
+    for (int i = 0; i < 3; i++)
+        obbWorldMatrix.m[3][i] = *(&_obb.center.x + i);
+    obbWorldMatrix.m[3][3] = 1.0f;
+
+    Matrix4x4 obbWorldMatrixInverse = obbWorldMatrix.Inverse();
+    Vector3 centerInOBBLocalSpace = FMath::Transform(_sphere.center, obbWorldMatrixInverse);
+
+    AABB aabbOBBLocal{ .min = -_obb.size, .max = _obb.size };
+    Sphere sphereOBBLocal{ centerInOBBLocalSpace, _sphere.radius };
+
+    return IsCollision(aabbOBBLocal, sphereOBBLocal);
+}
+
 float CollisionManager::ProjectOntoAxis(const OBB* _obb, const Vector3& axis)
 {
-    // 軸方向にOBBの中心を投影
-    float centerProjection = _obb->center.Dot(axis);
-
     // 軸方向にOBBの各半サイズを投影
     float extent = 0.0f;
 
