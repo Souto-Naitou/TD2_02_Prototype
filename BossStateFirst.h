@@ -8,7 +8,7 @@ public:
 
 	BossStateFirst(Boss* _pBoss);
 
-	void Update();
+	void Attack();
 
 };
 

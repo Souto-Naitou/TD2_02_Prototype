@@ -8,7 +8,7 @@ BossStateThird::BossStateThird(Boss* _pBoss) : BaseBossState("State Third", _pBo
 {
 }
 
-void BossStateThird::Update()
+void BossStateThird::Attack()
 {
 	if (pBoss_->GetBossHP() < 40) {
 

@@ -8,6 +8,6 @@ public:
 
 	BossStateSecond(Boss* _pBoss);
 
-	void Update();
+	void Attack();
 };
 

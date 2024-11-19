@@ -7,7 +7,7 @@ BossStateFourth::BossStateFourth(Boss* _pBoss) : BaseBossState("State Fourth", _
 {
 }
 
-void BossStateFourth::Update()
+void BossStateFourth::Attack()
 {
 	
 }

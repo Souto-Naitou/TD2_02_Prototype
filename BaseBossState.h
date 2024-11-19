@@ -11,7 +11,7 @@ public:
 	BaseBossState(const std::string& _scene, Boss* _pBoss) : scene_(_scene), pBoss_(_pBoss) {};
 	virtual ~BaseBossState();
 
-	virtual void Update() = 0;
+	virtual void Attack() = 0;
 
 protected:
 

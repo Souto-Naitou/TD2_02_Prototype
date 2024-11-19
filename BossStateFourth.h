@@ -8,7 +8,7 @@ public:
 
 	BossStateFourth(Boss* _pBoss);
 
-	void Update();
+	void Attack();
 
 };
 ;

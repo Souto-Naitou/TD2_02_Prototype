@@ -8,7 +8,7 @@ BossStateSecond::BossStateSecond(Boss* _pBoss) : BaseBossState("State Second", _
 {
 }
 
-void BossStateSecond::Update()
+void BossStateSecond::Attack()
 {
 	if (pBoss_->GetBossHP() < 80) {
 
