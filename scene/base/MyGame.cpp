@@ -1,11 +1,14 @@
 #include "MyGame.h"
 
 #include "SceneFactory.h"
+#include "Helper/ImGuiDebugManager/DebugManager.h"
 
 void MyGame::Initialize()
 {
 	// --- 基底クラスの初期化 ---
 	Framework::Initialize();
+
+	DebugManager::GetInstance()->ChangeFont();
 
 	// --- シーンの生成・初期化 ---
 	// シーンマネージャに最初のシーンをセット	

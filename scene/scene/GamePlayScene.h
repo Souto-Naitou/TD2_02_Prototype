@@ -5,6 +5,7 @@
 #include <Object3d.h>
 
 #include <EasingManager/EasingManager.h>
+#include <Collision/CollisionManager/CollisionManager.h>
 #include "../../Player.h"
 #include "../../Objects/Boss/Boss.h"
 #include "../../Objects/Skydome/Skydome.h"
@@ -28,6 +29,7 @@ private: // メンバ変数
     // カメラ
     Camera* camera = nullptr;
     EasingManager* easingManager_ = nullptr;
+    CollisionManager* collisionManager_ = nullptr;
 
     // 2Dスプライト
     std::vector<Sprite*>    sprites;

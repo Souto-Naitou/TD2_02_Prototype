@@ -1,9 +1,14 @@
 #include "PlayerBullet.h"
 
+#include <Object3d.h>
+#include <Collision/CollisionManager/CollisionManager.h>
+
 #include <ModelManager.h>
 
 void PlayerBullet::Initialize()
 {
+    CollisionManager* collisionManager = CollisionManager::GetInstance();
+
 	// --- 3Dオブジェクト ---
 	ModelManager::GetInstance()->LoadModel("cube.obj");
 
@@ -13,8 +18,16 @@ void PlayerBullet::Initialize()
 	// 仮置き
 	object_->SetSize({ 0.2f,0.2f,0.2f });
 
-
 	object_->SetPosition(position_);
+
+
+    // --- コリジョン ---
+    collider_.SetOwner(this);
+    collider_.SetColliderID("PlayerBullet");
+    collider_.SetShapeData(&aabb_);
+    collider_.SetShape(Shape::AABB);
+    collider_.SetAttribute(collisionManager->GetNewAttribute(collider_.GetColliderID()));
+	collisionManager->RegisterCollider(&collider_);
 }
 
 void PlayerBullet::Finalize()
@@ -23,7 +36,7 @@ void PlayerBullet::Finalize()
 	isDead_ = true;
 	//object_.reset();
 
-	ModelManager::GetInstance()->Finalize();
+	CollisionManager::GetInstance()->DeleteCollider(&collider_);
 }
 
 void PlayerBullet::Update()
@@ -34,7 +47,9 @@ void PlayerBullet::Update()
 
 	position_ += velocity_;
 
-
+	aabb_.min = position_ - object_->GetSize();
+    aabb_.max = position_ + object_->GetSize();
+    collider_.SetPosition(position_);
 
 	//時間経過でデス
 	if (--deathTimer_ <= 0) {
@@ -45,4 +60,10 @@ void PlayerBullet::Update()
 void PlayerBullet::Draw()
 {
 	object_->Draw();
+}
+
+void PlayerBullet::RunSetMask()
+{
+    CollisionManager* collisionManager = CollisionManager::GetInstance();
+    collider_.SetMask(collisionManager->GetNewMask(collider_.GetColliderID(), "Player"));
 }
