@@ -7,7 +7,6 @@ git submodule init
 git submodule update
 
 cd .engine
-git checkout TD2_02
 git pull
 
 exit
