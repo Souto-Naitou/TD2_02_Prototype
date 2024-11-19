@@ -71,13 +71,14 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)</IncludePath>
     <IntDir>$(SolutionDIr)$(Platform)\obj\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)$(Platform)\exec\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IntDir>$(SolutionDIr)$(Platform)\obj\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)$(Platform)\exec\$(Configuration)\</OutDir>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -113,7 +114,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)scene\scene;$(ProjectDir)scene\base;$(ProjectDir).engine\gameEngine\2d;$(ProjectDir).engine\gameEngine\3d;$(ProjectDir).engine\gameEngine\audio;$(ProjectDir).engine\gameEngine\base;$(ProjectDir).engine\gameEngine\io;$(ProjectDir).engine\gameEngine\utility;$(ProjectDir).Externals\Easing\easing;$(ProjectDir).engine\gameEngine\math;$(ProjectDir).engine\externals\imgui</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)scene\scene;$(ProjectDir)scene\base;$(ProjectDir).engine\gameEngine\2d;$(ProjectDir).engine\gameEngine\3d;$(ProjectDir).engine\gameEngine\audio;$(ProjectDir).engine\gameEngine\base;$(ProjectDir).engine\gameEngine\io;$(ProjectDir).engine\gameEngine\utility;$(ProjectDir).Externals\Easing\easing;$(ProjectDir).engine\gameEngine\math;$(ProjectDir).engine\imgui</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -143,7 +144,7 @@ call .PostBuild.bat</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)scene\scene;$(ProjectDir)scene\base;$(ProjectDir).engine\gameEngine\2d;$(ProjectDir).engine\gameEngine\3d;$(ProjectDir).engine\gameEngine\audio;$(ProjectDir).engine\gameEngine\base;$(ProjectDir).engine\gameEngine\io;$(ProjectDir).engine\gameEngine\utility;$(ProjectDir).Externals\Easing\easing;$(ProjectDir).engine\gameEngine\math;$(ProjectDir).engine\externals\imgui</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)scene\scene;$(ProjectDir)scene\base;$(ProjectDir).engine\gameEngine\2d;$(ProjectDir).engine\gameEngine\3d;$(ProjectDir).engine\gameEngine\audio;$(ProjectDir).engine\gameEngine\base;$(ProjectDir).engine\gameEngine\io;$(ProjectDir).engine\gameEngine\utility;$(ProjectDir).Externals\Easing\easing;$(ProjectDir).engine\gameEngine\math;$(ProjectDir).engine\imgui</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -168,6 +169,11 @@ call .PostBuild.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include=".Externals\Timer\Timer.cpp" />
+    <ClCompile Include="Collision\Collider\Collider.cpp" />
+    <ClCompile Include="Collision\CollisionManager\CollisionManager.cpp" />
+    <ClCompile Include="Helper\ImGuiDebugManager\DebugManager.cpp" />
+    <ClCompile Include="Helper\ImGuiTemplates\ImGuiTemplates.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Objects\Skydome\Skydome.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -181,6 +187,12 @@ call .PostBuild.bat</Command>
     <ClCompile Include="scene\scene\TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include=".Externals\Timer\Timer.h" />
+    <ClInclude Include="Collision\Collider\Collider.h" />
+    <ClInclude Include="Collision\CollisionManager\CollisionManager.h" />
+    <ClInclude Include="Helper\ImGuiDebugManager\DebugManager.h" />
+    <ClInclude Include="Helper\ImGuiTemplates\ImGuiTemplates.h" />
+    <ClInclude Include="Helper\Shape.h" />
     <ClInclude Include="Objects\Skydome\Skydome.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Objects\.GameObject\GameObject.h" />

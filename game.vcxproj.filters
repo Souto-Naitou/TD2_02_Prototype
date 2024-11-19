@@ -34,6 +34,24 @@
     <Filter Include="Object\Skydome">
       <UniqueIdentifier>{b5f812ea-9e77-4dc1-aad4-5876ac6a6629}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Collision">
+      <UniqueIdentifier>{1b0eb842-679f-4ece-a003-d627735e98fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Helper">
+      <UniqueIdentifier>{efd03188-a318-490d-809e-541226e5d3c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Helper\ImGuiTemplates">
+      <UniqueIdentifier>{b3232a1e-06be-4ef4-bce2-ff9aa18fe3c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Externals">
+      <UniqueIdentifier>{d3fea482-d859-47a6-9517-59a0691e2d1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Externals\Timer">
+      <UniqueIdentifier>{cbd653ea-69cc-420e-994b-014f71e83731}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Helper\DebugManager">
+      <UniqueIdentifier>{1ea51b53-5364-4568-8a2c-e627b9a53247}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -68,6 +86,21 @@
     </ClCompile>
     <ClCompile Include="Objects\Skydome\Skydome.cpp">
       <Filter>Object\Skydome</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision\Collider\Collider.cpp">
+      <Filter>Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision\CollisionManager\CollisionManager.cpp">
+      <Filter>Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Helper\ImGuiTemplates\ImGuiTemplates.cpp">
+      <Filter>Helper\ImGuiTemplates</Filter>
+    </ClCompile>
+    <ClCompile Include=".Externals\Timer\Timer.cpp">
+      <Filter>Externals\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="Helper\ImGuiDebugManager\DebugManager.cpp">
+      <Filter>Helper\DebugManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -106,6 +139,24 @@
     </ClInclude>
     <ClInclude Include="Objects\Skydome\Skydome.h">
       <Filter>Object\Skydome</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision\Collider\Collider.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision\CollisionManager\CollisionManager.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Helper\ImGuiTemplates\ImGuiTemplates.h">
+      <Filter>Helper\ImGuiTemplates</Filter>
+    </ClInclude>
+    <ClInclude Include="Helper\Shape.h">
+      <Filter>Helper</Filter>
+    </ClInclude>
+    <ClInclude Include=".Externals\Timer\Timer.h">
+      <Filter>Externals\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="Helper\ImGuiDebugManager\DebugManager.h">
+      <Filter>Helper\DebugManager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

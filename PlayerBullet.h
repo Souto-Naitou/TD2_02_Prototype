@@ -3,7 +3,10 @@
 #include "./Objects/.GameObject/GameObject.h"
 
 #include <Object3d.h>
+#include <Helper/Shape.h>
 #include <memory>
+
+#include <Collision/Collider/Collider.h>
 
 class PlayerBullet : public GameObject
 {
@@ -26,9 +29,9 @@ public:
 
 	bool IsDead() const { return isDead_; }
 
-public: // セッター
+    void RunSetMask();
 
-	Vector3 SetPosition(const Vector3 _position) { return position_ = _position; }
+public: // セッター
 
 	Vector3 SetVelocity(const Vector3 _velocity) { return velocity_ = _velocity; }
 
@@ -36,9 +39,6 @@ private: // メンバ変数
 
 	// 3Dオブジェクト
 	std::unique_ptr<Object3d> object_ = nullptr;
-
-	// 位置
-	Vector3 position_{};
 
 	// 速度
 	Vector3 velocity_{};
@@ -51,5 +51,9 @@ private: // メンバ変数
 
 	//デスグラフ
 	bool isDead_ = false;
+
+    /// 衝突判定用
+    Collider collider_;
+    AABB aabb_;
 };
 
