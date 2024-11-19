@@ -65,7 +65,7 @@ private:
     // 待機中フラグ
     bool isWaiting = true;
     // 待機タイマー
-    int32_t waitingTimer = 0;
+    int32_t waitingTimer = 120;
 
     // ステート
     std::unique_ptr<BaseBossState> pState_ = nullptr;
