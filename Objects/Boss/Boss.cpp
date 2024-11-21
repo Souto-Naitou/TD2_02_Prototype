@@ -83,9 +83,6 @@ void Boss::Update()
     collider_.SetPosition(position_);
 
     OutputCSV();
-}
-
-   
 
     // ステート
     pState_->Attack();
@@ -210,7 +207,6 @@ void Boss::UpdateNormalAttackPopCommands()
     CollisionManager::GetInstance()->DeleteCollider(&collider_);
 
     this->UnregisterDebugWindow();
-}
 
     //待機処理
     if (isNormalWaiting_) {
@@ -222,7 +218,6 @@ void Boss::UpdateNormalAttackPopCommands()
         }
         return;
     }
-
 
     //1行分の文字列を入れる変数
     std::string line;
@@ -242,7 +237,7 @@ void Boss::UpdateNormalAttackPopCommands()
             continue;
         }
 
-      
+
         // WAITコマンド
         if (word.find("WAIT") == 0) {
 
