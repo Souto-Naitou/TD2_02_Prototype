@@ -5,7 +5,7 @@
 #include <Object3d.h>
 
 #include <EasingManager/EasingManager.h>
-#include "../../Player.h"
+#include "../../Objects/Player/Player.h"
 #include "../../Objects/Boss/Boss.h"
 #include "../../Objects/Skydome/Skydome.h"
 

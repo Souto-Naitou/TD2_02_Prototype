@@ -1,10 +1,10 @@
 #pragma once
 
 #include "../.GameObject/GameObject.h"
-#include "../../BossNormalBullet.h"
-#include "../../BossPillow.h"
-#include "../../BossMoon.h"
-#include "../../BaseBossState.h"
+#include "Bullet/BossNormalBullet.h"
+#include "Bullet/BossPillow.h"
+#include "Bullet/BossMoon.h"
+#include "State/BaseBossState.h"
 #include <Object3d.h>
 #include <memory>
 #include <Easing.h>
@@ -112,4 +112,11 @@ private:
 
     // ステート
     std::unique_ptr<BaseBossState> pState_ = nullptr;
+
+#ifdef _DEBUG
+
+    uint32_t selectState_ = 0;
+
+#endif // _DEBUG
+
 };

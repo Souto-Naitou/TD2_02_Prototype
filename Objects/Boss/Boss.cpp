@@ -3,10 +3,17 @@
 #include <ModelManager.h>
 #include <fstream>
 
-#include "../../BossStateFirst.h"
-#include "../../BossStateSecond.h"
-#include "../../BossStateThird.h"
-#include "../../BossStateFourth.h"
+#include "State/BossStateFirst.h"
+#include "State/BossStateSecond.h"
+#include "State/BossStateThird.h"
+#include "State/BossStateFourth.h"
+
+#ifdef _DEBUG
+
+#include "imgui.h"
+
+#endif // _DEBUG
+
 
 void Boss::Initialize()
 {
@@ -31,11 +38,8 @@ void Boss::Initialize()
     // HPマックスにする
     hitPoint_ = kMaxHitPoint;
 
-    // 通常攻撃発生ファイル読み込み
-    //LoadNormalAttackPopData();
-
     // ステート
-    ChangeState(std::make_unique<BossStateFourth>(this));
+    ChangeState(std::make_unique<BossStateFirst>(this));
 }
 
 void Boss::Update()
@@ -76,6 +80,34 @@ void Boss::Update()
     for (auto& bullet : pMoonBullets_) {
         bullet->Update();
     }
+
+#ifdef _DEBUG
+
+    ImGui::Begin("Easing Parameters", nullptr);
+
+    ImGui::Text("Select Boss State");
+    if (ImGui::RadioButton("BossStateFirst", selectState_ == 0)) {
+        selectState_ = 0;
+        ChangeState(std::make_unique<BossStateFirst>(this));
+    }
+    if (ImGui::RadioButton("BossStateSecond", selectState_ == 1)) {
+        selectState_ = 1;
+        ChangeState(std::make_unique<BossStateSecond>(this));
+    }
+    if (ImGui::RadioButton("BossStateThird", selectState_ == 2)) {
+        selectState_ = 2;
+        ChangeState(std::make_unique<BossStateThird>(this));
+    }
+    if (ImGui::RadioButton("BossStateFourth", selectState_ == 3)) {
+        selectState_ = 3;
+        ChangeState(std::make_unique<BossStateFourth>(this));
+    }
+
+    ImGui::End();
+
+#endif // _DEBUG
+
+
 }
 
 void Boss::Draw()

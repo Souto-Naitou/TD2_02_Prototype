@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Objects/.GameObject/GameObject.h"
+#include "../../.GameObject/GameObject.h"
 
 #include <Object3d.h>
 #include <memory>

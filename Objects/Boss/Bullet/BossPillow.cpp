@@ -1,4 +1,4 @@
-#include "BossNormalBullet.h"
+#include "BossPillow.h"
 
 #include <ModelManager.h>
 #include <cmath>
@@ -6,7 +6,7 @@
 
 #include "CalculateMath.h"
 
-void BossNormalBullet::Initialize()
+void BossPillow::Initialize()
 {
 	// --- 3Dオブジェクト ---
 	ModelManager::GetInstance()->LoadModel("cube.obj");
@@ -15,28 +15,24 @@ void BossNormalBullet::Initialize()
 	object_->Initialize("cube.obj");
 
 	// 仮置き
-	object_->SetSize({ 0.2f,0.2f,0.5f });
+	object_->SetSize({ 0.2f,0.2f,0.2f });
 
 
 	object_->SetPosition(position_);
 }
 
-void BossNormalBullet::Finalize()
+void BossPillow::Finalize()
 {
-	// 各解放処理
-	//isDead_ = true;
-	//object_.reset();
-
 	ModelManager::GetInstance()->Finalize();
 }
 
-void BossNormalBullet::Update()
+void BossPillow::Update()
 {
-
 	object_->Update();
 
 	object_->SetPosition(position_);
 	object_->SetRotate(rotation_);
+
 
 	// 敵弾から自キャラへのベクトルを計算
 	Vector3 toPlayer = playerPosition_ - position_;
@@ -48,17 +44,8 @@ void BossNormalBullet::Update()
 	//velocity_ = 0.1f * Slerp(velocity_, toPlayer, 0.05f);
 	velocity_.Lerp(velocity_, toPlayer, 0.05f);
 
-	// 進行方向に見た目の回転を合わせる(ex1)
-	// Y軸周り角度(θy)
-	rotation_.y = std::atan2(velocity_.x, velocity_.z);
-	double velocityXZ = sqrt(pow(velocity_.x, 2) + pow(velocity_.z, 2));
-
-	// X軸周り角度(θx)
-	rotation_.x = (float)std::atan2(-velocity_.y, velocityXZ);
-
-	position_ += velocity_;
-
-
+	position_ += velocity_ * 0.1f;
+	rotation_.y += 1.0f;
 
 	//時間経過でデス
 	if (--deathTimer_ <= 0) {
@@ -66,7 +53,7 @@ void BossNormalBullet::Update()
 	}
 }
 
-void BossNormalBullet::Draw()
+void BossPillow::Draw()
 {
 	object_->Draw();
 }

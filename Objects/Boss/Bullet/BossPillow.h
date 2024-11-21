@@ -1,16 +1,16 @@
 #pragma once
 
-#include "./Objects/.GameObject/GameObject.h"
+#include "../../.GameObject/GameObject.h"
 #include <Object3d.h>
 #include <memory>
 
-class BossNormalBullet : public GameObject
+class BossPillow : public GameObject
 {
 public:
 
 
-	BossNormalBullet() = default;
-	~BossNormalBullet() = default;
+	BossPillow() = default;
+	~BossPillow() = default;
 
 	// 初期化
 	void Initialize() override;

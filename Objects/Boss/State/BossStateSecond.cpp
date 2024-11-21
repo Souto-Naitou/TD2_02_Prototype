@@ -1,7 +1,7 @@
 #include "BossStateSecond.h"
 
 
-#include "./Objects/Boss/Boss.h"
+#include "../Boss.h"
 #include "BossStateThird.h"
 
 BossStateSecond::BossStateSecond(Boss* _pBoss) : BaseBossState("State Second", _pBoss)

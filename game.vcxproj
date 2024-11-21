@@ -113,7 +113,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)scene\scene;$(ProjectDir)scene\base;$(ProjectDir).engine\gameEngine\2d;$(ProjectDir).engine\gameEngine\3d;$(ProjectDir).engine\gameEngine\audio;$(ProjectDir).engine\gameEngine\base;$(ProjectDir).engine\gameEngine\io;$(ProjectDir).engine\gameEngine\utility;$(ProjectDir).Externals\Easing\easing;$(ProjectDir).engine\gameEngine\math;$(ProjectDir).engine\externals\imgui</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)scene\scene;$(ProjectDir)scene\base;$(ProjectDir).engine\gameEngine\2d;$(ProjectDir).engine\gameEngine\3d;$(ProjectDir).engine\gameEngine\audio;$(ProjectDir).engine\gameEngine\base;$(ProjectDir).engine\gameEngine\io;$(ProjectDir).engine\gameEngine\utility;$(ProjectDir).Externals\Easing\easing;$(ProjectDir).engine\gameEngine\math;$(ProjectDir).engine\imgui</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -168,19 +168,19 @@ call .PostBuild.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BaseBossState.cpp" />
-    <ClCompile Include="BossMoon.cpp" />
-    <ClCompile Include="BossNormalBullet.cpp" />
-    <ClCompile Include="BossPillow.cpp" />
-    <ClCompile Include="BossStateFirst.cpp" />
-    <ClCompile Include="BossStateFourth.cpp" />
-    <ClCompile Include="BossStateSecond.cpp" />
-    <ClCompile Include="BossStateThird.cpp" />
+    <ClCompile Include="Objects\Boss\State\BaseBossState.cpp" />
+    <ClCompile Include="Objects\Boss\Bullet\BossMoon.cpp" />
+    <ClCompile Include="Objects\Boss\Bullet\BossNormalBullet.cpp" />
+    <ClCompile Include="Objects\Boss\Bullet\BossPillow.cpp" />
+    <ClCompile Include="Objects\Boss\State\BossStateFirst.cpp" />
+    <ClCompile Include="Objects\Boss\State\BossStateFourth.cpp" />
+    <ClCompile Include="Objects\Boss\State\BossStateSecond.cpp" />
+    <ClCompile Include="Objects\Boss\State\BossStateThird.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Objects\Skydome\Skydome.cpp" />
-    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Objects\Player\Player.cpp" />
     <ClCompile Include="Objects\Boss\Boss.cpp" />
-    <ClCompile Include="PlayerBullet.cpp" />
+    <ClCompile Include="Objects\Player\Bullet\PlayerBullet.cpp" />
     <ClCompile Include="scene\base\BaseScene.cpp" />
     <ClCompile Include="scene\base\MyGame.cpp" />
     <ClCompile Include="scene\base\SceneFactory.cpp" />
@@ -189,19 +189,19 @@ call .PostBuild.bat</Command>
     <ClCompile Include="scene\scene\TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BaseBossState.h" />
-    <ClInclude Include="BossMoon.h" />
-    <ClInclude Include="BossNormalBullet.h" />
-    <ClInclude Include="BossPillow.h" />
-    <ClInclude Include="BossStateFirst.h" />
-    <ClInclude Include="BossStateFourth.h" />
-    <ClInclude Include="BossStateSecond.h" />
-    <ClInclude Include="BossStateThird.h" />
+    <ClInclude Include="Objects\Boss\State\BaseBossState.h" />
+    <ClInclude Include="Objects\Boss\Bullet\BossMoon.h" />
+    <ClInclude Include="Objects\Boss\Bullet\BossNormalBullet.h" />
+    <ClInclude Include="Objects\Boss\Bullet\BossPillow.h" />
+    <ClInclude Include="Objects\Boss\State\BossStateFirst.h" />
+    <ClInclude Include="Objects\Boss\State\BossStateFourth.h" />
+    <ClInclude Include="Objects\Boss\State\BossStateSecond.h" />
+    <ClInclude Include="Objects\Boss\State\BossStateThird.h" />
     <ClInclude Include="Objects\Skydome\Skydome.h" />
-    <ClInclude Include="Player.h" />
+    <ClInclude Include="Objects\Player\Player.h" />
     <ClInclude Include="Objects\.GameObject\GameObject.h" />
     <ClInclude Include="Objects\Boss\Boss.h" />
-    <ClInclude Include="PlayerBullet.h" />
+    <ClInclude Include="Objects\Player\Bullet\PlayerBullet.h" />
     <ClInclude Include="scene\base\AbstractSceneFactory.h" />
     <ClInclude Include="scene\base\BaseScene.h" />
     <ClInclude Include="scene\base\MyGame.h" />
