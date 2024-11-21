@@ -8,6 +8,9 @@
 #include <Object3d.h>
 #include <memory>
 #include <Easing.h>
+#include "Collision/Collider/Collider.h"
+#include "Helper/Shape.h"
+#include "CSVLoader.h"
 
 /// <summary>
 /// ボス
@@ -70,9 +73,18 @@ public: // セッター
     // ボスHP
     void SetBossHP(float _hitPoint) { hitPoint_ = _hitPoint; }
 
+    void RunSetMask();
+
 private:
     std::unique_ptr<Object3d> object_ = nullptr;
     std::unique_ptr<Easing> easing_ = nullptr;
+    Collider collider_;
+    AABB aabb_;
+    CSVData* csvData_ = nullptr;
+
+private:
+    void DebugWindow() override;
+    void OutputCSV();
 
     // HP
     const float kMaxHitPoint = 160.0f;

@@ -5,9 +5,9 @@
 #include <string>
 #include <tuple>
 
-#include ".Externals/Timer/Timer.h"
+#include <Timer/Timer.h>
 
-#include "Helper/ImGuiTemplates/ImGuiTemplates.h"
+#include <ImGuiTemplates/ImGuiTemplates.h>
 
 class DebugManager
 {

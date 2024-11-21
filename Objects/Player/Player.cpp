@@ -3,25 +3,28 @@
 
 void Player::Initialize()
 {
-	// --- 3Dオブジェクト ---
-	ModelManager::GetInstance()->LoadModel("plane.obj");
+    // --- 3Dオブジェクト ---
+    ModelManager::GetInstance()->LoadModel("plane.obj");
 
-	object_ = std::make_unique<Object3d>();
-	object_->Initialize("plane.obj");
+    objectName_ = "Player";
 
-	position_ = { 0.0f,0.0f,0.0f };
-	object_->SetPosition(position_);
+    object_ = std::make_unique<Object3d>();
+    object_->Initialize("plane.obj");
 
-	// 仮置き
-	object_->SetSize({ 0.5f,0.5f,0.5f });
+    position_ = { 0.0f,0.0f,0.0f };
+    object_->SetPosition(position_);
 
+    // 仮置き
+    object_->SetSize({ 0.5f,0.5f,0.5f });
 
-	velocity_ = { 0.05f,0.05f,0.0f };
+    velocity_ = { 0.05f,0.05f,0.0f };
+
+    this->RegisterDebugWindow();
 }
 
 void Player::Finalize()
 {
-	// 各解放処理
+    // 各解放処理
 
 	for (auto& bullet : bullets_) {
 		bullet->SetIsDead(true);
@@ -29,53 +32,57 @@ void Player::Finalize()
 		//delete bullet;
 	}
 
-	bullets_.remove_if([](PlayerBullet* bullet) {
-		if (bullet->IsDead()) {
-			delete bullet;
-			//bullet->Finalize();
-			return true;
-		}
-		return false;
-		});
+    bullets_.remove_if([](PlayerBullet* bullet) {
+        if (bullet->IsDead()) {
+            delete bullet;
+            //bullet->Finalize();
+            return true;
+        }
+        return false;
+        });
 
-	ModelManager::GetInstance()->Finalize();
+    ModelManager::GetInstance()->Finalize();
+
+    this->UnregisterDebugWindow();
 }
 
 void Player::Update()
 {
 
-	//デスフラグの立った弾を削除
-	bullets_.remove_if([](PlayerBullet* bullet) {
-		if (bullet->IsDead()) {
-			delete bullet;
-			//bullet->Finalize();
-			return true;
-		}
-		return false;
-		});
+    //デスフラグの立った弾を削除
+    bullets_.remove_if([](PlayerBullet* bullet) {
+        if (bullet->IsDead()) {
+
+            bullet->Finalize();
+            delete bullet;
+
+            return true;
+        }
+        return false;
+        });
 
 
 
-	object_->Update();
+    object_->Update();
 
-	// 移動処理
-	if (Input::GetInstance()->PushKey(DIK_W))
-	{
-		position_.y += velocity_.y;
-	}
-	if (Input::GetInstance()->PushKey(DIK_S))
-	{
-		position_.y -= velocity_.y;
-	}
-	if (Input::GetInstance()->PushKey(DIK_A))
-	{
-		position_.x -= velocity_.x;
-	}
-	if (Input::GetInstance()->PushKey(DIK_D))
-	{
-		position_.x += velocity_.x;
-	}
-	object_->SetPosition(position_);
+    // 移動処理
+    if (Input::GetInstance()->PushKey(DIK_W))
+    {
+        position_.y += velocity_.y;
+    }
+    if (Input::GetInstance()->PushKey(DIK_S))
+    {
+        position_.y -= velocity_.y;
+    }
+    if (Input::GetInstance()->PushKey(DIK_A))
+    {
+        position_.x -= velocity_.x;
+    }
+    if (Input::GetInstance()->PushKey(DIK_D))
+    {
+        position_.x += velocity_.x;
+    }
+    object_->SetPosition(position_);
 
 	if (Input::GetInstance()->TriggerKey(DIK_LEFT))
 	{
@@ -87,24 +94,24 @@ void Player::Update()
 	}
 	object_->SetRotate(rotation_);
 
-	// 攻撃
-	Attack();
+    // 攻撃
+    Attack();
 
-	// 弾更新
-	for (auto& bullet : bullets_) {
-		bullet->Update();
-	}
+    // 弾更新
+    for (auto& bullet : bullets_) {
+        bullet->Update();
+    }
 }
 
 void Player::Draw()
 {
-	object_->Draw();
+    object_->Draw();
 
 
-	// 弾描画
-	for (auto& bullet : bullets_) {
-		bullet->Draw();
-	}
+    // 弾描画
+    for (auto& bullet : bullets_) {
+        bullet->Draw();
+    }
 
 }
 
@@ -121,22 +128,24 @@ void Player::Attack()
 		//    bltVelocity = TransformNormal(bltVelocity, worldTransformBlock.matWorld);
 		//}
 
-		bltVelocity_ = { 0.0f,0.0f,0.1f };
+        bltVelocity_ = { 0.0f,0.0f,0.1f };
 
-		if (bltCoolTime_ <= 0)
-		{
-			// 弾を生成し、初期化
-			PlayerBullet* newBullet = new PlayerBullet();
+        if (bltCoolTime_ <= 0)
+        {
+            // 弾を生成し、初期化
+            PlayerBullet* newBullet = new PlayerBullet();
 
-			newBullet->SetPosition(position_);
-			newBullet->Initialize();
-			newBullet->SetVelocity(bltVelocity_);
+            newBullet->SetPosition(position_);
+            newBullet->Initialize();
+            newBullet->SetVelocity(bltVelocity_);
 
-			// 弾を登録する
-			bullets_.push_back(newBullet);
+            newBullet->RunSetMask();
 
-			bltCoolTime_ = kBltCoolTime;
-		}
-	}
-	bltCoolTime_--;
+            // 弾を登録する
+            bullets_.push_back(newBullet);
+
+            bltCoolTime_ = kBltCoolTime;
+        }
+    }
+    bltCoolTime_--;
 }

@@ -71,13 +71,14 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)</IncludePath>
     <IntDir>$(SolutionDIr)$(Platform)\obj\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)$(Platform)\exec\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IntDir>$(SolutionDIr)$(Platform)\obj\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)$(Platform)\exec\$(Configuration)\</OutDir>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -113,10 +114,11 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)scene\scene;$(ProjectDir)scene\base;$(ProjectDir).engine\gameEngine\2d;$(ProjectDir).engine\gameEngine\3d;$(ProjectDir).engine\gameEngine\audio;$(ProjectDir).engine\gameEngine\base;$(ProjectDir).engine\gameEngine\io;$(ProjectDir).engine\gameEngine\utility;$(ProjectDir).Externals\Easing\easing;$(ProjectDir).engine\gameEngine\math;$(ProjectDir).engine\imgui</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)scene\scene;$(ProjectDir)scene\base;$(ProjectDir).engine\gameEngine\2d;$(ProjectDir).engine\gameEngine\3d;$(ProjectDir).engine\gameEngine\audio;$(ProjectDir).engine\gameEngine\base;$(ProjectDir).engine\gameEngine\io;$(ProjectDir).engine\gameEngine\utility;$(ProjectDir).Externals\Easing\easing;$(ProjectDir).engine\gameEngine\math;$(ProjectDir).engine\imgui;$(SolutionDir).Externals;$(SolutionDir)Helper</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -143,17 +145,18 @@ call .PostBuild.bat</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)scene\scene;$(ProjectDir)scene\base;$(ProjectDir).engine\gameEngine\2d;$(ProjectDir).engine\gameEngine\3d;$(ProjectDir).engine\gameEngine\audio;$(ProjectDir).engine\gameEngine\base;$(ProjectDir).engine\gameEngine\io;$(ProjectDir).engine\gameEngine\utility;$(ProjectDir).Externals\Easing\easing;$(ProjectDir).engine\gameEngine\math;$(ProjectDir).engine\externals\imgui</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)scene\scene;$(ProjectDir)scene\base;$(ProjectDir).engine\gameEngine\2d;$(ProjectDir).engine\gameEngine\3d;$(ProjectDir).engine\gameEngine\audio;$(ProjectDir).engine\gameEngine\base;$(ProjectDir).engine\gameEngine\io;$(ProjectDir).engine\gameEngine\utility;$(ProjectDir).Externals\Easing\easing;$(ProjectDir).engine\gameEngine\math;$(ProjectDir).engine\imgui;$(SolutionDir).Externals;$(SolutionDir)Helper</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)..\Generated\outputs\$(Configuration);$(ProjectDIr).Externals\Easing\outputs\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\Generated\outputs\$(Configuration);$(ProjectDIr).Externals\Easing\outputs\$(Configuration);$(ProjectDir).engine\ImGui\Build\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
@@ -176,7 +179,13 @@ call .PostBuild.bat</Command>
     <ClCompile Include="Objects\Boss\State\BossStateFourth.cpp" />
     <ClCompile Include="Objects\Boss\State\BossStateSecond.cpp" />
     <ClCompile Include="Objects\Boss\State\BossStateThird.cpp" />
+    <ClCompile Include=".Externals\Timer\Timer.cpp" />
+    <ClCompile Include="Collision\Collider\Collider.cpp" />
+    <ClCompile Include="Collision\CollisionManager\CollisionManager.cpp" />
+    <ClCompile Include="Helper\ImGuiDebugManager\DebugManager.cpp" />
+    <ClCompile Include="Helper\ImGuiTemplates\ImGuiTemplates.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Objects\.GameObject\GameObject.cpp" />
     <ClCompile Include="Objects\Skydome\Skydome.cpp" />
     <ClCompile Include="Objects\Player\Player.cpp" />
     <ClCompile Include="Objects\Boss\Boss.cpp" />
@@ -189,6 +198,12 @@ call .PostBuild.bat</Command>
     <ClCompile Include="scene\scene\TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include=".Externals\Timer\Timer.h" />
+    <ClInclude Include="Collision\Collider\Collider.h" />
+    <ClInclude Include="Collision\CollisionManager\CollisionManager.h" />
+    <ClInclude Include="Helper\ImGuiDebugManager\DebugManager.h" />
+    <ClInclude Include="Helper\ImGuiTemplates\ImGuiTemplates.h" />
+    <ClInclude Include="Helper\Shape.h" />
     <ClInclude Include="Objects\Boss\State\BaseBossState.h" />
     <ClInclude Include="Objects\Boss\Bullet\BossMoon.h" />
     <ClInclude Include="Objects\Boss\Bullet\BossNormalBullet.h" />
@@ -213,9 +228,6 @@ call .PostBuild.bat</Command>
   <ItemGroup>
     <ProjectReference Include=".engine\externals\DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">
       <Project>{371b9fa9-4c90-4ac6-a123-aced756d6c77}</Project>
-    </ProjectReference>
-    <ProjectReference Include=".engine\imgui\imgui.vcxproj">
-      <Project>{94de6afd-0df7-4c1e-91ad-d6e8d128748a}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
