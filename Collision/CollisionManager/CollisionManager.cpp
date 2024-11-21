@@ -10,7 +10,7 @@
 
 void CollisionManager::Initialize()
 {
-    DebugManager::GetInstance()->SetComponent("#Window", "CollisionManager", std::bind(&CollisionManager::DebugWindow, this));
+    DebugManager::GetInstance()->SetComponent("[Window]", "CollisionManager", std::bind(&CollisionManager::DebugWindow, this));
 }
 
 void CollisionManager::CheckAllCollision()

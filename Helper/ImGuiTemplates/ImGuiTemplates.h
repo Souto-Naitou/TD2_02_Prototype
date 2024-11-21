@@ -5,6 +5,7 @@
 
 #include <functional>
 #include <Vector2.h>
+#include <Vector3.h>
 
 #ifdef _DEBUG
 #include <imgui.h>
@@ -35,7 +36,7 @@ namespace ImGuiTemplate
         }
         else if constexpr (std::is_floating_point<T>::value)
         {
-            ImGui::Text("%f", _var);
+            ImGui::Text("%.2f", _var);
         }
         else if constexpr (std::is_same<T, std::string>::value)
         {
@@ -43,7 +44,11 @@ namespace ImGuiTemplate
         }
         else if constexpr (std::is_same<T, Vector2>::value)
         {
-            ImGui::Text("{ %f, %f }", _var.x, _var.y);
+            ImGui::Text("{ %.2, %.2 }", _var.x, _var.y);
+        }
+        else if constexpr (std::is_same<T, Vector3>::value)
+        {
+            ImGui::Text("{ %.2f, %.2f, %.2f }", _var.x, _var.y, _var.z);
         }
         else
         {
