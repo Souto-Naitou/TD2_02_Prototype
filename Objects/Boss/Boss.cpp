@@ -361,9 +361,9 @@ void Boss::UpdateMoonPopCommands()
             float z = (float)std::atof(word.c_str());
 
             // 度数法からラジアンに変換
-            x *= (std::numbers::pi / 180);
-            y *= (std::numbers::pi / 180);
-            z *= (std::numbers::pi / 180);
+            x *= ((float)std::numbers::pi / 180);
+            y *= ((float)std::numbers::pi / 180);
+            z *= ((float)std::numbers::pi / 180);
 
             // 月を回転させる
             moonRotate_ = {x, y, z};

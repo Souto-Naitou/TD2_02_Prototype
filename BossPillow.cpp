@@ -41,7 +41,8 @@ void BossPillow::Update()
 	toPlayer = Normalize(toPlayer);
 	velocity_ = Normalize(velocity_);
 	// 球面線形補間により、今の速度と自キャラへのベクトルを内挿し、新たな速度とする
-	velocity_ = 0.1f * Slerp(velocity_, toPlayer, 0.05f);
+	//velocity_ = 0.1f * Slerp(velocity_, toPlayer, 0.05f);
+	velocity_.Lerp(velocity_, toPlayer, 0.05f);
 
 	position_ += velocity_;
 	rotation_.y += 1.0f;
