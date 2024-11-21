@@ -17,7 +17,7 @@ void Player::Initialize()
     // 仮置き
     object_->SetSize({ 0.5f,0.5f,0.5f });
 
-    velocity_ = { 0.05f,0.05f,0.0f };
+    velocity_ = { 0.05f,0.05f,0.05f };
 
     this->RegisterDebugWindow();
 }
@@ -68,11 +68,11 @@ void Player::Update()
     // 移動処理
     if (Input::GetInstance()->PushKey(DIK_W))
     {
-        position_.y += velocity_.y;
+        position_.z += velocity_.z;
     }
     if (Input::GetInstance()->PushKey(DIK_S))
     {
-        position_.y -= velocity_.y;
+        position_.z -= velocity_.z;
     }
     if (Input::GetInstance()->PushKey(DIK_A))
     {
@@ -92,7 +92,10 @@ void Player::Update()
 	{
 		rotation_.z -= 0.1f;
 	}
+
 	object_->SetRotate(rotation_);
+
+    CameraFollow();
 
     // 攻撃
     Attack();
@@ -148,4 +151,28 @@ void Player::Attack()
         }
     }
     bltCoolTime_--;
+}
+
+void Player::CameraFollow()
+{
+    Matrix4x4 playerWorld = Matrix4x4::AffineMatrix(scale_, rotation_, position_);
+    Matrix4x4 cameraLocal = Matrix4x4::AffineMatrix({ 1.0f,1.0f,1.0f }, {}, cameraDistance_);
+
+    Matrix4x4 cameraWorld = playerWorld * cameraLocal;
+    Vector3 camPos_target = {cameraWorld.m[3][0],cameraWorld.m[3][1],cameraWorld.m[3][2] };
+    Vector3 camPos_current = mainCamera_->GetTranslate();
+
+    mainCamera_->SetRotate(cameraRotate_);
+
+    Vector3 camPos_nextFrame = {};
+    camPos_nextFrame.Lerp(camPos_current, camPos_target, camFollowMultiply_);
+    mainCamera_->SetTranslate(camPos_nextFrame);
+}
+
+void Player::DebugWindow()
+{
+    ImGui::DragFloat3("Camera Rotate", &cameraRotate_.x, 0.01f);
+    ImGui::DragFloat3("Camera Follow", &cameraDistance_.x, 0.01f);
+    ImGui::Separator();
+    ImGui::SliderFloat("Camera Follow Multiply", &camFollowMultiply_, 0.0f, 1.0f);
 }

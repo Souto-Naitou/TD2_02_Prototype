@@ -25,21 +25,21 @@ public:
     // 描画処理
     void Draw() override;
 
-private: // メンバ変数
-    // カメラ
-    Camera* camera = nullptr;
-    EasingManager* easingManager_ = nullptr;
-    CollisionManager* collisionManager_ = nullptr;
+
+private: /// メンバ変数
+    Camera*                     camera              = nullptr;      // カメラ
+    EasingManager*              easingManager_      = nullptr;      // イージングマネージャ
+    CollisionManager*           collisionManager_   = nullptr;      // 衝突判定マネージャ
 
     // 2Dスプライト
-    std::vector<Sprite*>    sprites;
+    std::vector<Sprite*>        sprites             = {};           // 2Dスプライト
     // 3Dオブジェクト
-    std::vector<Object3d*>  object3ds;
+    std::vector<Object3d*>      object3ds           = {};           // 3Dオブジェクト
 
     //player
-    std::unique_ptr<Player>     pPlayer_     = nullptr;
-    std::unique_ptr<Boss>       pBoss_      = nullptr; // ボス
-    std::unique_ptr<Skydome>    pSkydome_   = nullptr; // 天球
+    std::unique_ptr<Player>     pPlayer_            = nullptr;
+    std::unique_ptr<Boss>       pBoss_              = nullptr;      // ボス
+    std::unique_ptr<Skydome>    pSkydome_           = nullptr;      // 天球
 
     // サウンド
     SoundData soundDataSet;
