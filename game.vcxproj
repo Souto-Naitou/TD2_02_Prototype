@@ -114,10 +114,11 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)scene\scene;$(ProjectDir)scene\base;$(ProjectDir).engine\gameEngine\2d;$(ProjectDir).engine\gameEngine\3d;$(ProjectDir).engine\gameEngine\audio;$(ProjectDir).engine\gameEngine\base;$(ProjectDir).engine\gameEngine\io;$(ProjectDir).engine\gameEngine\utility;$(ProjectDir).Externals\Easing\easing;$(ProjectDir).engine\gameEngine\math;$(ProjectDir).engine\imgui</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)scene\scene;$(ProjectDir)scene\base;$(ProjectDir).engine\gameEngine\2d;$(ProjectDir).engine\gameEngine\3d;$(ProjectDir).engine\gameEngine\audio;$(ProjectDir).engine\gameEngine\base;$(ProjectDir).engine\gameEngine\io;$(ProjectDir).engine\gameEngine\utility;$(ProjectDir).Externals\Easing\easing;$(ProjectDir).engine\gameEngine\math;$(ProjectDir).engine\imgui;$(SolutionDir).Externals;$(SolutionDir)Helper</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -144,10 +145,11 @@ call .PostBuild.bat</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)scene\scene;$(ProjectDir)scene\base;$(ProjectDir).engine\gameEngine\2d;$(ProjectDir).engine\gameEngine\3d;$(ProjectDir).engine\gameEngine\audio;$(ProjectDir).engine\gameEngine\base;$(ProjectDir).engine\gameEngine\io;$(ProjectDir).engine\gameEngine\utility;$(ProjectDir).Externals\Easing\easing;$(ProjectDir).engine\gameEngine\math;$(ProjectDir).engine\imgui</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)scene\scene;$(ProjectDir)scene\base;$(ProjectDir).engine\gameEngine\2d;$(ProjectDir).engine\gameEngine\3d;$(ProjectDir).engine\gameEngine\audio;$(ProjectDir).engine\gameEngine\base;$(ProjectDir).engine\gameEngine\io;$(ProjectDir).engine\gameEngine\utility;$(ProjectDir).Externals\Easing\easing;$(ProjectDir).engine\gameEngine\math;$(ProjectDir).engine\imgui;$(SolutionDir).Externals;$(SolutionDir)Helper</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -175,6 +177,7 @@ call .PostBuild.bat</Command>
     <ClCompile Include="Helper\ImGuiDebugManager\DebugManager.cpp" />
     <ClCompile Include="Helper\ImGuiTemplates\ImGuiTemplates.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Objects\.GameObject\GameObject.cpp" />
     <ClCompile Include="Objects\Skydome\Skydome.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Objects\Boss\Boss.cpp" />

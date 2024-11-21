@@ -10,9 +10,10 @@ DebugManager::DebugManager()
 {
 #ifdef _DEBUG
     ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 6.0f);
-    //ImGui::PushStyleVar(ImGuiStyleVar_TabRounding, 0.0f);
+    ImGui::PushStyleVar(ImGuiStyleVar_TabRounding, 0.0f);
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowTitleAlign, ImVec2(0.5f, 0.5f));
     ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.05f, 0.05f, 0.05f, 0.75f));
-    //ImGui::PushStyleColor(ImGuiCol_TitleBgActive, ImVec4(0.8f, 0.1f, 0.1f, 0.75f));
+    ImGui::PushStyleColor(ImGuiCol_TitleBgActive, ImVec4(0.8f, 0.1f, 0.1f, 0.75f));
     //ImGui::PushStyleColor(ImGuiCol_TitleBg, ImVec4(0.0f, 0.0f, 0.0f, 0.90f));
 #endif // _DEBUG
 }
@@ -205,7 +206,7 @@ void DebugManager::DrawUI()
 
             std::string id_str = tabName + "TABITEM";
             ImGui::PushID(id_str.c_str());
-            if (enableTab && parentID.compare("#Window") == 0 && ImGui::Begin(childID.c_str(), &enableTab))
+            if (enableTab && parentID.compare("[Window]") == 0 && ImGui::Begin(childID.c_str(), &enableTab))
             {
                 pFunc();
                 ImGui::End();

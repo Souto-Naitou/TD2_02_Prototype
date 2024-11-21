@@ -6,6 +6,7 @@
 #include <Easing.h>
 #include "Collision/Collider/Collider.h"
 #include "Helper/Shape.h"
+#include "CSVLoader.h"
 
 /// <summary>
 /// ボス
@@ -28,4 +29,9 @@ private:
     std::unique_ptr<Easing> easing_ = nullptr;
     Collider collider_;
     AABB aabb_;
+    CSVData* csvData_ = nullptr;
+
+private:
+    void DebugWindow() override;
+    void OutputCSV();
 };
