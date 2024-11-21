@@ -28,6 +28,10 @@ public:
 	// 攻撃
 	void Attack();
 
+public: // ゲッター
+
+	Vector3 GetPosition() { return position_; }
+
 private: // メンバ変数
 
 	// 3Dオブジェクト

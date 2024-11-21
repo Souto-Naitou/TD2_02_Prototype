@@ -37,7 +37,7 @@ private: // メンバ変数
     std::vector<Object3d*>  object3ds;
 
     //player
-    std::unique_ptr<Player>     player_     = nullptr;
+    std::unique_ptr<Player>     pPlayer_     = nullptr;
     std::unique_ptr<Boss>       pBoss_      = nullptr; // ボス
     std::unique_ptr<Skydome>    pSkydome_   = nullptr; // 天球
 

@@ -171,6 +171,7 @@ call .PostBuild.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BossNormalBullet.cpp" />
     <ClCompile Include=".Externals\Timer\Timer.cpp" />
     <ClCompile Include="Collision\Collider\Collider.cpp" />
     <ClCompile Include="Collision\CollisionManager\CollisionManager.cpp" />
@@ -196,6 +197,7 @@ call .PostBuild.bat</Command>
     <ClInclude Include="Helper\ImGuiDebugManager\DebugManager.h" />
     <ClInclude Include="Helper\ImGuiTemplates\ImGuiTemplates.h" />
     <ClInclude Include="Helper\Shape.h" />
+    <ClInclude Include="BossNormalBullet.h" />
     <ClInclude Include="Objects\Skydome\Skydome.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Objects\.GameObject\GameObject.h" />

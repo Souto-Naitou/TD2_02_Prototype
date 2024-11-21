@@ -52,10 +52,9 @@ void GamePlayScene::Initialize()
     pBoss_->Initialize();
 
 
-    // プレイヤー
-    player_ = std::make_unique<Player>();
-    player_->Initialize();
-
+	// プレイヤー
+	pPlayer_ = std::make_unique<Player>();
+	pPlayer_->Initialize();
 
     // 天球
     pSkydome_ = std::make_unique<Skydome>();
@@ -87,7 +86,7 @@ void GamePlayScene::Finalize()
     Audio::GetInstance()->SoundUnload(Audio::GetInstance()->GetXAudio2(), &soundDataSet);
     Audio::GetInstance()->SoundUnload(Audio::GetInstance()->GetXAudio2(), &soundDataSet2);
 
-    player_->Finalize();
+	pPlayer_->Finalize();
     pBoss_->Finalize();
     pSkydome_->Finalize();
 }
@@ -142,8 +141,11 @@ void GamePlayScene::Update()
 
 #pragma endregion 3Dオブジェクト
 
-    // プレーヤーの更新処理
-    player_->Update();
+	// プレーヤーの更新処理
+	pPlayer_->Update();
+
+	// ボスにプレイヤーの位置をセット
+	pBoss_->SetPlayerPosition(pPlayer_->GetPosition());
 
     // ボスの更新処理
     pBoss_->Update();
@@ -175,8 +177,8 @@ void GamePlayScene::Draw()
     //	obj->Draw();
     //}
 
-  // プレーヤー描画
-    player_->Draw();
+    // プレーヤー描画
+	pPlayer_->Draw();
     // ボス描画
     pBoss_->Draw();
     // 天球描画

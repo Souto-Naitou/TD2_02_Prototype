@@ -26,10 +26,11 @@ void Player::Finalize()
 {
     // 各解放処理
 
-    for (auto& bullet : bullets_) {
-        bullet->Finalize();
-        //delete bullet;
-    }
+	for (auto& bullet : bullets_) {
+		bullet->SetIsDead(true);
+		bullet->Finalize();
+		//delete bullet;
+	}
 
     bullets_.remove_if([](PlayerBullet* bullet) {
         if (bullet->IsDead()) {
