@@ -26,10 +26,11 @@ void Player::Finalize()
 {
     // 各解放処理
 
-    for (auto& bullet : bullets_) {
-        bullet->Finalize();
-        //delete bullet;
-    }
+	for (auto& bullet : bullets_) {
+		bullet->SetIsDead(true);
+		bullet->Finalize();
+		//delete bullet;
+	}
 
     bullets_.remove_if([](PlayerBullet* bullet) {
         if (bullet->IsDead()) {
@@ -83,6 +84,15 @@ void Player::Update()
     }
     object_->SetPosition(position_);
 
+	if (Input::GetInstance()->TriggerKey(DIK_LEFT))
+	{
+		rotation_.z += 0.1f;
+	}
+	if (Input::GetInstance()->TriggerKey(DIK_RIGHT))
+	{
+		rotation_.z -= 0.1f;
+	}
+	object_->SetRotate(rotation_);
 
     // 攻撃
     Attack();
@@ -107,16 +117,16 @@ void Player::Draw()
 
 void Player::Attack()
 {
-    if (Input::GetInstance()->PushKey(DIK_SPACE))
-    {
-        //for (uint32_t i = 0; i < 1; ++i)
-        //{
-        //    Object3d* object = new Object3d();
-        //    object->Initialize("cube.obj");
+	if (Input::GetInstance()->PushKey(DIK_SPACE))
+	{
+		//for (uint32_t i = 0; i < 1; ++i)
+		//{
+		//    Object3d* object = new Object3d();
+		//    object->Initialize("cube.obj");
 
-        //    // 速度ベクトルを自機の向きに合わせて回転させる
-        //    bltVelocity = TransformNormal(bltVelocity, worldTransformBlock.matWorld);
-        //}
+		//    // 速度ベクトルを自機の向きに合わせて回転させる
+		//    bltVelocity = TransformNormal(bltVelocity, worldTransformBlock.matWorld);
+		//}
 
         bltVelocity_ = { 0.0f,0.0f,0.1f };
 

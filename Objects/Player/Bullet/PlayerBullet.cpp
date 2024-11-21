@@ -15,6 +15,7 @@ void PlayerBullet::Initialize()
 	object_ = std::make_unique<Object3d>();
 	object_->Initialize("cube.obj");
 
+
 	// 仮置き
 	object_->SetSize({ 0.2f,0.2f,0.2f });
 
@@ -33,7 +34,7 @@ void PlayerBullet::Initialize()
 void PlayerBullet::Finalize()
 {
 	// 各解放処理
-	isDead_ = true;
+	//isDead_ = true;
 	//object_.reset();
 
 	CollisionManager::GetInstance()->DeleteCollider(&collider_);

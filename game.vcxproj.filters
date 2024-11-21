@@ -75,10 +75,10 @@
     <ClCompile Include="Objects\Boss\Boss.cpp">
       <Filter>Object\Boss</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
+    <ClCompile Include="Objects\Player\Player.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerBullet.cpp">
+    <ClCompile Include="Objects\Player\Bullet\PlayerBullet.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Objects\Skydome\Skydome.cpp">
@@ -104,6 +104,30 @@
     </ClCompile>
     <ClCompile Include="scene\scene\GamePlayScene.cpp">
       <Filter>Scene\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Boss\Bullet\BossNormalBullet.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Boss\State\BaseBossState.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Boss\State\BossStateFirst.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Boss\State\BossStateSecond.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Boss\State\BossStateThird.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Boss\State\BossStateFourth.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Boss\Bullet\BossPillow.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Boss\Bullet\BossMoon.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -134,10 +158,10 @@
     <ClInclude Include="Objects\.GameObject\GameObject.h">
       <Filter>Object\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
+    <ClInclude Include="Objects\Player\Player.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerBullet.h">
+    <ClInclude Include="Objects\Player\Bullet\PlayerBullet.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Objects\Skydome\Skydome.h">
@@ -160,6 +184,30 @@
     </ClInclude>
     <ClInclude Include="Helper\ImGuiDebugManager\DebugManager.h">
       <Filter>Helper\DebugManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Boss\Bullet\BossNormalBullet.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Boss\State\BaseBossState.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Boss\State\BossStateFirst.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Boss\State\BossStateSecond.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Boss\State\BossStateThird.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Boss\State\BossStateFourth.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Boss\Bullet\BossPillow.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Boss\Bullet\BossMoon.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

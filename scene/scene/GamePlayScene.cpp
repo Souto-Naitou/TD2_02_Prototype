@@ -52,21 +52,17 @@ void GamePlayScene::Initialize()
     pBoss_->Initialize();
 
 
-    // プレイヤー
-    player_ = std::make_unique<Player>();
-    player_->Initialize();
-
+	// プレイヤー
+	pPlayer_ = std::make_unique<Player>();
+	pPlayer_->Initialize();
 
     // 天球
     pSkydome_ = std::make_unique<Skydome>();
     pSkydome_->Initialize();
 
-    /// GameObjectたちが初期化し終えたらマスクを一気に設定する
-    pBoss_->RunSetMask();
-
     // --- オーディオ ---
-    soundDataSet = Audio::GetInstance()->LoadWav("fanfare.wav");
-    Audio::GetInstance()->PlayWave(soundDataSet, false, 0.02f);
+	soundDataSet = Audio::GetInstance()->LoadWav("fanfare.wav");
+	Audio::GetInstance()->PlayWave(soundDataSet, false, 0.02f);
 
     soundDataSet2 = Audio::GetInstance()->LoadWav("test/xxx.wav");
     Audio::GetInstance()->PlayWave(soundDataSet2, false, 0.01f);
@@ -87,7 +83,7 @@ void GamePlayScene::Finalize()
     Audio::GetInstance()->SoundUnload(Audio::GetInstance()->GetXAudio2(), &soundDataSet);
     Audio::GetInstance()->SoundUnload(Audio::GetInstance()->GetXAudio2(), &soundDataSet2);
 
-    player_->Finalize();
+	pPlayer_->Finalize();
     pBoss_->Finalize();
     pSkydome_->Finalize();
 }
@@ -142,8 +138,11 @@ void GamePlayScene::Update()
 
 #pragma endregion 3Dオブジェクト
 
-    // プレーヤーの更新処理
-    player_->Update();
+	// プレーヤーの更新処理
+	pPlayer_->Update();
+
+	// ボスにプレイヤーの位置をセット
+	pBoss_->SetPlayerPosition(pPlayer_->GetPosition());
 
     // ボスの更新処理
     pBoss_->Update();
@@ -151,7 +150,6 @@ void GamePlayScene::Update()
     // 天球の更新処理
     pSkydome_->Update();
 
-    collisionManager_->CheckAllCollision();
 }
 
 void GamePlayScene::Draw()
@@ -175,8 +173,8 @@ void GamePlayScene::Draw()
     //	obj->Draw();
     //}
 
-  // プレーヤー描画
-    player_->Draw();
+    // プレーヤー描画
+	pPlayer_->Draw();
     // ボス描画
     pBoss_->Draw();
     // 天球描画

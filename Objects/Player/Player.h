@@ -1,7 +1,7 @@
 #pragma once
 
-#include "./Objects/.GameObject/GameObject.h"
-#include "PlayerBullet.h"
+#include "../.GameObject/GameObject.h"
+#include "Bullet/PlayerBullet.h"
 
 #include <Framework.h>
 #include <Object3d.h>
@@ -27,6 +27,10 @@ public:
 
 	// 攻撃
 	void Attack();
+
+public: // ゲッター
+
+	Vector3 GetPosition() { return position_; }
 
 private: // メンバ変数
 

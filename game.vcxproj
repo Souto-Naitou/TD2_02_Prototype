@@ -171,6 +171,14 @@ call .PostBuild.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Objects\Boss\State\BaseBossState.cpp" />
+    <ClCompile Include="Objects\Boss\Bullet\BossMoon.cpp" />
+    <ClCompile Include="Objects\Boss\Bullet\BossNormalBullet.cpp" />
+    <ClCompile Include="Objects\Boss\Bullet\BossPillow.cpp" />
+    <ClCompile Include="Objects\Boss\State\BossStateFirst.cpp" />
+    <ClCompile Include="Objects\Boss\State\BossStateFourth.cpp" />
+    <ClCompile Include="Objects\Boss\State\BossStateSecond.cpp" />
+    <ClCompile Include="Objects\Boss\State\BossStateThird.cpp" />
     <ClCompile Include=".Externals\Timer\Timer.cpp" />
     <ClCompile Include="Collision\Collider\Collider.cpp" />
     <ClCompile Include="Collision\CollisionManager\CollisionManager.cpp" />
@@ -179,9 +187,9 @@ call .PostBuild.bat</Command>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Objects\.GameObject\GameObject.cpp" />
     <ClCompile Include="Objects\Skydome\Skydome.cpp" />
-    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Objects\Player\Player.cpp" />
     <ClCompile Include="Objects\Boss\Boss.cpp" />
-    <ClCompile Include="PlayerBullet.cpp" />
+    <ClCompile Include="Objects\Player\Bullet\PlayerBullet.cpp" />
     <ClCompile Include="scene\base\BaseScene.cpp" />
     <ClCompile Include="scene\base\MyGame.cpp" />
     <ClCompile Include="scene\base\SceneFactory.cpp" />
@@ -196,11 +204,19 @@ call .PostBuild.bat</Command>
     <ClInclude Include="Helper\ImGuiDebugManager\DebugManager.h" />
     <ClInclude Include="Helper\ImGuiTemplates\ImGuiTemplates.h" />
     <ClInclude Include="Helper\Shape.h" />
+    <ClInclude Include="Objects\Boss\State\BaseBossState.h" />
+    <ClInclude Include="Objects\Boss\Bullet\BossMoon.h" />
+    <ClInclude Include="Objects\Boss\Bullet\BossNormalBullet.h" />
+    <ClInclude Include="Objects\Boss\Bullet\BossPillow.h" />
+    <ClInclude Include="Objects\Boss\State\BossStateFirst.h" />
+    <ClInclude Include="Objects\Boss\State\BossStateFourth.h" />
+    <ClInclude Include="Objects\Boss\State\BossStateSecond.h" />
+    <ClInclude Include="Objects\Boss\State\BossStateThird.h" />
     <ClInclude Include="Objects\Skydome\Skydome.h" />
-    <ClInclude Include="Player.h" />
+    <ClInclude Include="Objects\Player\Player.h" />
     <ClInclude Include="Objects\.GameObject\GameObject.h" />
     <ClInclude Include="Objects\Boss\Boss.h" />
-    <ClInclude Include="PlayerBullet.h" />
+    <ClInclude Include="Objects\Player\Bullet\PlayerBullet.h" />
     <ClInclude Include="scene\base\AbstractSceneFactory.h" />
     <ClInclude Include="scene\base\BaseScene.h" />
     <ClInclude Include="scene\base\MyGame.h" />
