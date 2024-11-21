@@ -26,7 +26,7 @@ void Boss::Initialize()
     csvData_ = csvLoader->LoadFile("Boss.csv");
 
     /// モデルの読み込みと登録
-    ModelManager::GetInstance()->LoadModel("cube.obj");
+    ModelManager::GetInstance()->LoadModel("Boss/boss.obj");
 
     /// Transformの初期化
     scale_ = { 0.5f, 0.5f, 0.5f };
@@ -35,7 +35,7 @@ void Boss::Initialize()
 
     object_ = std::make_unique<Object3d>();
 
-    object_->Initialize("cube.obj");
+    object_->Initialize("boss.obj");
     object_->SetSize(scale_);
     object_->SetRotate(rotation_);
     object_->SetPosition(position_);
