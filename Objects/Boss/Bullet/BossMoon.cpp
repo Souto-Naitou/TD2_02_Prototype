@@ -41,5 +41,5 @@ void BossMoon::Draw()
 
 void BossMoon::Finalize()
 {
-	ModelManager::GetInstance()->Finalize();
+	
 }

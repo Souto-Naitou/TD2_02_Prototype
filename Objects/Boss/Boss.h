@@ -9,6 +9,7 @@
 #include <memory>
 #include <Easing.h>
 #include "Collision/Collider/Collider.h"
+#include "Collision/CollisionManager/CollisionManager.h"
 #include "Helper/Shape.h"
 #include "CSVLoader.h"
 
@@ -34,6 +35,9 @@ public:
     void LoadNormalAttackPopData();
     // 通常攻撃発生のコマンド更新
     void UpdateNormalAttackPopCommands();
+    // リセット
+    void ResetNormalAttackPopCommands();
+
 
     // 枕攻撃
     void PillowAttack();
@@ -43,6 +47,8 @@ public:
     void LoadPillowPopData();
     // 枕攻撃発生のコマンド更新
     void UpdatePillowPopCommands();
+    // リセット
+    void ResetPillowAttackPopCommands();
 
 
     // 月攻撃
@@ -53,6 +59,9 @@ public:
     void LoadMoonPopData();
     // 月攻撃発生のコマンド更新
     void UpdateMoonPopCommands();
+    // リセット
+    void ResetMoonPopCommands();
+
 
     // 弾削除
     void DeleteBullet();
@@ -60,10 +69,14 @@ public:
     // ステートパターン
     void ChangeState(std::unique_ptr<BaseBossState> _pState);
 
+private: //衝突判定
+
+    void OnCollision();
+
 public: // ゲッター
 
     // ボスHP取得
-    float GetBossHP() { return hitPoint_; }
+    float GetBossHP() { return hp_; }
 
 public: // セッター
 
@@ -71,7 +84,7 @@ public: // セッター
     void SetPlayerPosition(Vector3 _playerPosition) { playerPosition_ = _playerPosition; }
 
     // ボスHP
-    void SetBossHP(float _hitPoint) { hitPoint_ = _hitPoint; }
+    void SetBossHP(float _hitPoint) { hp_ = _hitPoint; }
 
     void RunSetMask();
 
@@ -88,7 +101,6 @@ private:
 
     // HP
     const float kMaxHitPoint = 160.0f;
-    float hitPoint_ = kMaxHitPoint;
 
     // プレーヤーの位置
     Vector3 playerPosition_{};
@@ -124,6 +136,8 @@ private:
 
     // ステート
     std::unique_ptr<BaseBossState> pState_ = nullptr;
+
+    CollisionManager* collisionManager_ = nullptr;
 
 #ifdef _DEBUG
 

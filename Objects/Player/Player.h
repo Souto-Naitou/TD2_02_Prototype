@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../.GameObject/GameObject.h"
+#include "Collision/Collider/Collider.h"
 #include "Bullet/PlayerBullet.h"
 
 #include <Framework.h>
@@ -28,6 +29,10 @@ public:
 	// 攻撃
 	void Attack();
 
+private: // 衝突判定
+
+	void OnCollision();
+
 public: // ゲッター
 
 	Vector3 GetPosition() { return position_; }
@@ -36,6 +41,10 @@ private: // メンバ変数
 
 	// 3Dオブジェクト
 	std::unique_ptr<Object3d> object_ = nullptr;
+
+	CollisionManager* collisionManager_ = nullptr;
+	Collider collider_;
+	AABB aabb_;
 
 	// 速度
 	Vector3 velocity_{};

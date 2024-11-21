@@ -29,7 +29,6 @@ void Collider::EraseCollidingPtr(const Collider* _ptr)
     return;
 }
 
-
 void Collider::SetAttribute(uint32_t _attribute)
 {
     collisionAttribute_ = _attribute;

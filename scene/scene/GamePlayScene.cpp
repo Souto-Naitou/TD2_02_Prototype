@@ -150,6 +150,8 @@ void GamePlayScene::Update()
     // 天球の更新処理
     pSkydome_->Update();
 
+
+    collisionManager_->CheckAllCollision();
 }
 
 void GamePlayScene::Draw()

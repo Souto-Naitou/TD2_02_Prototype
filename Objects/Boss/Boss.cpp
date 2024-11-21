@@ -1,7 +1,7 @@
 #include "Boss.h"
 
 #include <ModelManager.h>
-#include "Collision/CollisionManager/CollisionManager.h"
+#include "ImGuiDebugManager/DebugManager.h"
 #include <fstream>
 
 #include "State/BossStateFirst.h"
@@ -18,10 +18,13 @@
 
 void Boss::Initialize()
 {
-    CollisionManager* collisionManager = CollisionManager::GetInstance();
+    
     CSVLoader* csvLoader = CSVLoader::GetInstance();
+    DebugManager* pDebugManager = DebugManager::GetInstance();
 
-    objectName_ = "Boss";
+    pDebugManager->SetComponent("Boss", std::bind(&Boss::DebugWindow, this));
+
+    
 
     csvData_ = csvLoader->LoadFile("Boss.csv");
 
@@ -43,17 +46,23 @@ void Boss::Initialize()
     easing_ = std::make_unique<Easing>("TEST");
     easing_->Initialize();
 
+
+    collisionManager_ = CollisionManager::GetInstance();
+
+    objectName_ = "Boss";
+
     collider_.SetOwner(this);
     collider_.SetColliderID(objectName_);
     collider_.SetShapeData(&aabb_);
-    collider_.SetAttribute(collisionManager->GetNewAttribute(collider_.GetColliderID()));
     collider_.SetShape(Shape::AABB);
-    collisionManager->RegisterCollider(&collider_);
+    collider_.SetAttribute(collisionManager_->GetNewAttribute(collider_.GetColliderID()));
+    collider_.SetOnCollisionTrigger(std::bind(&Boss::OnCollision, this));
+    collisionManager_->RegisterCollider(&collider_);
 
     this->RegisterDebugWindow();
 
     // HPマックスにする
-    hitPoint_ = kMaxHitPoint;
+    hp_ = kMaxHitPoint;
 
     // ステート
     ChangeState(std::make_unique<BossStateFirst>(this));
@@ -101,34 +110,6 @@ void Boss::Update()
     for (auto& bullet : pMoonBullets_) {
         bullet->Update();
     }
-
-#ifdef _DEBUG
-
-    ImGui::Begin("Easing Parameters", nullptr);
-
-    ImGui::Text("Select Boss State");
-    if (ImGui::RadioButton("BossStateFirst", selectState_ == 0)) {
-        selectState_ = 0;
-        ChangeState(std::make_unique<BossStateFirst>(this));
-    }
-    if (ImGui::RadioButton("BossStateSecond", selectState_ == 1)) {
-        selectState_ = 1;
-        ChangeState(std::make_unique<BossStateSecond>(this));
-    }
-    if (ImGui::RadioButton("BossStateThird", selectState_ == 2)) {
-        selectState_ = 2;
-        ChangeState(std::make_unique<BossStateThird>(this));
-    }
-    if (ImGui::RadioButton("BossStateFourth", selectState_ == 3)) {
-        selectState_ = 3;
-        ChangeState(std::make_unique<BossStateFourth>(this));
-    }
-
-    ImGui::End();
-
-#endif // _DEBUG
-
-
 }
 
 void Boss::Draw()
@@ -172,6 +153,7 @@ void Boss::Finalize()
     }
 
     DeleteBullet();
+    collisionManager_->DeleteCollider(&collider_);
 }
 
 void Boss::NormalAttack()
@@ -183,6 +165,8 @@ void Boss::NormalAttack()
     newBullet->SetPlayerPosition(playerPosition_);
     newBullet->Initialize();
     newBullet->SetVelocity(bltVelocity_);
+
+    //newBullet->RunSetMask();
 
     // 通常弾を登録する
     pNormalBullets_.push_back(newBullet);
@@ -204,7 +188,7 @@ void Boss::LoadNormalAttackPopData()
 
 void Boss::UpdateNormalAttackPopCommands()
 {
-    CollisionManager::GetInstance()->DeleteCollider(&collider_);
+    collisionManager_->DeleteCollider(&collider_);
 
     this->UnregisterDebugWindow();
 
@@ -257,7 +241,20 @@ void Boss::UpdateNormalAttackPopCommands()
             break;
         }
     }
+
+    // すべての行を読み終えた場合にリセット
+    if (normalAttackPopCommands.eof()) {
+        ResetNormalAttackPopCommands(); // リセット処理
+    }
 }
+
+void Boss::ResetNormalAttackPopCommands()
+{
+    // ストリームの状態をリセットして、最初の位置に戻す
+    normalAttackPopCommands.clear(); // ストリーム状態フラグをクリア
+    normalAttackPopCommands.seekg(0, std::ios::beg); // ストリームの読み取り位置を先頭に設定
+}
+
 
 void Boss::PillowAttack()
 {
@@ -268,6 +265,8 @@ void Boss::PillowAttack()
     newBullet->SetPlayerPosition(playerPosition_);
     newBullet->Initialize();
     newBullet->SetVelocity(bltVelocity_);
+
+    newBullet->RunSetMask();
 
     // 枕弾を登録する
     pPillowBullets_.push_back(newBullet);
@@ -289,6 +288,8 @@ void Boss::LoadPillowPopData()
 
 void Boss::UpdatePillowPopCommands()
 {
+    collisionManager_->DeleteCollider(&collider_);
+
     //待機処理
     if (isPillowWaiting_) {
         pillowWaitingTimer_--;
@@ -339,6 +340,18 @@ void Boss::UpdatePillowPopCommands()
             break;
         }
     }
+
+    // すべての行を読み終えた場合にリセット
+    if (pillowAttackPopCommands.eof()) {
+        ResetPillowAttackPopCommands(); // リセット処理
+    }
+}
+
+void Boss::ResetPillowAttackPopCommands()
+{
+    // ストリームの状態をリセットして、最初の位置に戻す
+    pillowAttackPopCommands.clear(); // ストリーム状態フラグをクリア
+    pillowAttackPopCommands.seekg(0, std::ios::beg); // ストリームの読み取り位置を先頭に設定
 }
 
 void Boss::MoonAttack()
@@ -350,6 +363,8 @@ void Boss::MoonAttack()
     newBullet->SetRotation(moonRotate_);
     newBullet->Initialize();
     newBullet->SetVelocity(bltVelocity_);
+
+   // newBullet->RunSetMask();
 
     // 枕弾を登録する
     pMoonBullets_.push_back(newBullet);
@@ -371,6 +386,8 @@ void Boss::LoadMoonPopData()
 
 void Boss::UpdateMoonPopCommands()
 {
+    collisionManager_->DeleteCollider(&collider_);
+
     //待機処理
     if (isMoonWaiting_) {
         moonWaitingTimer_--;
@@ -443,15 +460,29 @@ void Boss::UpdateMoonPopCommands()
             break;
         }
     }
+
+    // すべての行を読み終えた場合にリセット
+    if (moonAttackPopCommands.eof()) {
+        ResetMoonPopCommands(); // リセット処理
+    }
 }
+
+void Boss::ResetMoonPopCommands()
+{
+    // ストリームの状態をリセットして、最初の位置に戻す
+    moonAttackPopCommands.clear(); // ストリーム状態フラグをクリア
+    moonAttackPopCommands.seekg(0, std::ios::beg); // ストリームの読み取り位置を先頭に設定
+}
+
+
 
 void Boss::DeleteBullet()
 {
     // デスフラグの立った通常弾を削除
     pNormalBullets_.remove_if([](BossNormalBullet* bullet) {
         if (bullet->IsDead()) {
+            bullet->Finalize();
             delete bullet;
-            //bullet->Finalize();
             return true;
         }
         return false;
@@ -460,8 +491,8 @@ void Boss::DeleteBullet()
     // デスフラグの立った枕弾を削除
     pPillowBullets_.remove_if([](BossPillow* bullet) {
         if (bullet->IsDead()) {
+            bullet->Finalize();
             delete bullet;
-            //bullet->Finalize();
             return true;
         }
         return false;
@@ -470,8 +501,8 @@ void Boss::DeleteBullet()
     // デスフラグの立った月を削除
     pMoonBullets_.remove_if([](BossMoon* bullet) {
         if (bullet->IsDead()) {
+            bullet->Finalize();
             delete bullet;
-            //bullet->Finalize();
             return true;
         }
         return false;
@@ -483,10 +514,15 @@ void Boss::ChangeState(std::unique_ptr<BaseBossState> _pState)
     pState_ = std::move(_pState);
 }
 
+void Boss::OnCollision()
+{
+    hp_ -= 1;
+}
+
 void Boss::RunSetMask()
 {
     /// マスクの設定 (自分(指定されたid)は当たらない)
-    collider_.SetMask(CollisionManager::GetInstance()->GetNewMask(collider_.GetColliderID()));
+    collider_.SetMask(CollisionManager::GetInstance()->GetNewMask(collider_.GetColliderID(),"BossPillow"));
 }
 
 void Boss::DebugWindow()
@@ -499,6 +535,25 @@ void Boss::DebugWindow()
     };
 
     ImGuiTemplate::VariableTable("Boss",pFunc);
+
+    ImGui::Text("Select Boss State");
+    if (ImGui::RadioButton("BossStateFirst", selectState_ == 0)) {
+        selectState_ = 0;
+        ChangeState(std::make_unique<BossStateFirst>(this));
+    }
+    if (ImGui::RadioButton("BossStateSecond", selectState_ == 1)) {
+        selectState_ = 1;
+        ChangeState(std::make_unique<BossStateSecond>(this));
+    }
+    if (ImGui::RadioButton("BossStateThird", selectState_ == 2)) {
+        selectState_ = 2;
+        ChangeState(std::make_unique<BossStateThird>(this));
+    }
+    if (ImGui::RadioButton("BossStateFourth", selectState_ == 3)) {
+        selectState_ = 3;
+        ChangeState(std::make_unique<BossStateFourth>(this));
+    }
+
 }
 
 void Boss::OutputCSV()

@@ -19,6 +19,19 @@ void BossNormalBullet::Initialize()
 
 
 	object_->SetPosition(position_);
+
+
+	collisionManager_ = CollisionManager::GetInstance();
+
+	objectName_ = "BossPillow";
+
+	collider_.SetOwner(this);
+	collider_.SetColliderID(objectName_);
+	collider_.SetShapeData(&aabb_);
+	collider_.SetAttribute(collisionManager_->GetNewAttribute(collider_.GetColliderID()));
+	collider_.SetShape(Shape::AABB);
+	collider_.SetOnCollisionTrigger(std::bind(&BossNormalBullet::OnCollision, this));
+	collisionManager_->RegisterCollider(&collider_);
 }
 
 void BossNormalBullet::Finalize()
@@ -27,7 +40,7 @@ void BossNormalBullet::Finalize()
 	//isDead_ = true;
 	//object_.reset();
 
-	ModelManager::GetInstance()->Finalize();
+	collisionManager_->DeleteCollider(&collider_);
 }
 
 void BossNormalBullet::Update()
@@ -58,7 +71,9 @@ void BossNormalBullet::Update()
 
 	position_ += velocity_ * 0.1f;
 
-
+	aabb_.min = position_ - object_->GetSize();
+	aabb_.max = position_ + object_->GetSize();
+	collider_.SetPosition(position_);
 
 	//時間経過でデス
 	if (--deathTimer_ <= 0) {
@@ -69,4 +84,15 @@ void BossNormalBullet::Update()
 void BossNormalBullet::Draw()
 {
 	object_->Draw();
+}
+
+void BossNormalBullet::RunSetMask()
+{
+	/// マスクの設定 (自分(指定されたid)は当たらない)
+	collider_.SetMask(CollisionManager::GetInstance()->GetNewMask(collider_.GetColliderID(), "Boss"));
+}
+
+void BossNormalBullet::OnCollision()
+{
+	isDead_ = true;
 }

@@ -1,12 +1,12 @@
 #include "Player.h"
 
+#include "Collision/CollisionManager/CollisionManager.h"
 
 void Player::Initialize()
 {
     // --- 3Dオブジェクト ---
     ModelManager::GetInstance()->LoadModel("plane.obj");
 
-    objectName_ = "Player";
 
     object_ = std::make_unique<Object3d>();
     object_->Initialize("plane.obj");
@@ -20,6 +20,19 @@ void Player::Initialize()
     velocity_ = { 0.05f,0.05f,0.0f };
 
     this->RegisterDebugWindow();
+
+
+    collisionManager_ = CollisionManager::GetInstance();
+
+    objectName_ = "Player";
+
+    collider_.SetOwner(this);
+    collider_.SetColliderID(objectName_);
+    collider_.SetShapeData(&aabb_);
+    collider_.SetAttribute(collisionManager_->GetNewAttribute(collider_.GetColliderID()));
+    collider_.SetShape(Shape::AABB);
+    collider_.SetOnCollisionTrigger(std::bind(&Player::OnCollision, this));
+    collisionManager_->RegisterCollider(&collider_);
 }
 
 void Player::Finalize()
@@ -44,6 +57,9 @@ void Player::Finalize()
     ModelManager::GetInstance()->Finalize();
 
     this->UnregisterDebugWindow();
+
+
+    collisionManager_->DeleteCollider(&collider_);
 }
 
 void Player::Update()
@@ -97,6 +113,11 @@ void Player::Update()
     // 攻撃
     Attack();
 
+    aabb_.min = position_ - object_->GetSize();
+    aabb_.max = position_ + object_->GetSize();
+    collider_.SetPosition(position_);
+
+
     // 弾更新
     for (auto& bullet : bullets_) {
         bullet->Update();
@@ -148,4 +169,9 @@ void Player::Attack()
         }
     }
     bltCoolTime_--;
+}
+
+void Player::OnCollision()
+{
+
 }

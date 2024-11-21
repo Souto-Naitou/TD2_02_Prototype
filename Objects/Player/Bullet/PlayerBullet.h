@@ -7,6 +7,7 @@
 #include <memory>
 
 #include <Collision/Collider/Collider.h>
+#include <Collision/CollisionManager/CollisionManager.h>
 
 class PlayerBullet : public GameObject
 {
@@ -26,6 +27,10 @@ public:
 
 	// 描画処理
 	void Draw() override;
+
+private: // 衝突判定
+
+	void OnCollision();
 
 public: // ゲッター
 
@@ -55,6 +60,7 @@ private: // メンバ変数
 	bool isDead_ = false;
 
     /// 衝突判定用
+	CollisionManager* collisionManager_ = nullptr;
     Collider collider_;
     AABB aabb_;
 };
