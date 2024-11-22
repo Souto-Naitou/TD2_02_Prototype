@@ -22,8 +22,6 @@ void BossMoon::Initialize()
 
 	objectName_ = "BossMoon";
 
-	RunSetMask();
-
 	collider_.SetOwner(this);
 	collider_.SetColliderID(objectName_);
 	collider_.SetShapeData(&aabb_);
@@ -64,16 +62,5 @@ void BossMoon::Finalize()
 
 void BossMoon::OnCollision()
 {
-	isDead_ = true;
 }
 
-void BossMoon::RunSetMask()
-{
-
-	/// マスクの設定 (自分(指定されたid)は当たらない)
-	collider_.SetMask(CollisionManager::GetInstance()->GetNewMask(collider_.GetColliderID(), "Boss"));
-
-	collider_.SetMask(CollisionManager::GetInstance()->GetNewMask(collider_.GetColliderID(), "BossPillow"));
-
-	collider_.SetMask(CollisionManager::GetInstance()->GetNewMask(collider_.GetColliderID(), "BossNormal"));
-}

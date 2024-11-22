@@ -26,7 +26,6 @@ public:
 	// 描画処理
 	void Draw() override;
 
-	void RunSetMask();
 
 private: // 衝突判定
 

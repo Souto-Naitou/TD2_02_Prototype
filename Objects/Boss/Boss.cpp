@@ -180,7 +180,7 @@ void Boss::NormalAttack()
     newBullet->SetPosition(position_);
     newBullet->SetPlayerPosition(playerPosition_);
     newBullet->Initialize();
-    RunSetMask();
+    collider_.SetMask(collisionManager_->GetNewMask(collider_.GetColliderID(), "BossNormal"));
     newBullet->SetVelocity(bltVelocity_);
 
 
@@ -279,7 +279,7 @@ void Boss::PillowAttack()
     newBullet->SetPosition(position_);
     newBullet->SetPlayerPosition(playerPosition_);
     newBullet->Initialize();
-    RunSetMask();
+    collider_.SetMask(collisionManager_->GetNewMask(collider_.GetColliderID(), "BossPillow"));
     newBullet->SetVelocity(bltVelocity_);
 
 
@@ -376,7 +376,7 @@ void Boss::MoonAttack()
     newBullet->SetPosition(position_);
     newBullet->SetRotation(moonRotate_);
     newBullet->Initialize();
-    RunSetMask();
+    collider_.SetMask(collisionManager_->GetNewMask(collider_.GetColliderID(), "BossMoon"));
     newBullet->SetVelocity(bltVelocity_);
 
     // 枕弾を登録する
@@ -630,17 +630,7 @@ void Boss::ChangeState(std::unique_ptr<BaseBossState> _pState)
 
 void Boss::OnCollision()
 {
-     hp_ -= 1;
-}
-
-void Boss::RunSetMask()
-{
-    /// マスクの設定 (自分(指定されたid)は当たらない)
-    collider_.SetMask(CollisionManager::GetInstance()->GetNewMask(collider_.GetColliderID(),"BossPillow"));
-
-    collider_.SetMask(CollisionManager::GetInstance()->GetNewMask(collider_.GetColliderID(), "BossNormal"));
-
-    collider_.SetMask(CollisionManager::GetInstance()->GetNewMask(collider_.GetColliderID(), "BossMoon"));
+    hp_ -= 1;
 }
 
 void Boss::DebugWindow()

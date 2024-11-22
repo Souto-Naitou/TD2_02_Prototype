@@ -97,8 +97,6 @@ public: // セッター
     // ボスHP
     void SetBossHP(float _hitPoint) { hp_ = _hitPoint; }
 
-    void RunSetMask();
-
 private:
     std::unique_ptr<Object3d> object_ = nullptr;
     std::unique_ptr<Easing> easing_ = nullptr;

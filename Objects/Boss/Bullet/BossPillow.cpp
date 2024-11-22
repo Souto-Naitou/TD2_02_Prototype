@@ -24,8 +24,6 @@ void BossPillow::Initialize()
 
 	objectName_ = "BossPillow";
 
-	RunSetMask();
-
 	collider_.SetOwner(this);
 	collider_.SetColliderID(objectName_);
 	collider_.SetShapeData(&aabb_);
@@ -76,16 +74,6 @@ void BossPillow::Update()
 void BossPillow::Draw()
 {
 	object_->Draw();
-}
-
-void BossPillow::RunSetMask()
-{
-	/// マスクの設定 (自分(指定されたid)は当たらない)
-	collider_.SetMask(CollisionManager::GetInstance()->GetNewMask(collider_.GetColliderID(),"Boss"));
-
-	collider_.SetMask(CollisionManager::GetInstance()->GetNewMask(collider_.GetColliderID(), "BossNormal"));
-
-	collider_.SetMask(CollisionManager::GetInstance()->GetNewMask(collider_.GetColliderID(), "BossMoon"));
 }
 
 void BossPillow::OnCollision()

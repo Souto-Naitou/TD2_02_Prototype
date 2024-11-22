@@ -20,7 +20,7 @@ void BossSong::Initialize()
 
 	object_->SetPosition(position_);
 
-	size_ = { 0.1f,0.1f,0.1f };
+	size_ = { 0.01f,0.01f,0.01f };
 }
 
 void BossSong::Finalize()

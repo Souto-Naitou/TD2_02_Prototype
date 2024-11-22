@@ -38,8 +38,6 @@ public: // セッター
 
     Vector3 SetVelocity(const Vector3 _velocity) { return velocity_ = _velocity; }
 
-	void RunSetMask();
-
 private: // メンバ変数
 
 	// 3Dオブジェクト

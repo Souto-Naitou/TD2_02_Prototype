@@ -160,6 +160,7 @@ void Player::Attack()
             newBullet->SetVelocity(bltVelocity_);
 
             newBullet->RunSetMask();
+            collider_.SetMask(collisionManager_->GetNewMask(collider_.GetColliderID(), "PlayerBullet"));
 
             // 弾を登録する
             bullets_.push_back(newBullet);

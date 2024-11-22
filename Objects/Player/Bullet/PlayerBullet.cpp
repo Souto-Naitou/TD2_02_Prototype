@@ -70,6 +70,4 @@ void PlayerBullet::OnCollision()
 void PlayerBullet::RunSetMask()
 {
     collider_.SetMask(collisionManager_->GetNewMask(collider_.GetColliderID(), "Player"));
-
-	collider_.SetMask(CollisionManager::GetInstance()->GetNewMask(collider_.GetColliderID(), "BossMoon"));
 }
