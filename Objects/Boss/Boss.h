@@ -4,6 +4,7 @@
 #include "Bullet/BossNormalBullet.h"
 #include "Bullet/BossPillow.h"
 #include "Bullet/BossMoon.h"
+#include "Bullet/BossSong.h"
 #include "State/BaseBossState.h"
 #include <Object3d.h>
 #include <memory>
@@ -62,6 +63,16 @@ public:
     // リセット
     void ResetMoonPopCommands();
 
+    // 歌攻撃
+    void SongAttack();
+    // 歌攻撃発生コマンド
+    std::stringstream songAttackPopCommands;
+    // 歌攻撃発生データの読み込み
+    void LoadSongPopData();
+    // 歌攻撃発生のコマンド更新
+    void UpdateSongPopCommands();
+    // リセット
+    void ResetSongPopCommands();
 
     // 弾削除
     void DeleteBullet();
@@ -133,6 +144,13 @@ private:
     bool isMoonWaiting_ = true;
     // 月待機タイマー
     int32_t moonWaitingTimer_ = 9;
+
+    // 歌弾
+    std::list<BossSong*> pSongBullets_;
+    // 歌待機中フラグ
+    bool isSongWaiting_ = true;
+    // 歌待機タイマー
+    int32_t songWaitingTimer_ = 50;
 
     // ステート
     std::unique_ptr<BaseBossState> pState_ = nullptr;

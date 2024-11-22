@@ -29,8 +29,8 @@ void Player::Initialize()
     collider_.SetOwner(this);
     collider_.SetColliderID(objectName_);
     collider_.SetShapeData(&aabb_);
-    collider_.SetAttribute(collisionManager_->GetNewAttribute(collider_.GetColliderID()));
     collider_.SetShape(Shape::AABB);
+    collider_.SetAttribute(collisionManager_->GetNewAttribute(collider_.GetColliderID()));
     collider_.SetOnCollisionTrigger(std::bind(&Player::OnCollision, this));
     collisionManager_->RegisterCollider(&collider_);
 }
@@ -42,13 +42,12 @@ void Player::Finalize()
 	for (auto& bullet : bullets_) {
 		bullet->SetIsDead(true);
 		bullet->Finalize();
-		//delete bullet;
 	}
 
     bullets_.remove_if([](PlayerBullet* bullet) {
         if (bullet->IsDead()) {
+            bullet->Finalize();
             delete bullet;
-            //bullet->Finalize();
             return true;
         }
         return false;

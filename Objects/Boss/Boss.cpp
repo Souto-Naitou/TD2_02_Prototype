@@ -46,6 +46,14 @@ void Boss::Initialize()
     easing_ = std::make_unique<Easing>("TEST");
     easing_->Initialize();
 
+    this->RegisterDebugWindow();
+
+    // HPマックスにする
+    hp_ = kMaxHitPoint;
+
+    // ステート
+    ChangeState(std::make_unique<BossStateFirst>(this));
+
 
     collisionManager_ = CollisionManager::GetInstance();
 
@@ -58,14 +66,6 @@ void Boss::Initialize()
     collider_.SetAttribute(collisionManager_->GetNewAttribute(collider_.GetColliderID()));
     collider_.SetOnCollisionTrigger(std::bind(&Boss::OnCollision, this));
     collisionManager_->RegisterCollider(&collider_);
-
-    this->RegisterDebugWindow();
-
-    // HPマックスにする
-    hp_ = kMaxHitPoint;
-
-    // ステート
-    ChangeState(std::make_unique<BossStateFirst>(this));
 }
 
 void Boss::Update()
@@ -110,6 +110,11 @@ void Boss::Update()
     for (auto& bullet : pMoonBullets_) {
         bullet->Update();
     }
+
+    // 歌更新
+    for (auto& bullet : pSongBullets_) {
+        bullet->Update();
+    }
 }
 
 void Boss::Draw()
@@ -130,6 +135,11 @@ void Boss::Draw()
     for (auto& bullet : pMoonBullets_) {
         bullet->Draw();
     }
+
+    // 歌描画
+    for (auto& bullet : pSongBullets_) {
+        bullet->Draw();
+    }
 }
 
 void Boss::Finalize()
@@ -148,6 +158,12 @@ void Boss::Finalize()
 
     // 月終了
     for (auto& bullet : pMoonBullets_) {
+        bullet->SetIsDead(true);
+        bullet->Finalize();
+    }
+
+    // 歌終了
+    for (auto& bullet : pSongBullets_) {
         bullet->SetIsDead(true);
         bullet->Finalize();
     }
@@ -188,7 +204,6 @@ void Boss::LoadNormalAttackPopData()
 
 void Boss::UpdateNormalAttackPopCommands()
 {
-    collisionManager_->DeleteCollider(&collider_);
 
     this->UnregisterDebugWindow();
 
@@ -288,7 +303,6 @@ void Boss::LoadPillowPopData()
 
 void Boss::UpdatePillowPopCommands()
 {
-    collisionManager_->DeleteCollider(&collider_);
 
     //待機処理
     if (isPillowWaiting_) {
@@ -386,7 +400,6 @@ void Boss::LoadMoonPopData()
 
 void Boss::UpdateMoonPopCommands()
 {
-    collisionManager_->DeleteCollider(&collider_);
 
     //待機処理
     if (isMoonWaiting_) {
@@ -474,6 +487,98 @@ void Boss::ResetMoonPopCommands()
     moonAttackPopCommands.seekg(0, std::ios::beg); // ストリームの読み取り位置を先頭に設定
 }
 
+void Boss::SongAttack()
+{
+    // 歌を生成し、初期化
+    BossSong* newBullet = new BossSong();
+
+    newBullet->SetPosition(position_);
+    newBullet->Initialize();
+
+    // 歌を登録する
+    pSongBullets_.push_back(newBullet);
+}
+
+void Boss::LoadSongPopData()
+{
+    //ファイルを開く
+    std::ifstream file;
+    file.open("Resources/CSV/BossSongPop.csv");
+    assert(file.is_open());
+
+    //ファイルの内容を文字列ストリームにコピー
+    songAttackPopCommands << file.rdbuf();
+
+    //ファイルを閉じる
+    file.close();
+}
+
+void Boss::UpdateSongPopCommands()
+{
+    //待機処理
+    if (isSongWaiting_) {
+        songWaitingTimer_--;
+
+        if (songWaitingTimer_ <= 0) {
+            //待機完了
+            isSongWaiting_ = false;
+        }
+        return;
+    }
+
+
+    //1行分の文字列を入れる変数
+    std::string line;
+
+    //コマンドループ
+    while (getline(songAttackPopCommands, line)) {
+        //1行分の文字列を入れる変数
+        std::istringstream line_stream(line);
+
+        std::string word;
+        // ,区切りで行の先頭列を取得
+        getline(line_stream, word, ',');
+
+        // "//"から始まる行はコメント
+        if (word.find("//") == 0) {
+            //コメント行を飛ばす
+            continue;
+        }
+
+
+        // WAITコマンド
+        if (word.find("WAIT") == 0) {
+
+            getline(line_stream, word, ',');
+
+            // 待ち時間
+            int32_t waitTime = atoi(word.c_str());
+
+            //待機時間
+            isSongWaiting_ = true;
+            songWaitingTimer_ = waitTime;
+
+            // 歌攻撃発生
+            SongAttack();
+
+            //コマンドループを抜ける
+            break;
+        }
+    }
+
+    // すべての行を読み終えた場合にリセット
+    if (songAttackPopCommands.eof()) {
+        ResetSongPopCommands(); // リセット処理
+    }
+}
+
+void Boss::ResetSongPopCommands()
+{
+    // ストリームの状態をリセットして、最初の位置に戻す
+    songAttackPopCommands.clear(); // ストリーム状態フラグをクリア
+    songAttackPopCommands.seekg(0, std::ios::beg); // ストリームの読み取り位置を先頭に設定
+}
+
 
 
 void Boss::DeleteBullet()
@@ -507,6 +612,16 @@ void Boss::DeleteBullet()
         }
         return false;
         });
+
+    // デスフラグの立った歌を削除
+    pSongBullets_.remove_if([](BossSong* bullet) {
+        if (bullet->IsDead()) {
+            bullet->Finalize();
+            delete bullet;
+            return true;
+        }
+        return false;
+        });
 }
 
 void Boss::ChangeState(std::unique_ptr<BaseBossState> _pState)
@@ -516,13 +631,17 @@ void Boss::ChangeState(std::unique_ptr<BaseBossState> _pState)
 
 void Boss::OnCollision()
 {
-    hp_ -= 1;
+     hp_ -= 1;
 }
 
 void Boss::RunSetMask()
 {
     /// マスクの設定 (自分(指定されたid)は当たらない)
     collider_.SetMask(CollisionManager::GetInstance()->GetNewMask(collider_.GetColliderID(),"BossPillow"));
+
+    collider_.SetMask(CollisionManager::GetInstance()->GetNewMask(collider_.GetColliderID(), "BossNormal"));
+
+    collider_.SetMask(CollisionManager::GetInstance()->GetNewMask(collider_.GetColliderID(), "BossMoon"));
 }
 
 void Boss::DebugWindow()

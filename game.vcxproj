@@ -171,6 +171,7 @@ call .PostBuild.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Objects\Boss\Bullet\BossSong.cpp" />
     <ClCompile Include="Objects\Boss\State\BaseBossState.cpp" />
     <ClCompile Include="Objects\Boss\Bullet\BossMoon.cpp" />
     <ClCompile Include="Objects\Boss\Bullet\BossNormalBullet.cpp" />
@@ -199,6 +200,7 @@ call .PostBuild.bat</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include=".Externals\Timer\Timer.h" />
+    <ClInclude Include="Objects\Boss\Bullet\BossSong.h" />
     <ClInclude Include="Collision\Collider\Collider.h" />
     <ClInclude Include="Collision\CollisionManager\CollisionManager.h" />
     <ClInclude Include="Helper\ImGuiDebugManager\DebugManager.h" />

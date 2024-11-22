@@ -35,9 +35,7 @@ void PlayerBullet::Initialize()
 void PlayerBullet::Finalize()
 {
 	// 各解放処理
-	//isDead_ = true;
-	//object_.reset();
-
+	
 	collisionManager_->DeleteCollider(&collider_);
 }
 
@@ -72,4 +70,6 @@ void PlayerBullet::OnCollision()
 void PlayerBullet::RunSetMask()
 {
     collider_.SetMask(collisionManager_->GetNewMask(collider_.GetColliderID(), "Player"));
+
+	collider_.SetMask(CollisionManager::GetInstance()->GetNewMask(collider_.GetColliderID(), "BossMoon"));
 }

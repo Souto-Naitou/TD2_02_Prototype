@@ -80,6 +80,10 @@ void BossPillow::RunSetMask()
 {
 	/// マスクの設定 (自分(指定されたid)は当たらない)
 	collider_.SetMask(CollisionManager::GetInstance()->GetNewMask(collider_.GetColliderID(),"Boss"));
+
+	collider_.SetMask(CollisionManager::GetInstance()->GetNewMask(collider_.GetColliderID(), "BossNormal"));
+
+	collider_.SetMask(CollisionManager::GetInstance()->GetNewMask(collider_.GetColliderID(), "BossMoon"));
 }
 
 void BossPillow::OnCollision()

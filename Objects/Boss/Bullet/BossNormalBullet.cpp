@@ -23,7 +23,7 @@ void BossNormalBullet::Initialize()
 
 	collisionManager_ = CollisionManager::GetInstance();
 
-	objectName_ = "BossPillow";
+	objectName_ = "BossNormal";
 
 	collider_.SetOwner(this);
 	collider_.SetColliderID(objectName_);
@@ -90,6 +90,10 @@ void BossNormalBullet::RunSetMask()
 {
 	/// マスクの設定 (自分(指定されたid)は当たらない)
 	collider_.SetMask(CollisionManager::GetInstance()->GetNewMask(collider_.GetColliderID(), "Boss"));
+
+	collider_.SetMask(CollisionManager::GetInstance()->GetNewMask(collider_.GetColliderID(), "BossPillow"));
+
+	collider_.SetMask(CollisionManager::GetInstance()->GetNewMask(collider_.GetColliderID(), "BossMoon"));
 }
 
 void BossNormalBullet::OnCollision()
