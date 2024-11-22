@@ -137,6 +137,8 @@ void GamePlayScene::Update()
         obj->SetRotate(rotate);
     }
 
+
+
 #pragma endregion 3Dオブジェクト
 
 	// プレーヤーの更新処理
