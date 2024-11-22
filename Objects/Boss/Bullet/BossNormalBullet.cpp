@@ -25,6 +25,8 @@ void BossNormalBullet::Initialize()
 
 	objectName_ = "BossNormal";
 
+	RunSetMask();
+
 	collider_.SetOwner(this);
 	collider_.SetColliderID(objectName_);
 	collider_.SetShapeData(&aabb_);

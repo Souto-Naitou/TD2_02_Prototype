@@ -180,9 +180,9 @@ void Boss::NormalAttack()
     newBullet->SetPosition(position_);
     newBullet->SetPlayerPosition(playerPosition_);
     newBullet->Initialize();
+    RunSetMask();
     newBullet->SetVelocity(bltVelocity_);
 
-    //newBullet->RunSetMask();
 
     // 通常弾を登録する
     pNormalBullets_.push_back(newBullet);
@@ -279,9 +279,9 @@ void Boss::PillowAttack()
     newBullet->SetPosition(position_);
     newBullet->SetPlayerPosition(playerPosition_);
     newBullet->Initialize();
+    RunSetMask();
     newBullet->SetVelocity(bltVelocity_);
 
-    newBullet->RunSetMask();
 
     // 枕弾を登録する
     pPillowBullets_.push_back(newBullet);
@@ -376,9 +376,8 @@ void Boss::MoonAttack()
     newBullet->SetPosition(position_);
     newBullet->SetRotation(moonRotate_);
     newBullet->Initialize();
+    RunSetMask();
     newBullet->SetVelocity(bltVelocity_);
-
-   // newBullet->RunSetMask();
 
     // 枕弾を登録する
     pMoonBullets_.push_back(newBullet);

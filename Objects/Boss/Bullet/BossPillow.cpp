@@ -24,6 +24,8 @@ void BossPillow::Initialize()
 
 	objectName_ = "BossPillow";
 
+	RunSetMask();
+
 	collider_.SetOwner(this);
 	collider_.SetColliderID(objectName_);
 	collider_.SetShapeData(&aabb_);
