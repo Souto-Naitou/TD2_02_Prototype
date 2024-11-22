@@ -55,6 +55,7 @@ void GamePlayScene::Initialize()
 	// プレイヤー
 	pPlayer_ = std::make_unique<Player>();
 	pPlayer_->Initialize();
+    pPlayer_->SetCamera(camera);
 
     // 天球
     pSkydome_ = std::make_unique<Skydome>();
@@ -135,6 +136,8 @@ void GamePlayScene::Update()
 
         obj->SetRotate(rotate);
     }
+
+
 
 #pragma endregion 3Dオブジェクト
 

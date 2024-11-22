@@ -11,36 +11,57 @@ class Player : public GameObject
 {
 public:
 
-	Player() = default;
-	~Player() = default;
+    Player() = default;
+    ~Player() = default;
 
-	// 初期化
-	void Initialize() override;
+    // 初期化
+    void Initialize() override;
 
-	// 終了
-	void Finalize() override;
+    // 終了
+    void Finalize() override;
 
-	// 更新処理
-	void Update() override;
+    // 更新処理
+    void Update() override;
 
-	// 描画処理
-	void Draw() override;
+    // 描画処理
+    void Draw() override;
 
-	// 攻撃
-	void Attack();
+    // 攻撃
+    void Attack();
 
 private: // 衝突判定
 
 	void OnCollision();
 
 public: // ゲッター
+    Vector3 GetPosition() { return position_; }
 
-	Vector3 GetPosition() { return position_; }
+
+public: // セッター
+    void SetCamera(Camera* _camera) { mainCamera_ = _camera; }
+
 
 private: // メンバ変数
 
-	// 3Dオブジェクト
-	std::unique_ptr<Object3d> object_ = nullptr;
+    // 3Dオブジェクト
+    std::unique_ptr<Object3d>   object_                 = nullptr;
+
+    Vector3                     moveVelocity_           = {}; // 移動速度
+    float                       moveSpeed_              = 0.05f;
+
+    std::list<PlayerBullet*>    bullets_                = {};  // 弾
+
+    const int                   kShootCoolDownFrame_    = 15.0f; // 発射クールタイム
+    int                         countCoolDownFrame_     = 0.0f; // 弾のクールタイム
+
+    Vector3 cameraRotate_ = { 0.3f, 0.0f, 0.0f };
+    Vector3 cameraDistance_ = { 0.0f, 2.5f, -5.5f };
+    float camFollowMultiply_ = 0.1f;
+
+    Vector2 mousePosDiff_;
+    bool cursorVisible_ = true;
+    bool cursorLock_ = false;
+
 
 	CollisionManager* collisionManager_ = nullptr;
 	Collider collider_;
@@ -49,14 +70,23 @@ private: // メンバ変数
 	// 速度
 	Vector3 velocity_{};
 
-	// 弾
-	std::list<PlayerBullet*> bullets_;
+private:
+    /// <summary>
+    /// カメラ追従処理
+    /// </summary>
+    void CameraFollow();
 
-	// 弾速
-	Vector3 bltVelocity_{};
+    /// <summary>
+    /// デバッグ用ウィンドウ
+    /// </summary>
+    void DebugWindow() override;
 
-	// 弾CT
-	const float kBltCoolTime = 15.0f;
-	float bltCoolTime_ = 0.0f;
+    /// <summary>
+    /// カーソル移動処理
+    /// </summary>
+    void CalcCursorMove();
+
+private: /// 他クラスのやつ
+    Camera* mainCamera_ = nullptr;
 };
 
