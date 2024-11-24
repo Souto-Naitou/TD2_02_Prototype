@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../.GameObject/GameObject.h"
+#include "Collision/Collider/Collider.h"
 #include "Bullet/PlayerBullet.h"
 
 #include <Framework.h>
@@ -27,6 +28,10 @@ public:
 
     // 攻撃
     void Attack();
+
+private: // 衝突判定
+
+	void OnCollision();
 
 public: // ゲッター
     Vector3 GetPosition() { return position_; }
@@ -57,6 +62,13 @@ private: // メンバ変数
     bool cursorVisible_ = true;
     bool cursorLock_ = false;
 
+
+	CollisionManager* collisionManager_ = nullptr;
+	Collider collider_;
+	AABB aabb_;
+
+	// 速度
+	Vector3 velocity_{};
 
 private:
     /// <summary>

@@ -1,6 +1,8 @@
 #pragma once
 
 #include "../../.GameObject/GameObject.h"
+#include "Collision/Collider/Collider.h"
+#include "Collision/CollisionManager/CollisionManager.h"
 
 #include <Object3d.h>
 #include <memory>
@@ -18,6 +20,10 @@ public:
     void Draw()         override;
     void Finalize()     override;
 
+private: // 衝突判定
+
+	void OnCollision();
+	
 public: // ゲッター
 
     bool IsDead() const { return isDead_; }
@@ -48,5 +54,9 @@ private: // メンバ変数
 
 	//デスグラフ
 	bool isDead_ = false;
+
+	CollisionManager* collisionManager_ = nullptr;
+	Collider collider_;
+	AABB aabb_;
 };
 

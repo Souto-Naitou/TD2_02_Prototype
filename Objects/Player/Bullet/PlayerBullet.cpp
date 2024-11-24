@@ -1,13 +1,12 @@
 #include "PlayerBullet.h"
 
 #include <Object3d.h>
-#include <Collision/CollisionManager/CollisionManager.h>
 
 #include <ModelManager.h>
 
 void PlayerBullet::Initialize()
 {
-    CollisionManager* collisionManager = CollisionManager::GetInstance();
+   collisionManager_ = CollisionManager::GetInstance();
 
 	// --- 3Dオブジェクト ---
 	ModelManager::GetInstance()->LoadModel("cube.obj");
@@ -23,21 +22,21 @@ void PlayerBullet::Initialize()
 
 
     // --- コリジョン ---
+	objectName_ = "PlayerBullet";
     collider_.SetOwner(this);
-    collider_.SetColliderID("PlayerBullet");
+    collider_.SetColliderID(objectName_);
     collider_.SetShapeData(&aabb_);
     collider_.SetShape(Shape::AABB);
-    collider_.SetAttribute(collisionManager->GetNewAttribute(collider_.GetColliderID()));
-	collisionManager->RegisterCollider(&collider_);
+    collider_.SetAttribute(collisionManager_->GetNewAttribute(collider_.GetColliderID()));
+	collider_.SetOnCollisionTrigger(std::bind(&PlayerBullet::OnCollision, this));
+	collisionManager_->RegisterCollider(&collider_);
 }
 
 void PlayerBullet::Finalize()
 {
 	// 各解放処理
-	//isDead_ = true;
-	//object_.reset();
-
-	CollisionManager::GetInstance()->DeleteCollider(&collider_);
+	
+	collisionManager_->DeleteCollider(&collider_);
 }
 
 void PlayerBullet::Update()
@@ -63,8 +62,12 @@ void PlayerBullet::Draw()
 	object_->Draw();
 }
 
+void PlayerBullet::OnCollision()
+{
+	isDead_ = true;
+}
+
 void PlayerBullet::RunSetMask()
 {
-    CollisionManager* collisionManager = CollisionManager::GetInstance();
-    collider_.SetMask(collisionManager->GetNewMask(collider_.GetColliderID(), "Player"));
+    collider_.SetMask(collisionManager_->GetNewMask(collider_.GetColliderID(), "Player"));
 }

@@ -1,12 +1,12 @@
 #include "Player.h"
 
+#include "Collision/CollisionManager/CollisionManager.h"
 
 void Player::Initialize()
 {
     // --- 3Dオブジェクト ---
     ModelManager::GetInstance()->LoadModel("plane.obj");
 
-    objectName_ = "Player";
 
     object_ = std::make_unique<Object3d>();
     object_->Initialize("plane.obj");
@@ -18,22 +18,34 @@ void Player::Initialize()
     object_->SetSize({ 0.5f,0.5f,0.5f });
 
     this->RegisterDebugWindow();
+
+
+    collisionManager_ = CollisionManager::GetInstance();
+
+    objectName_ = "Player";
+
+    collider_.SetOwner(this);
+    collider_.SetColliderID(objectName_);
+    collider_.SetShapeData(&aabb_);
+    collider_.SetShape(Shape::AABB);
+    collider_.SetAttribute(collisionManager_->GetNewAttribute(collider_.GetColliderID()));
+    collider_.SetOnCollisionTrigger(std::bind(&Player::OnCollision, this));
+    collisionManager_->RegisterCollider(&collider_);
 }
 
 void Player::Finalize()
 {
     // 各解放処理
 
-    for (auto& bullet : bullets_) {
-        bullet->SetIsDead(true);
-        bullet->Finalize();
-        //delete bullet;
-    }
+	for (auto& bullet : bullets_) {
+		bullet->SetIsDead(true);
+		bullet->Finalize();
+	}
 
     bullets_.remove_if([](PlayerBullet* bullet) {
         if (bullet->IsDead()) {
+            bullet->Finalize();
             delete bullet;
-            //bullet->Finalize();
             return true;
         }
         return false;
@@ -42,6 +54,9 @@ void Player::Finalize()
     ModelManager::GetInstance()->Finalize();
 
     this->UnregisterDebugWindow();
+
+
+    collisionManager_->DeleteCollider(&collider_);
 }
 
 void Player::Update()
@@ -116,6 +131,11 @@ void Player::Update()
     // 攻撃
     Attack();
 
+    aabb_.min = position_ - object_->GetSize();
+    aabb_.max = position_ + object_->GetSize();
+    collider_.SetPosition(position_);
+
+
     // 弾更新
     for (auto& bullet : bullets_) {
         bullet->Update();
@@ -151,6 +171,7 @@ void Player::Attack()
             newBullet->SetVelocity(bulletVelocity);
 
             newBullet->RunSetMask();
+            collider_.SetMask(collisionManager_->GetNewMask(collider_.GetColliderID(), "PlayerBullet"));
 
             // 弾を登録する
             bullets_.push_back(newBullet);
