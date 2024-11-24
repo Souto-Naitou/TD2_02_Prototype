@@ -45,6 +45,7 @@ void CollisionManager::DeleteCollider(Collider* _collider)
 {
     for (int i = 0; i < colliders_.size(); i++)
     {
+        colliders_[i]->EraseCollidingPtr(_collider);
         if (colliders_[i] == _collider)
         {
             colliders_.erase(colliders_.begin() + i);
