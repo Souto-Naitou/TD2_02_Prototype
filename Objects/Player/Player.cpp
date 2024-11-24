@@ -182,6 +182,10 @@ void Player::Attack()
     countCoolDownFrame_--;
 }
 
+void Player::OnCollision()
+{
+}
+
 void Player::CameraFollow()
 {
     Matrix4x4 playerWorld = Matrix4x4::AffineMatrix(scale_, rotation_, position_);
