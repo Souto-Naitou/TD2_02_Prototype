@@ -24,11 +24,11 @@ void Player::Finalize()
 {
     // 各解放処理
 
-	for (auto& bullet : bullets_) {
-		bullet->SetIsDead(true);
-		bullet->Finalize();
-		//delete bullet;
-	}
+    for (auto& bullet : bullets_) {
+        bullet->SetIsDead(true);
+        bullet->Finalize();
+        //delete bullet;
+    }
 
     bullets_.remove_if([](PlayerBullet* bullet) {
         if (bullet->IsDead()) {
@@ -110,7 +110,7 @@ void Player::Update()
     object_->SetPosition(position_);
 
     rotation_.y -= mousePosDiff_.x * 0.001f;
-	object_->SetRotate(rotation_);
+    object_->SetRotate(rotation_);
     CameraFollow();
 
     // 攻撃
@@ -136,8 +136,8 @@ void Player::Draw()
 
 void Player::Attack()
 {
-	if (Input::GetInstance()->PushKey(DIK_SPACE))
-	{
+    if (Input::GetInstance()->PushKey(DIK_SPACE))
+    {
         /// プレイヤーの向きに合わせて弾の速度を変更
         Vector3 bulletVelocity = { std::sinf(rotation_.y), 0.f, std::cosf(rotation_.y) };;
 

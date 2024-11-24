@@ -46,8 +46,8 @@ private: // メンバ変数
 
     std::list<PlayerBullet*>    bullets_                = {};  // 弾
 
-    const int                   kShootCoolDownFrame_    = 15.0f; // 発射クールタイム
-    int                         countCoolDownFrame_     = 0.0f; // 弾のクールタイム
+    const int                   kShootCoolDownFrame_    = 15; // 発射クールタイム
+    int                         countCoolDownFrame_     = 0; // 弾のクールタイム
 
     Vector3 cameraRotate_ = { 0.3f, 0.0f, 0.0f };
     Vector3 cameraDistance_ = { 0.0f, 2.5f, -5.5f };
