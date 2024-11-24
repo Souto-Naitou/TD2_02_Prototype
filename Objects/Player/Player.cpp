@@ -19,6 +19,9 @@ void Player::Initialize()
 
     this->RegisterDebugWindow();
 
+    // 状態異常タイムセット
+    stanTimer_ = kStanTime_;
+    narrowTimer_ = kNarrowTime_;
 
     collisionManager_ = CollisionManager::GetInstance();
 
@@ -100,24 +103,37 @@ void Player::Update()
     Vector3 playerRight = { std::cosf(rotation_.y), 0.f, -std::sinf(rotation_.y) };
 
     moveVelocity_ = {};
-    // 移動処理
-    if (Input::GetInstance()->PushKey(DIK_W))
-    {
-        moveVelocity_ += playerForward * moveSpeed_;
-    }
-    if (Input::GetInstance()->PushKey(DIK_S))
-    {
-        moveVelocity_ += -playerForward * moveSpeed_;
-    }
-    if (Input::GetInstance()->PushKey(DIK_A))
-    {
-        moveVelocity_ += -playerRight * moveSpeed_;
-    }
-    if (Input::GetInstance()->PushKey(DIK_D))
-    {
-        moveVelocity_ += playerRight * moveSpeed_;
-    }
 
+    if (!isStan_)
+    {
+        // 移動処理
+        if (Input::GetInstance()->PushKey(DIK_W))
+        {
+            moveVelocity_ += playerForward * moveSpeed_;
+        }
+        if (Input::GetInstance()->PushKey(DIK_S))
+        {
+            moveVelocity_ += -playerForward * moveSpeed_;
+        }
+        if (Input::GetInstance()->PushKey(DIK_A))
+        {
+            moveVelocity_ += -playerRight * moveSpeed_;
+        }
+        if (Input::GetInstance()->PushKey(DIK_D))
+        {
+            moveVelocity_ += playerRight * moveSpeed_;
+        }
+    }
+    else if(isStan_)
+    {
+        stanTimer_ -= kStanCount_;
+
+        if (stanTimer_ < 0)
+        {
+            stanTimer_ = kStanTime_;
+            isStan_ = false;
+        }
+    }
 
     position_ += moveVelocity_;
 
@@ -130,6 +146,9 @@ void Player::Update()
 
     // 攻撃
     Attack();
+
+    // 視野狭まる
+    Narrow();
 
     aabb_.min = position_ - object_->GetSize();
     aabb_.max = position_ + object_->GetSize();
@@ -180,6 +199,26 @@ void Player::Attack()
         }
     }
     countCoolDownFrame_--;
+}
+
+void Player::Narrow()
+{
+    if (isNarrow_)
+    {
+        narrowTimer_ -= kNarrowCount_;
+
+        
+
+        if (narrowTimer_ < 0)
+        {
+            narrowTimer_ = kNarrowTime_;
+            isNarrow_ = false;
+        }
+    }
+}
+
+void Player::OnCollision()
+{
 }
 
 void Player::CameraFollow()

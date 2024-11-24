@@ -30,4 +30,30 @@ void BossStateFourth::Attack()
 
 	// NormalAttack();
 	pBoss_->UpdateMoonPopCommands();
+
+	// 通常弾更新
+	for (auto& bullet : pBoss_->GetNormalBullets())
+	{
+		pBoss_->SetIsStan(bullet->IsDead());
+		bullet->Update();
+	}
+
+	// 枕弾更新
+	for (auto& bullet : pBoss_->GetPillows())
+	{
+		pBoss_->SetIsNarrow(bullet->IsNarrow());
+		bullet->Update();
+	}
+
+	// 歌更新
+	for (auto& bullet : pBoss_->GetSongs()) 
+	{
+		bullet->Update();
+	}
+
+	// 月更新
+	for (auto& bullet : pBoss_->GetMoons()) 
+	{
+		bullet->Update();
+	}
 }

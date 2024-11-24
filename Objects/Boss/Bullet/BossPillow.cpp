@@ -35,6 +35,7 @@ void BossPillow::Initialize()
 
 void BossPillow::Finalize()
 {
+	isNarrow_ = false;
 	collisionManager_ ->DeleteCollider(&collider_);
 }
 
@@ -78,5 +79,6 @@ void BossPillow::Draw()
 
 void BossPillow::OnCollision()
 {
+	isNarrow_ = true;
 	isDead_ = true;
 }

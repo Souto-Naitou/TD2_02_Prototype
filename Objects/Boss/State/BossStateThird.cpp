@@ -19,13 +19,33 @@ BossStateThird::BossStateThird(Boss* _pBoss) : BaseBossState("State Third", _pBo
 void BossStateThird::Attack()
 {
 	// NormalAttack();
-	//pBoss_->UpdateNormalAttackPopCommands();
+	pBoss_->UpdateNormalAttackPopCommands();
 
 	// PillowAttack();
-	//pBoss_->UpdatePillowPopCommands();
+	pBoss_->UpdatePillowPopCommands();
 
 	// SongAttack();
 	pBoss_->UpdateSongPopCommands();
+
+	// 通常弾更新
+	for (auto& bullet : pBoss_->GetNormalBullets())
+	{
+		pBoss_->SetIsStan(bullet->IsDead());
+		bullet->Update();
+	}
+
+	// 枕弾更新
+	for (auto& bullet : pBoss_->GetPillows())
+	{
+		pBoss_->SetIsNarrow(bullet->IsNarrow());
+		bullet->Update();
+	}
+
+	// 歌更新
+	for (auto& bullet : pBoss_->GetSongs()) 
+	{
+		bullet->Update();
+	}
 
 	if (pBoss_->GetBossHP() < 40) {
 

@@ -29,17 +29,26 @@ public:
     // 攻撃
     void Attack();
 
+    // 視野狭まる
+    void Narrow();
+
 private: // 衝突判定
 
 	void OnCollision();
 
 public: // ゲッター
+    
     Vector3 GetPosition() { return position_; }
 
+    bool IsStan() { return isStan_; }
+    bool IsNarrow() { return isNarrow_; }
 
 public: // セッター
+
     void SetCamera(Camera* _camera) { mainCamera_ = _camera; }
 
+    void SetIsStan(bool _isStan) { isStan_ = _isStan; }
+    void SetIsNarrow(bool _isNarrow) { isNarrow_ = _isNarrow; }
 
 private: // メンバ変数
 
@@ -69,6 +78,19 @@ private: // メンバ変数
 
 	// 速度
 	Vector3 velocity_{};
+
+    // 状態異常
+    // スタン
+    bool isStan_ = false;
+    const int kStanTime_ = 60 * 3;
+    const int kStanCount_ = 1;
+    int stanTimer_ = kStanTime_;
+    
+    // 視野狭まる
+    bool isNarrow_ = false;
+    const int kNarrowTime_ = 60 * 3;
+    const int kNarrowCount_ = 1;
+    int narrowTimer_ = kNarrowTime_;
 
 private:
     /// <summary>
