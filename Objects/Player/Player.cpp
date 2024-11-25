@@ -276,6 +276,12 @@ void Player::Narrow()
 
         if (narrowTimer_ < 0)
         {
+            if (isClose_)
+            {
+                isClose_ = false;
+                easing_->Reset();
+            }
+
             // 上瞼的な
             topMovePos_.Lerp(topClosePos_, topPos_, easing_->Update());
             sprites[0]->SetPosition(topMovePos_);
@@ -288,6 +294,7 @@ void Player::Narrow()
                 easing_->Reset();
                 narrowTimer_ = kNarrowTime_;
                 isNarrow_ = false;
+                isClose_ = true;
             }
         }
     }

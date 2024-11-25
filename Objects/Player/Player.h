@@ -96,6 +96,7 @@ private: // メンバ変数
     
     // 視野狭まる
     bool isNarrow_ = false;
+    bool isClose_ = true;
     const int kNarrowTime_ = 60 * 3;
     const int kNarrowCount_ = 1;
     int narrowTimer_ = kNarrowTime_;

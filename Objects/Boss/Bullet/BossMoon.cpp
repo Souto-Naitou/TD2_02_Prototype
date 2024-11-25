@@ -38,11 +38,39 @@ void BossMoon::Update()
 	object_->SetPosition(position_);
 	object_->SetRotate(rotation_);
 
-	position_ += velocity_;
+	// 45°左上
+	if (rotation_.z <= 0.8f && rotation_.z >= 0.7f)
+	{
+		position_.x -= object_->GetSize().x / 4;
+		position_.y -= object_->GetSize().y / 4;
+	}
+	// 135°左下
+	if (rotation_.z <= 3.0f && rotation_.z >= 2.0f)
+	{
+		position_.x -= object_->GetSize().x / 4;
+		position_.y += object_->GetSize().y / 4;
+	}
+	// 225°右下
+	if (rotation_.z <= 4.0f && rotation_.z >= 3.0f)
+	{
+		position_.x += object_->GetSize().x / 4;
+		position_.y += object_->GetSize().y / 4;
+	}
+	// 315°右上
+	if (rotation_.z <= 6.0f && rotation_.z >= 5.0f)
+	{
+		position_.x += object_->GetSize().x / 4;
+		position_.y -= object_->GetSize().y / 4;
+	}
 
-	aabb_.min = position_ - object_->GetSize();
-	aabb_.max = position_ + object_->GetSize();
+	aabb_.min = position_ - object_->GetSize() / 2;
+	aabb_.max = position_ + object_->GetSize() / 2;
 	collider_.SetPosition(position_);
+
+
+	position_ = object_->GetPosition();
+
+	position_ += velocity_;
 
 	//時間経過でデス
 	if (--deathTimer_ <= 0) {
