@@ -105,6 +105,8 @@ public: // ゲッター
     bool IsStan() { return isStan_; }
     // ジャマーフラグ取得
     bool IsNarrow() { return isNarrow_; }
+    // 慣性フラグ取得
+    bool IsInertia() { return isInertia_; }
 
 public: // セッター
 
@@ -118,6 +120,8 @@ public: // セッター
     void SetIsStan(bool _isStan) { isStan_ = _isStan; }
     // ジャマー
     void SetIsNarrow(bool _isNarrow) { isNarrow_ = _isNarrow; }
+    // 慣性
+    void SetIsInertia(bool _isInertia) { isInertia_ = _isInertia; }
 
 private:
     std::unique_ptr<Object3d> object_ = nullptr;
@@ -180,6 +184,7 @@ private:
     // 異常状態フラグ
     bool isStan_ = false;
     bool isNarrow_ = false;
+    bool isInertia_ = false;
 
 #ifdef _DEBUG
 

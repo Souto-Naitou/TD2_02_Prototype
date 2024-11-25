@@ -48,6 +48,7 @@ void BossStateFourth::Attack()
 	// 歌更新
 	for (auto& bullet : pBoss_->GetSongs()) 
 	{
+		pBoss_->SetIsInertia(bullet->IsInertia());
 		bullet->Update();
 	}
 

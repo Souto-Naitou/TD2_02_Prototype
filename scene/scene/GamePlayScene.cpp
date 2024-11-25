@@ -151,6 +151,10 @@ void GamePlayScene::Update()
     {
         pBoss_->SetIsNarrow(false);
     }
+    if (pPlayer_->IsInertia())
+    {
+        pBoss_->SetIsInertia(false);
+    }
 
 	// ボスにプレイヤーの位置をセット
 	pBoss_->SetPlayerPosition(pPlayer_->GetPosition());
@@ -165,6 +169,10 @@ void GamePlayScene::Update()
     if (pBoss_->IsNarrow())
     {
         pPlayer_->SetIsNarrow(true);
+    }
+    if (pBoss_->IsInertia())
+    {
+        pPlayer_->SetIsInertia(true);
     }
 
     // 天球の更新処理
