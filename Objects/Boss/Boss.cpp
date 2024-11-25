@@ -162,7 +162,7 @@ void Boss::NormalAttack()
     newBullet->SetPosition(position_);
     newBullet->SetPlayerPosition(playerPosition_);
     newBullet->Initialize();
-    collider_.SetMask(collisionManager_->GetNewMask(collider_.GetColliderID(), "BossNormal"));
+    collider_.SetMask(collisionManager_->GetNewMask(collider_.GetColliderID(), "BossNormal", "BossMoon"));
     newBullet->SetVelocity(bltVelocity_);
 
 
@@ -261,7 +261,7 @@ void Boss::PillowAttack()
     newBullet->SetPosition(position_);
     newBullet->SetPlayerPosition(playerPosition_);
     newBullet->Initialize();
-    collider_.SetMask(collisionManager_->GetNewMask(collider_.GetColliderID(), "Boss", "BossNormal"));
+    collider_.SetMask(collisionManager_->GetNewMask(collider_.GetColliderID(), "BossPillow", "BossMoon"));
     newBullet->SetVelocity(bltVelocity_);
 
 

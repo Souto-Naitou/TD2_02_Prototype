@@ -30,7 +30,7 @@ public:
 
 private: // 衝突判定
 
-	void OnCollision();
+	void OnCollisionTrigger(const Collider* _other);
 
 public: // ゲッター
 

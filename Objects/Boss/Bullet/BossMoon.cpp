@@ -27,7 +27,7 @@ void BossMoon::Initialize()
 	collider_.SetShapeData(&aabb_);
 	collider_.SetAttribute(collisionManager_->GetNewAttribute(collider_.GetColliderID()));
 	collider_.SetShape(Shape::AABB);
-	collider_.SetOnCollisionTrigger(std::bind(&BossMoon::OnCollision, this));
+	collider_.SetOnCollisionTrigger(std::bind(&BossMoon::OnCollisionTrigger, this, std::placeholders::_1));
 	collisionManager_->RegisterCollider(&collider_);
 }
 
@@ -88,7 +88,7 @@ void BossMoon::Finalize()
 	collisionManager_->DeleteCollider(&collider_);
 }
 
-void BossMoon::OnCollision()
+void BossMoon::OnCollisionTrigger(const Collider* _other)
 {
 }
 

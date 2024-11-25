@@ -89,6 +89,9 @@ void BossNormalBullet::Draw()
 
 void BossNormalBullet::OnCollisionTrigger(const Collider* _other)
 {
-	isStan_ = true;
+	if (_other->GetColliderID() == "Player")
+	{
+		isStan_ = true;
+	}
 	isDead_ = true;
 }

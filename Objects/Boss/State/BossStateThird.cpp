@@ -30,7 +30,7 @@ void BossStateThird::Attack()
 	// 通常弾更新
 	for (auto& bullet : pBoss_->GetNormalBullets())
 	{
-		pBoss_->SetIsStan(bullet->IsDead());
+		pBoss_->SetIsStan(bullet->IsStan());
 		bullet->Update();
 	}
 

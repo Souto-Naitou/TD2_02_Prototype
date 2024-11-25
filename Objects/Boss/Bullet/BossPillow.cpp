@@ -29,7 +29,7 @@ void BossPillow::Initialize()
 	collider_.SetShapeData(&aabb_);
 	collider_.SetAttribute(collisionManager_->GetNewAttribute(collider_.GetColliderID()));
 	collider_.SetShape(Shape::AABB);
-	collider_.SetOnCollisionTrigger(std::bind(&BossPillow::OnCollision, this));
+	collider_.SetOnCollisionTrigger(std::bind(&BossPillow::OnCollisionTrigger, this, std::placeholders::_1));
 	collisionManager_->RegisterCollider(&collider_);
 }
 
@@ -77,8 +77,11 @@ void BossPillow::Draw()
 	object_->Draw();
 }
 
-void BossPillow::OnCollision()
+void BossPillow::OnCollisionTrigger(const Collider* _other)
 {
-	isNarrow_ = true;
+	if (_other->GetColliderID() == "Player")
+	{
+		isNarrow_ = true;
+	}
 	isDead_ = true;
 }
