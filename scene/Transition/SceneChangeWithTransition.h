@@ -15,5 +15,5 @@ public:
     void Draw();
 
 private:
-    static std::unique_ptr<SCT_Base> pTransition_;
+    std::unique_ptr<SCT_Base> pTransition_;
 };

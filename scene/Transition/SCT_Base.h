@@ -1,5 +1,7 @@
 #pragma once
 #include <string>
+#include <Timer/Timer.h>
+
 
 class SCT_Base
 {
@@ -10,5 +12,5 @@ public:
     virtual void Finalize() = 0;
 
 protected:
-
+    Timer timer_;
 };
