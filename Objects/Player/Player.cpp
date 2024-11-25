@@ -179,6 +179,24 @@ void Player::Update()
             moveVelocity_ += playerRight * moveSpeed_;
             moveVelocity_.x = min(moveVelocity_.x, kMaxVel_.x);
         }
+
+#ifdef _DEBUG
+        // 月の判定確認用移動処理
+        if (Input::GetInstance()->PushKey(DIK_UP))
+        {
+            moveVelocity_.y += moveSpeed_;
+            moveVelocity_.y = max(moveVelocity_.y, -kMaxVel_.y);
+        }
+        if (Input::GetInstance()->PushKey(DIK_DOWN))
+        {
+            moveVelocity_.y += -moveSpeed_;
+            moveVelocity_.y = min(moveVelocity_.y, kMaxVel_.y);
+        }
+
+#endif // _DEBUG
+
+      
+
     }
     else if(isStan_)
     {

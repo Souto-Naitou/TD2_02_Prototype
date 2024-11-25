@@ -43,6 +43,12 @@ private: // メンバ変数
 	// 3Dオブジェクト
 	std::unique_ptr<Object3d> object_ = nullptr;
 
+#ifdef _DEBUG
+	// 大まかな判定の位置確認用
+	std::unique_ptr<Object3d> object2_ = nullptr;
+#endif // _DEBUG
+
+
 	// 速度
 	Vector3 velocity_{};
 

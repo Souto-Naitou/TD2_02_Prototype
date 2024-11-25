@@ -18,6 +18,16 @@ void BossMoon::Initialize()
 	object_->SetPosition(position_);
 	object_->SetRotate(rotation_);
 
+
+#ifdef _DEBUG
+	// 大まかな判定の位置確認用
+	object2_ = std::make_unique<Object3d>();
+	object2_->Initialize("cube.obj");
+
+#endif // _DEBUG
+	
+
+
 	collisionManager_ = CollisionManager::GetInstance();
 
 	objectName_ = "BossMoon";
@@ -38,30 +48,42 @@ void BossMoon::Update()
 	object_->SetPosition(position_);
 	object_->SetRotate(rotation_);
 
-	// 45°左上
-	if (rotation_.z <= 0.8f && rotation_.z >= 0.7f)
+	// 0°左上想定
+	if (rotation_.z >= 0.0f && rotation_.z <= 0.0f)
 	{
-		position_.x -= object_->GetSize().x / 4;
-		position_.y -= object_->GetSize().y / 4;
+		position_.x -= object_->GetSize().x / 2;
 	}
-	// 135°左下
-	if (rotation_.z <= 3.0f && rotation_.z >= 2.0f)
+	// 90°左下想定
+	if (rotation_.z >= 1.0f && rotation_.z <= 2.0f)
 	{
-		position_.x -= object_->GetSize().x / 4;
-		position_.y += object_->GetSize().y / 4;
+		position_.x -= object_->GetSize().x / 2;
+		position_.y -= object_->GetSize().y;
 	}
-	// 225°右下
-	if (rotation_.z <= 4.0f && rotation_.z >= 3.0f)
+	// 180°右下想定
+	if (rotation_.z >= 3.0f && rotation_.z <= 4.0f)
 	{
-		position_.x += object_->GetSize().x / 4;
-		position_.y += object_->GetSize().y / 4;
+		position_.x += object_->GetSize().x / 2;
+		position_.y -= object_->GetSize().y;
 	}
-	// 315°右上
-	if (rotation_.z <= 6.0f && rotation_.z >= 5.0f)
+	// 270°右上想定
+	if (rotation_.z >= 4.0f && rotation_.z <= 5.0f)
 	{
-		position_.x += object_->GetSize().x / 4;
-		position_.y -= object_->GetSize().y / 4;
+		position_.x += object_->GetSize().x / 2;
 	}
+
+
+#ifdef _DEBUG
+
+	// 大まかな判定の位置確認用
+	object2_->Update();
+	object2_->SetPosition(position_);
+	object2_->SetSize(object_->GetSize() / 2);
+
+
+#endif // _DEBUG
+
+	
+
 
 	aabb_.min = position_ - object_->GetSize() / 2;
 	aabb_.max = position_ + object_->GetSize() / 2;
@@ -81,6 +103,12 @@ void BossMoon::Update()
 void BossMoon::Draw()
 {
 	object_->Draw();
+
+#ifdef _DEBUG
+	// 大まかな判定の位置確認用
+	object2_->Draw();
+
+#endif // _DEBUG
 }
 
 void BossMoon::Finalize()
@@ -90,5 +118,7 @@ void BossMoon::Finalize()
 
 void BossMoon::OnCollisionTrigger(const Collider* _other)
 {
+	// 一旦の処理
+	isDead_ = true;
 }
 
