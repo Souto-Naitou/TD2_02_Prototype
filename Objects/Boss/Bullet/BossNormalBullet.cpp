@@ -30,7 +30,7 @@ void BossNormalBullet::Initialize()
 	collider_.SetShapeData(&aabb_);
 	collider_.SetAttribute(collisionManager_->GetNewAttribute(collider_.GetColliderID()));
 	collider_.SetShape(Shape::AABB);
-	collider_.SetOnCollisionTrigger(std::bind(&BossNormalBullet::OnCollision, this));
+	collider_.SetOnCollisionTrigger(std::bind(&BossNormalBullet::OnCollisionTrigger, this, std::placeholders::_1));
 	collisionManager_->RegisterCollider(&collider_);
 }
 
@@ -87,7 +87,7 @@ void BossNormalBullet::Draw()
 	object_->Draw();
 }
 
-void BossNormalBullet::OnCollision()
+void BossNormalBullet::OnCollisionTrigger(const Collider* _other)
 {
 	isStan_ = true;
 	isDead_ = true;

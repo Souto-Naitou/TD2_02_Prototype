@@ -18,13 +18,13 @@
 
 void Boss::Initialize()
 {
-    
+
     CSVLoader* csvLoader = CSVLoader::GetInstance();
     DebugManager* pDebugManager = DebugManager::GetInstance();
 
     pDebugManager->SetComponent("Boss", std::bind(&Boss::DebugWindow, this));
 
-    
+
 
     csvData_ = csvLoader->LoadFile("Boss.csv");
 
@@ -261,7 +261,7 @@ void Boss::PillowAttack()
     newBullet->SetPosition(position_);
     newBullet->SetPlayerPosition(playerPosition_);
     newBullet->Initialize();
-    collider_.SetMask(collisionManager_->GetNewMask(collider_.GetColliderID(), "BossPillow"));
+    collider_.SetMask(collisionManager_->GetNewMask(collider_.GetColliderID(), "Boss", "BossNormal"));
     newBullet->SetVelocity(bltVelocity_);
 
 
