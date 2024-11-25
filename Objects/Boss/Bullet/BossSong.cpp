@@ -25,6 +25,7 @@ void BossSong::Initialize()
 
 void BossSong::Finalize()
 {
+	isInertia_ = false;
 }
 
 void BossSong::Update()
@@ -44,6 +45,6 @@ void BossSong::Update()
 
 void BossSong::Draw()
 {
-
+	isInertia_ = true;
 	object_->Draw();
 }

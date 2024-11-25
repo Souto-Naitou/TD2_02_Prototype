@@ -6,6 +6,8 @@
 
 #include <Framework.h>
 #include <Object3d.h>
+#include <Sprite.h>
+#include <Easing.h>
 
 class Player : public GameObject
 {
@@ -29,22 +31,37 @@ public:
     // 攻撃
     void Attack();
 
+    // 視野狭まる
+    void Narrow();
+
 private: // 衝突判定
 
 	void OnCollision();
 
 public: // ゲッター
+    
     Vector3 GetPosition() { return position_; }
 
+    bool IsStan() { return isStan_; }
+    bool IsNarrow() { return isNarrow_; }
+    bool IsInertia() { return isInertia_; }
 
 public: // セッター
+
     void SetCamera(Camera* _camera) { mainCamera_ = _camera; }
 
+    void SetIsStan(bool _isStan) { isStan_ = _isStan; }
+    void SetIsNarrow(bool _isNarrow) { isNarrow_ = _isNarrow; }
+    void SetIsInertia(bool _isInertia) { isInertia_ = _isInertia; }
 
 private: // メンバ変数
 
     // 3Dオブジェクト
     std::unique_ptr<Object3d>   object_                 = nullptr;
+    // 2Dスプライト
+    std::vector<Sprite*>        sprites                 = {}; // 2Dスプライト
+
+    std::unique_ptr<Easing>     easing_                 = nullptr;
 
     Vector3                     moveVelocity_           = {}; // 移動速度
     float                       moveSpeed_              = 0.05f;
@@ -69,6 +86,35 @@ private: // メンバ変数
 
 	// 速度
 	Vector3 velocity_{};
+
+    // 状態異常
+    // スタン
+    bool isStan_ = false;
+    const int kStanTime_ = 60 * 3;
+    const int kStanCount_ = 1;
+    int stanTimer_ = kStanTime_;
+    
+    // 視野狭まる
+    bool isNarrow_ = false;
+    const int kNarrowTime_ = 60 * 3;
+    const int kNarrowCount_ = 1;
+    int narrowTimer_ = kNarrowTime_;
+    Vector2 topPos_ = {0.0f,-800.0f};
+    Vector2 topClosePos_ = {0.0f,-360.0f};
+    Vector2 topMovePos_ = topPos_;
+    Vector2 underPos_ = {0.0f,1220.0f};
+    Vector2 underClosePos_ = {0.0f,570.0f};
+    Vector2 underMovePos_ = underPos_;
+
+    // 慣性付く
+    bool isInertia_ = false;
+    const int kInertiaTime_ = 60 * 5;
+    const int kInertiaCount_ = 1;
+    int inertiaTimer_ = kInertiaTime_;
+    const Vector3 kMaxVel_ = {0.2f,0.2f,0.2f};
+
+    // MaxHP
+    const float kMaxHp_ = 10;
 
 private:
     /// <summary>

@@ -89,6 +89,25 @@ public: // ゲッター
     // ボスHP取得
     float GetBossHP() { return hp_; }
 
+    // 通常弾取得
+    const std::list<BossNormalBullet*>& GetNormalBullets() const { return pNormalBullets_; }
+
+    // 枕取得
+    const std::list<BossPillow*>& GetPillows() const { return pPillowBullets_; }
+
+    // 歌取得
+    const std::list<BossSong*>& GetSongs() const { return pSongBullets_; }
+
+    // 月取得
+    const std::list<BossMoon*>& GetMoons() const { return pMoonBullets_; }
+
+    // スタンフラグ取得
+    bool IsStan() { return isStan_; }
+    // ジャマーフラグ取得
+    bool IsNarrow() { return isNarrow_; }
+    // 慣性フラグ取得
+    bool IsInertia() { return isInertia_; }
+
 public: // セッター
 
     // プレイヤー位置
@@ -96,6 +115,13 @@ public: // セッター
 
     // ボスHP
     void SetBossHP(float _hitPoint) { hp_ = _hitPoint; }
+
+    // スタン
+    void SetIsStan(bool _isStan) { isStan_ = _isStan; }
+    // ジャマー
+    void SetIsNarrow(bool _isNarrow) { isNarrow_ = _isNarrow; }
+    // 慣性
+    void SetIsInertia(bool _isInertia) { isInertia_ = _isInertia; }
 
 private:
     std::unique_ptr<Object3d> object_ = nullptr;
@@ -154,6 +180,11 @@ private:
     std::unique_ptr<BaseBossState> pState_ = nullptr;
 
     CollisionManager* collisionManager_ = nullptr;
+
+    // 異常状態フラグ
+    bool isStan_ = false;
+    bool isNarrow_ = false;
+    bool isInertia_ = false;
 
 #ifdef _DEBUG
 

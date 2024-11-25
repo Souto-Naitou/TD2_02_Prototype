@@ -70,6 +70,10 @@ void Boss::Initialize()
 
 void Boss::Update()
 {
+
+    // ステート(フラグ取得の関係で上に移動)
+    pState_->Attack();
+
     // デスフラグの立った弾を削除
     DeleteBullet();
 
@@ -93,28 +97,6 @@ void Boss::Update()
 
     OutputCSV();
 
-    // ステート
-    pState_->Attack();
-
-    // 通常弾更新
-    for (auto& bullet : pNormalBullets_) {
-        bullet->Update();
-    }
-
-    // 枕弾更新
-    for (auto& bullet : pPillowBullets_) {
-        bullet->Update();
-    }
-
-    // 枕弾更新
-    for (auto& bullet : pMoonBullets_) {
-        bullet->Update();
-    }
-
-    // 歌更新
-    for (auto& bullet : pSongBullets_) {
-        bullet->Update();
-    }
 }
 
 void Boss::Draw()

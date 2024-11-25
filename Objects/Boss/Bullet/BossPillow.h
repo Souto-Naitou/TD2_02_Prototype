@@ -36,6 +36,8 @@ public: // ゲッター
 
 	bool IsDead() const { return isDead_; }
 
+	bool IsNarrow() const { return isNarrow_; }
+
 public: // セッター
 
 	void SetPlayerPosition(Vector3 _playerPosition) { playerPosition_ = _playerPosition; }
@@ -69,6 +71,9 @@ private: // メンバ変数
 	CollisionManager* collisionManager_ = nullptr;
 	Collider collider_;
 	AABB aabb_;
+
+	// 状態異常付与フラグ
+	bool isNarrow_ = false;
 
 };
 

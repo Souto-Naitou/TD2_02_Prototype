@@ -7,6 +7,15 @@ void Player::Initialize()
     // --- 3Dオブジェクト ---
     ModelManager::GetInstance()->LoadModel("plane.obj");
 
+    // --- スプライト ---
+    std::string textureFile[] = { "test/uvChecker.png","test/uvChecker.png" };
+    for (uint32_t i = 0; i < 2; ++i) {
+        Sprite* sprite = new Sprite();
+        sprite->Initialize(textureFile[0], topClosePos_, { 1,1,1,1 }, { 0,0 });
+        sprite->Initialize(textureFile[1], underClosePos_, { 1,1,1,1 }, { 0,0 });
+
+        sprites.push_back(sprite);
+    }
 
     object_ = std::make_unique<Object3d>();
     object_->Initialize("plane.obj");
@@ -19,6 +28,16 @@ void Player::Initialize()
 
     this->RegisterDebugWindow();
 
+    Easing::EaseType(EaseOutBack);
+    easing_ = std::make_unique<Easing>("CloseEye");
+    easing_->Initialize();
+
+    // 状態異常タイムセット
+    stanTimer_ = kStanTime_;
+    narrowTimer_ = kNarrowTime_;
+
+    // HPリセット
+    hp_ = kMaxHp_;
 
     collisionManager_ = CollisionManager::GetInstance();
 
@@ -55,12 +74,35 @@ void Player::Finalize()
 
     this->UnregisterDebugWindow();
 
+    for (Sprite* sprite : sprites) {
+        delete sprite;
+    }
 
     collisionManager_->DeleteCollider(&collider_);
 }
 
 void Player::Update()
 {
+    for (uint32_t i = 0; i < 2; ++i) 
+    {
+        if (i == 0)
+        {
+            sprites[i]->SetPosition(topMovePos_);
+        }
+        else
+        {
+            sprites[i]->SetPosition(underMovePos_);
+        }
+
+        Vector2 size = { 1600.0f,720.0f };
+        sprites[i]->SetSize(size);
+
+        Vector4 color = sprites[i]->GetColor();
+        sprites[i]->SetColor(color);
+
+        sprites[i]->Update();
+    }
+
     //デスフラグの立った弾を削除
     bullets_.remove_if([](PlayerBullet* bullet) {
         if (bullet->IsDead()) {
@@ -99,25 +141,55 @@ void Player::Update()
     Vector3 playerForward = { std::sinf(rotation_.y), 0.f, std::cosf(rotation_.y) };
     Vector3 playerRight = { std::cosf(rotation_.y), 0.f, -std::sinf(rotation_.y) };
 
-    moveVelocity_ = {};
-    // 移動処理
-    if (Input::GetInstance()->PushKey(DIK_W))
+    if (!isInertia_)
     {
-        moveVelocity_ += playerForward * moveSpeed_;
+        moveVelocity_ = {};
     }
-    if (Input::GetInstance()->PushKey(DIK_S))
+    else
     {
-        moveVelocity_ += -playerForward * moveSpeed_;
-    }
-    if (Input::GetInstance()->PushKey(DIK_A))
-    {
-        moveVelocity_ += -playerRight * moveSpeed_;
-    }
-    if (Input::GetInstance()->PushKey(DIK_D))
-    {
-        moveVelocity_ += playerRight * moveSpeed_;
-    }
+        inertiaTimer_ -= kInertiaCount_;
 
+        if (inertiaTimer_ < 0)
+        {
+            inertiaTimer_ = kInertiaTime_;
+            isInertia_ = false;
+        }
+    }
+   
+    if (!isStan_)
+    {
+        // 移動処理
+        if (Input::GetInstance()->PushKey(DIK_W))
+        {
+            moveVelocity_ += playerForward * moveSpeed_;
+            moveVelocity_.z = min(moveVelocity_.z, kMaxVel_.z);
+        }
+        if (Input::GetInstance()->PushKey(DIK_S))
+        {
+            moveVelocity_ += -playerForward * moveSpeed_;
+            moveVelocity_.z = max(moveVelocity_.z, -kMaxVel_.z);
+        }
+        if (Input::GetInstance()->PushKey(DIK_A))
+        {
+            moveVelocity_ += -playerRight * moveSpeed_;
+            moveVelocity_.x = max(moveVelocity_.x, -kMaxVel_.x);
+        }
+        if (Input::GetInstance()->PushKey(DIK_D))
+        {
+            moveVelocity_ += playerRight * moveSpeed_;
+            moveVelocity_.x = min(moveVelocity_.x, kMaxVel_.x);
+        }
+    }
+    else if(isStan_)
+    {
+        stanTimer_ -= kStanCount_;
+
+        if (stanTimer_ < 0)
+        {
+            stanTimer_ = kStanTime_;
+            isStan_ = false;
+        }
+    }
 
     position_ += moveVelocity_;
 
@@ -130,6 +202,9 @@ void Player::Update()
 
     // 攻撃
     Attack();
+
+    // 視野狭まる
+    Narrow();
 
     aabb_.min = position_ - object_->GetSize();
     aabb_.max = position_ + object_->GetSize();
@@ -152,6 +227,9 @@ void Player::Draw()
         bullet->Draw();
     }
 
+    for (uint32_t i = 0; i < 2; ++i) {
+        	sprites[i]->Draw();
+        }
 }
 
 void Player::Attack()
@@ -182,8 +260,42 @@ void Player::Attack()
     countCoolDownFrame_--;
 }
 
+void Player::Narrow()
+{
+    if (isNarrow_)
+    {
+        easing_->Start();
+        narrowTimer_ -= kNarrowCount_;
+
+        // 上瞼的な
+        topMovePos_.Lerp(topPos_, topClosePos_, easing_->Update());
+        sprites[0]->SetPosition(topMovePos_);
+        // 下瞼的な
+        underMovePos_.Lerp(underPos_, underClosePos_, easing_->Update());
+        sprites[1]->SetPosition(underMovePos_);
+
+        if (narrowTimer_ < 0)
+        {
+            // 上瞼的な
+            topMovePos_.Lerp(topClosePos_, topPos_, easing_->Update());
+            sprites[0]->SetPosition(topMovePos_);
+            // 下瞼的な
+            underMovePos_.Lerp(underClosePos_, underPos_, easing_->Update());
+            sprites[1]->SetPosition(underMovePos_);
+
+            if (easing_->GetIsEnd())
+            {
+                easing_->Reset();
+                narrowTimer_ = kNarrowTime_;
+                isNarrow_ = false;
+            }
+        }
+    }
+}
+
 void Player::OnCollision()
 {
+    hp_ -= 1;
 }
 
 void Player::CameraFollow()

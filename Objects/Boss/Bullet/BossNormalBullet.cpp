@@ -41,6 +41,7 @@ void BossNormalBullet::Finalize()
 	//object_.reset();
 
 	collisionManager_->DeleteCollider(&collider_);
+	isStan_ = false;
 }
 
 void BossNormalBullet::Update()
@@ -88,5 +89,6 @@ void BossNormalBullet::Draw()
 
 void BossNormalBullet::OnCollision()
 {
+	isStan_ = true;
 	isDead_ = true;
 }

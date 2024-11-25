@@ -35,6 +35,8 @@ public: // ゲッター
 
 	bool IsDead() const { return isDead_; }
 
+	bool IsStan() const { return isStan_; }
+
 public: // セッター
 
 	void SetPlayerPosition(Vector3 _playerPosition) { playerPosition_ = _playerPosition; }
@@ -44,6 +46,7 @@ public: // セッター
 	Vector3 SetPosition(const Vector3 _position) { return position_ = _position; }
 
 	Vector3 SetVelocity(const Vector3 _velocity) { return velocity_ = _velocity; }
+
 
 private: // メンバ変数
 
@@ -69,5 +72,8 @@ private: // メンバ変数
 	Collider collider_;
 	AABB aabb_;
 
+
+	// 状態異常付与フラグ
+	bool isStan_ = false;
 };
 

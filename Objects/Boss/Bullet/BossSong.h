@@ -29,6 +29,9 @@ public: // ゲッター
 
 	bool IsDead() const { return isDead_; }
 
+	// 状態異常,慣性
+	bool IsInertia() const { return isInertia_; }
+
 public: // セッター
 
 	void SetPlayerPosition(Vector3 _playerPosition) { playerPosition_ = _playerPosition; }
@@ -57,5 +60,7 @@ private: // メンバ変数
 	//デスグラフ
 	bool isDead_ = false;
 
+	// 状態異常付与フラグ
+	bool isInertia_ = false;
 };
 
