@@ -23,14 +23,20 @@ public:
 private: // 衝突判定
 
 	void OnCollisionTrigger(const Collider* _other);
+
+	void WholeOnCollisionTrigger(const Collider* _other);
 	
 public: // ゲッター
 
     bool IsDead() const { return isDead_; }
 
+	bool IsHit() const { return isHit_; }
+
 public: // セッター
 
     bool SetIsDead(const bool _isDead) { return isDead_ = _isDead; }
+
+	void SetPlayerPosition(Vector3 _playerPosition) { playerPosition_ = _playerPosition; }
 
     Vector3 SetPosition(const Vector3 _position) { return position_ = _position; }
 
@@ -48,6 +54,8 @@ private: // メンバ変数
 	std::unique_ptr<Object3d> object2_ = nullptr;
 #endif // _DEBUG
 
+	// プレイヤーの位置
+	Vector3 playerPosition_{};
 
 	// 速度
 	Vector3 velocity_{};
@@ -64,5 +72,10 @@ private: // メンバ変数
 	CollisionManager* collisionManager_ = nullptr;
 	Collider collider_;
 	AABB aabb_;
+	std::string wholeObjectName_;
+	Collider wholeCollider_;
+	AABB aabbWhole_;
+
+	bool isHit_ = false;
 };
 

@@ -39,6 +39,19 @@ void BossMoon::Initialize()
 	collider_.SetShape(Shape::AABB);
 	collider_.SetOnCollisionTrigger(std::bind(&BossMoon::OnCollisionTrigger, this, std::placeholders::_1));
 	collisionManager_->RegisterCollider(&collider_);
+	collider_.SetMask(collisionManager_->GetNewMask(collider_.GetColliderID(), "Boss"));
+
+
+	wholeObjectName_ = "WholeBossMoon";
+
+	wholeCollider_.SetOwner(this);
+	wholeCollider_.SetColliderID(wholeObjectName_);
+	wholeCollider_.SetShapeData(&aabbWhole_);
+	wholeCollider_.SetAttribute(collisionManager_->GetNewAttribute(wholeCollider_.GetColliderID()));
+	wholeCollider_.SetShape(Shape::AABB);
+	wholeCollider_.SetOnCollisionTrigger(std::bind(&BossMoon::WholeOnCollisionTrigger, this, std::placeholders::_1));
+	collisionManager_->RegisterCollider(&wholeCollider_);
+	wholeCollider_.SetMask(collisionManager_->GetNewMask(wholeCollider_.GetColliderID(), "Boss"));
 }
 
 void BossMoon::Update()
@@ -92,7 +105,15 @@ void BossMoon::Update()
 
 	position_ = object_->GetPosition();
 
+	aabbWhole_.min = position_ - object_->GetSize();
+	aabbWhole_.max = position_ + object_->GetSize();
+	aabbWhole_.min.z = position_.z - object_->GetSize().z / 2.5f;
+	aabbWhole_.max.z = position_.z + object_->GetSize().z / 2.5f;
+	wholeCollider_.SetPosition(position_);
+
 	position_ += velocity_;
+
+	//isHPRock_ = false;
 
 	//時間経過でデス
 	if (--deathTimer_ <= 0) {
@@ -114,11 +135,23 @@ void BossMoon::Draw()
 void BossMoon::Finalize()
 {
 	collisionManager_->DeleteCollider(&collider_);
+	collisionManager_->DeleteCollider(&wholeCollider_);
 }
 
 void BossMoon::OnCollisionTrigger(const Collider* _other)
 {
 	// 一旦の処理
-	isDead_ = true;
+	if (_other->GetColliderID() == "Player")
+	{
+		isHit_ = true;
+	}
+}
+
+void BossMoon::WholeOnCollisionTrigger(const Collider* _other)
+{
+	if (_other->GetColliderID() == "Player" && !isHit_)
+	{
+		
+	}
 }
 

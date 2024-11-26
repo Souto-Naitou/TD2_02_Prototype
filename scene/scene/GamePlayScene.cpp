@@ -175,6 +175,8 @@ void GamePlayScene::Update()
         pPlayer_->SetIsInertia(true);
     }
 
+    pPlayer_->SetIsHit(pBoss_->IsHit());
+
     // 天球の更新処理
     pSkydome_->Update();
 

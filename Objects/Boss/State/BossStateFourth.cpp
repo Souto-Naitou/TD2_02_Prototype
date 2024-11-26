@@ -55,6 +55,7 @@ void BossStateFourth::Attack()
 	// 月更新
 	for (auto& bullet : pBoss_->GetMoons()) 
 	{
+		pBoss_->SetIsHit(bullet->IsHit());
 		bullet->Update();
 	}
 }

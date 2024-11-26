@@ -48,7 +48,7 @@ void Player::Initialize()
     collider_.SetShapeData(&aabb_);
     collider_.SetShape(Shape::AABB);
     collider_.SetAttribute(collisionManager_->GetNewAttribute(collider_.GetColliderID()));
-    collider_.SetOnCollisionTrigger(std::bind(&Player::OnCollision, this));
+    collider_.SetOnCollisionTrigger(std::bind(&Player::OnCollisionTrigger, this, std::placeholders::_1));
     collisionManager_->RegisterCollider(&collider_);
 }
 
@@ -228,6 +228,10 @@ void Player::Update()
     aabb_.max = position_ + object_->GetSize();
     collider_.SetPosition(position_);
 
+    if (isHit_)
+    {
+        isHit_ = false;
+    }
 
     // 弾更新
     for (auto& bullet : bullets_) {
@@ -318,9 +322,13 @@ void Player::Narrow()
     }
 }
 
-void Player::OnCollision()
+
+void Player::OnCollisionTrigger(const Collider* _other)
 {
-    hp_ -= 1;
+    if (_other->GetColliderID() != "BossMoon" && !isHit_)
+    {
+        hp_ -= 1;
+    }
 }
 
 void Player::CameraFollow()
@@ -349,6 +357,7 @@ void Player::DebugWindow()
         ImGuiTemplate::VariableTableRow("Rotation", rotation_);
         ImGuiTemplate::VariableTableRow("Scale", scale_);
         ImGuiTemplate::VariableTableRow("PlayerDirection", playerDirection);
+        ImGuiTemplate::VariableTableRow("HP", hp_);
     };
 
     ImGuiTemplate::VariableTable("Player", pFunc);

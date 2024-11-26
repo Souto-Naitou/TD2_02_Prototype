@@ -357,6 +357,7 @@ void Boss::MoonAttack()
 
     newBullet->SetPosition(position_);
     newBullet->SetRotation(moonRotate_);
+    newBullet->SetPlayerPosition(playerPosition_);
     newBullet->Initialize();
     collider_.SetMask(collisionManager_->GetNewMask(collider_.GetColliderID(), "BossMoon"));
     newBullet->SetVelocity(bltVelocity_);
