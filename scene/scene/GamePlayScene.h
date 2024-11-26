@@ -4,7 +4,6 @@
 #include <Sprite.h>
 #include <Object3d.h>
 
-#include <EasingManager/EasingManager.h>
 #include <Collision/CollisionManager/CollisionManager.h>
 #include "../../Objects/Player/Player.h"
 #include "../../Objects/Boss/Boss.h"
@@ -28,7 +27,6 @@ public:
 
 private: /// メンバ変数
     Camera*                     camera              = nullptr;      // カメラ
-    EasingManager*              easingManager_      = nullptr;      // イージングマネージャ
     CollisionManager*           collisionManager_   = nullptr;      // 衝突判定マネージャ
 
     // 2Dスプライト

@@ -13,8 +13,6 @@ void GamePlayScene::Initialize()
     camera->SetTranslate({ 0.0f,4.0f,-10.0f });
     Object3dCommon::GetInstance()->SetDefaultCamera(camera);
 
-    // --- イージング ---
-    easingManager_ = EasingManager::GetInstance();
 
     // --- スプライト ---
     std::string textureFile[] = { "test/uvChecker.png","monsterBall.png" };
@@ -95,9 +93,6 @@ void GamePlayScene::Update()
 
     //カメラの更新
     camera->Update();
-
-    // イージングの更新
-    easingManager_->DrawUI();
 
 #pragma region スプライト
 

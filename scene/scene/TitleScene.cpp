@@ -2,6 +2,7 @@
 
 #include <scene/Transition/SceneTransitionManager.h>
 #include <scene/Transition/TransFadeInOut.h>
+#include <ImGuiDebugManager/DebugManager.h>
 
 void TitleScene::Initialize()
 {
@@ -20,6 +21,7 @@ void TitleScene::Initialize()
 		sprites.push_back(sprite);
 	}
 	sceneManager_ = SceneManager::GetInstance();
+    debugManager_ = DebugManager::GetInstance();
 }
 
 void TitleScene::Finalize()
@@ -34,6 +36,8 @@ void TitleScene::Finalize()
 
 void TitleScene::Update()
 {
+    // デバッグウィンドウ
+	debugManager_->DrawUI();
 	//カメラの更新
 	camera->Update();
 

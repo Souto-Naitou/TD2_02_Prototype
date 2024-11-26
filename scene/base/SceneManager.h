@@ -2,6 +2,7 @@
 #include <BaseScene.h>
 #include <scene/Transition/SceneTransitionManager.h>
 #include <AbstractSceneFactory.h>
+#include <EasingManager/EasingManager.h>
 
 // シーン管理
 class SceneManager
@@ -47,5 +48,8 @@ private:
 
 	// シーン遷移管理
 	SceneTransitionManager* sceneTransitionManager_ = nullptr;
+
+	// イージングマネージャ
+	EasingManager* easingManager_ = nullptr;
 };
 
