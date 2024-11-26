@@ -18,13 +18,13 @@
 
 void Boss::Initialize()
 {
-    
+
     CSVLoader* csvLoader = CSVLoader::GetInstance();
     DebugManager* pDebugManager = DebugManager::GetInstance();
 
     pDebugManager->SetComponent("Boss", std::bind(&Boss::DebugWindow, this));
 
-    
+
 
     csvData_ = csvLoader->LoadFile("Boss.csv");
 
@@ -162,7 +162,7 @@ void Boss::NormalAttack()
     newBullet->SetPosition(position_);
     newBullet->SetPlayerPosition(playerPosition_);
     newBullet->Initialize();
-    collider_.SetMask(collisionManager_->GetNewMask(collider_.GetColliderID(), "BossNormal"));
+    collider_.SetMask(collisionManager_->GetNewMask(collider_.GetColliderID(), "BossNormal", "BossMoon"));
     newBullet->SetVelocity(bltVelocity_);
 
 
@@ -261,7 +261,7 @@ void Boss::PillowAttack()
     newBullet->SetPosition(position_);
     newBullet->SetPlayerPosition(playerPosition_);
     newBullet->Initialize();
-    collider_.SetMask(collisionManager_->GetNewMask(collider_.GetColliderID(), "BossPillow"));
+    collider_.SetMask(collisionManager_->GetNewMask(collider_.GetColliderID(), "BossPillow", "BossMoon"));
     newBullet->SetVelocity(bltVelocity_);
 
 
@@ -357,6 +357,7 @@ void Boss::MoonAttack()
 
     newBullet->SetPosition(position_);
     newBullet->SetRotation(moonRotate_);
+    newBullet->SetPlayerPosition(playerPosition_);
     newBullet->Initialize();
     collider_.SetMask(collisionManager_->GetNewMask(collider_.GetColliderID(), "BossMoon"));
     newBullet->SetVelocity(bltVelocity_);

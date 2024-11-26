@@ -20,13 +20,13 @@ BossStateFourth::BossStateFourth(Boss* _pBoss) : BaseBossState("State Fourth", _
 void BossStateFourth::Attack()
 {
 	// NormalAttack();
-	pBoss_->UpdateNormalAttackPopCommands();
+	//pBoss_->UpdateNormalAttackPopCommands();
 
 	// PillowAttack();
-	pBoss_->UpdatePillowPopCommands();
+	//pBoss_->UpdatePillowPopCommands();
 
 	// SongAttack();
-	pBoss_->UpdateSongPopCommands();
+	//pBoss_->UpdateSongPopCommands();
 
 	// NormalAttack();
 	pBoss_->UpdateMoonPopCommands();
@@ -34,7 +34,7 @@ void BossStateFourth::Attack()
 	// 通常弾更新
 	for (auto& bullet : pBoss_->GetNormalBullets())
 	{
-		pBoss_->SetIsStan(bullet->IsDead());
+		pBoss_->SetIsStan(bullet->IsStan());
 		bullet->Update();
 	}
 
@@ -55,6 +55,7 @@ void BossStateFourth::Attack()
 	// 月更新
 	for (auto& bullet : pBoss_->GetMoons()) 
 	{
+		pBoss_->SetIsHit(bullet->IsHit());
 		bullet->Update();
 	}
 }

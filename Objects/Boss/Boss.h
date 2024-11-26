@@ -108,6 +108,8 @@ public: // ゲッター
     // 慣性フラグ取得
     bool IsInertia() { return isInertia_; }
 
+    bool IsHit() { return isHit_; }
+
 public: // セッター
 
     // プレイヤー位置
@@ -122,6 +124,8 @@ public: // セッター
     void SetIsNarrow(bool _isNarrow) { isNarrow_ = _isNarrow; }
     // 慣性
     void SetIsInertia(bool _isInertia) { isInertia_ = _isInertia; }
+
+    void SetIsHit(bool _isHit) { isHit_ = _isHit; }
 
 private:
     std::unique_ptr<Object3d> object_ = nullptr;
@@ -168,6 +172,7 @@ private:
     bool isMoonWaiting_ = true;
     // 月待機タイマー
     int32_t moonWaitingTimer_ = 9;
+    bool isHit_ = false;
 
     // 歌弾
     std::list<BossSong*> pSongBullets_;

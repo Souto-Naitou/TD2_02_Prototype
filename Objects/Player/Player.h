@@ -36,7 +36,7 @@ public:
 
 private: // 衝突判定
 
-	void OnCollision();
+    void OnCollisionTrigger(const Collider* _other);
 
 public: // ゲッター
     
@@ -53,6 +53,7 @@ public: // セッター
     void SetIsStan(bool _isStan) { isStan_ = _isStan; }
     void SetIsNarrow(bool _isNarrow) { isNarrow_ = _isNarrow; }
     void SetIsInertia(bool _isInertia) { isInertia_ = _isInertia; }
+    void SetIsHit(bool _isHit) { isHit_ = _isHit; }
 
 private: // メンバ変数
 
@@ -96,6 +97,7 @@ private: // メンバ変数
     
     // 視野狭まる
     bool isNarrow_ = false;
+    bool isClose_ = true;
     const int kNarrowTime_ = 60 * 3;
     const int kNarrowCount_ = 1;
     int narrowTimer_ = kNarrowTime_;
@@ -115,6 +117,8 @@ private: // メンバ変数
 
     // MaxHP
     const float kMaxHp_ = 10;
+
+    bool isHit_ = false;
 
 private:
     /// <summary>

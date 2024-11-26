@@ -48,7 +48,7 @@ void Player::Initialize()
     collider_.SetShapeData(&aabb_);
     collider_.SetShape(Shape::AABB);
     collider_.SetAttribute(collisionManager_->GetNewAttribute(collider_.GetColliderID()));
-    collider_.SetOnCollisionTrigger(std::bind(&Player::OnCollision, this));
+    collider_.SetOnCollisionTrigger(std::bind(&Player::OnCollisionTrigger, this, std::placeholders::_1));
     collisionManager_->RegisterCollider(&collider_);
 }
 
@@ -179,6 +179,24 @@ void Player::Update()
             moveVelocity_ += playerRight * moveSpeed_;
             moveVelocity_.x = min(moveVelocity_.x, kMaxVel_.x);
         }
+
+#ifdef _DEBUG
+        // 月の判定確認用移動処理
+        if (Input::GetInstance()->PushKey(DIK_UP))
+        {
+            moveVelocity_.y += moveSpeed_;
+            moveVelocity_.y = max(moveVelocity_.y, -kMaxVel_.y);
+        }
+        if (Input::GetInstance()->PushKey(DIK_DOWN))
+        {
+            moveVelocity_.y += -moveSpeed_;
+            moveVelocity_.y = min(moveVelocity_.y, kMaxVel_.y);
+        }
+
+#endif // _DEBUG
+
+      
+
     }
     else if(isStan_)
     {
@@ -210,6 +228,10 @@ void Player::Update()
     aabb_.max = position_ + object_->GetSize();
     collider_.SetPosition(position_);
 
+    if (isHit_)
+    {
+        isHit_ = false;
+    }
 
     // 弾更新
     for (auto& bullet : bullets_) {
@@ -276,6 +298,12 @@ void Player::Narrow()
 
         if (narrowTimer_ < 0)
         {
+            if (isClose_)
+            {
+                isClose_ = false;
+                easing_->Reset();
+            }
+
             // 上瞼的な
             topMovePos_.Lerp(topClosePos_, topPos_, easing_->Update());
             sprites[0]->SetPosition(topMovePos_);
@@ -288,14 +316,19 @@ void Player::Narrow()
                 easing_->Reset();
                 narrowTimer_ = kNarrowTime_;
                 isNarrow_ = false;
+                isClose_ = true;
             }
         }
     }
 }
 
-void Player::OnCollision()
+
+void Player::OnCollisionTrigger(const Collider* _other)
 {
-    hp_ -= 1;
+    if (_other->GetColliderID() != "BossMoon" && !isHit_)
+    {
+        hp_ -= 1;
+    }
 }
 
 void Player::CameraFollow()
@@ -324,6 +357,7 @@ void Player::DebugWindow()
         ImGuiTemplate::VariableTableRow("Rotation", rotation_);
         ImGuiTemplate::VariableTableRow("Scale", scale_);
         ImGuiTemplate::VariableTableRow("PlayerDirection", playerDirection);
+        ImGuiTemplate::VariableTableRow("HP", hp_);
     };
 
     ImGuiTemplate::VariableTable("Player", pFunc);
