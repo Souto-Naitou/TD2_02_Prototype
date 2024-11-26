@@ -38,9 +38,5 @@ private: /// メンバ変数
     std::unique_ptr<Player>     pPlayer_            = nullptr;
     std::unique_ptr<Boss>       pBoss_              = nullptr;      // ボス
     std::unique_ptr<Skydome>    pSkydome_           = nullptr;      // 天球
-
-    // サウンド
-    SoundData soundDataSet;
-    SoundData soundDataSet2;
 };
 
