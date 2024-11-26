@@ -9,10 +9,10 @@ void PlayerBullet::Initialize()
    collisionManager_ = CollisionManager::GetInstance();
 
 	// --- 3Dオブジェクト ---
-	ModelManager::GetInstance()->LoadModel("cube.obj");
+	ModelManager::GetInstance()->LoadModel("bullet/bullet.obj");
 
 	object_ = std::make_unique<Object3d>();
-	object_->Initialize("cube.obj");
+	object_->Initialize("bullet.obj");
 
 
 	// 仮置き

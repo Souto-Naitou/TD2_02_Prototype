@@ -20,13 +20,13 @@ BossStateFourth::BossStateFourth(Boss* _pBoss) : BaseBossState("State Fourth", _
 void BossStateFourth::Attack()
 {
 	// NormalAttack();
-	//pBoss_->UpdateNormalAttackPopCommands();
+	pBoss_->UpdateNormalAttackPopCommands();
 
 	// PillowAttack();
-	//pBoss_->UpdatePillowPopCommands();
+	pBoss_->UpdatePillowPopCommands();
 
 	// SongAttack();
-	//pBoss_->UpdateSongPopCommands();
+	pBoss_->UpdateSongPopCommands();
 
 	// NormalAttack();
 	pBoss_->UpdateMoonPopCommands();

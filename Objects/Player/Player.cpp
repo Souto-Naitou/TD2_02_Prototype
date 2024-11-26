@@ -5,7 +5,7 @@
 void Player::Initialize()
 {
     // --- 3Dオブジェクト ---
-    ModelManager::GetInstance()->LoadModel("plane.obj");
+    ModelManager::GetInstance()->LoadModel("player/player.obj");
 
     // --- スプライト ---
     std::string textureFile[] = { "test/uvChecker.png","test/uvChecker.png" };
@@ -18,13 +18,13 @@ void Player::Initialize()
     }
 
     object_ = std::make_unique<Object3d>();
-    object_->Initialize("plane.obj");
+    object_->Initialize("player.obj");
 
     position_ = { 0.0f,0.0f,0.0f };
     object_->SetPosition(position_);
 
     // 仮置き
-    object_->SetSize({ 0.5f,0.5f,0.5f });
+    object_->SetSize({ 0.2f,0.2f,0.2f });
 
     this->RegisterDebugWindow();
 
@@ -50,6 +50,10 @@ void Player::Initialize()
     collider_.SetAttribute(collisionManager_->GetNewAttribute(collider_.GetColliderID()));
     collider_.SetOnCollisionTrigger(std::bind(&Player::OnCollisionTrigger, this, std::placeholders::_1));
     collisionManager_->RegisterCollider(&collider_);
+
+    // パーティクル
+    pStanEmit_ = new StanEmitter();
+    pStanEmit_->Initialize();
 }
 
 void Player::Finalize()
@@ -77,6 +81,8 @@ void Player::Finalize()
     for (Sprite* sprite : sprites) {
         delete sprite;
     }
+
+    pStanEmit_->Finalize();
 
     collisionManager_->DeleteCollider(&collider_);
 }
@@ -201,7 +207,7 @@ void Player::Update()
     else if(isStan_)
     {
         stanTimer_ -= kStanCount_;
-
+        moveVelocity_ = {};
         if (stanTimer_ < 0)
         {
             stanTimer_ = kStanTime_;
@@ -237,6 +243,10 @@ void Player::Update()
     for (auto& bullet : bullets_) {
         bullet->Update();
     }
+
+    // パーティクル
+    pStanEmit_->SetPlayerPos(position_);
+    pStanEmit_->Update(isStan_);
 }
 
 void Player::Draw()
@@ -245,13 +255,17 @@ void Player::Draw()
 
 
     // 弾描画
-    for (auto& bullet : bullets_) {
+    for (auto& bullet : bullets_) 
+    {
         bullet->Draw();
     }
 
-    for (uint32_t i = 0; i < 2; ++i) {
-        	sprites[i]->Draw();
-        }
+    for (uint32_t i = 0; i < 2; ++i)
+    {
+       	sprites[i]->Draw();
+    }
+
+    pStanEmit_->Draw();
 }
 
 void Player::Attack()
