@@ -4,6 +4,7 @@
 #include <SceneManager.h>
 #include <Sprite.h>
 #include <Object3d.h>
+#include <thread>
 
 class TitleScene : public BaseScene
 {

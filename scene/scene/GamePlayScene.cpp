@@ -13,8 +13,6 @@ void GamePlayScene::Initialize()
     camera->SetTranslate({ 0.0f,4.0f,-10.0f });
     Object3dCommon::GetInstance()->SetDefaultCamera(camera);
 
-    // --- イージング ---
-    easingManager_ = EasingManager::GetInstance();
 
     // --- スプライト ---
     std::string textureFile[] = { "test/uvChecker.png","monsterBall.png" };
@@ -26,8 +24,6 @@ void GamePlayScene::Initialize()
     }
 
     // --- 3Dオブジェクト ---
-    ModelManager::GetInstance()->LoadModel("test/obj/plane.obj");
-    ModelManager::GetInstance()->LoadModel("test/axis.obj");
 
     for (uint32_t i = 0; i < 2; ++i) {
         Object3d* object = new Object3d();
@@ -61,11 +57,11 @@ void GamePlayScene::Initialize()
     pSkydome_->Initialize();
 
     // --- オーディオ ---
-	soundDataSet = Audio::GetInstance()->LoadWav("fanfare.wav");
-	Audio::GetInstance()->PlayWave(soundDataSet, false, 0.02f);
+	//soundDataSet = Audio::GetInstance()->LoadWav("fanfare.wav");
+	//Audio::GetInstance()->PlayWave(soundDataSet, false, 0.02f);
 
-    soundDataSet2 = Audio::GetInstance()->LoadWav("test/xxx.wav");
-    Audio::GetInstance()->PlayWave(soundDataSet2, false, 0.01f);
+    //soundDataSet2 = Audio::GetInstance()->LoadWav("test/xxx.wav");
+    //Audio::GetInstance()->PlayWave(soundDataSet2, false, 0.01f);
 }
 
 void GamePlayScene::Finalize()
@@ -80,8 +76,8 @@ void GamePlayScene::Finalize()
     }
     Object3dCommon::GetInstance()->Finalize();
     ModelManager::GetInstance()->Finalize();
-    Audio::GetInstance()->SoundUnload(Audio::GetInstance()->GetXAudio2(), &soundDataSet);
-    Audio::GetInstance()->SoundUnload(Audio::GetInstance()->GetXAudio2(), &soundDataSet2);
+    //Audio::GetInstance()->SoundUnload(Audio::GetInstance()->GetXAudio2(), &soundDataSet);
+    //Audio::GetInstance()->SoundUnload(Audio::GetInstance()->GetXAudio2(), &soundDataSet2);
 
 	pPlayer_->Finalize();
     pBoss_->Finalize();
@@ -94,9 +90,6 @@ void GamePlayScene::Update()
 
     //カメラの更新
     camera->Update();
-
-    // イージングの更新
-    easingManager_->DrawUI();
 
 #pragma region スプライト
 
@@ -192,6 +185,13 @@ void GamePlayScene::Draw()
     // 描画前処理(Object)
     Object3dCommon::GetInstance()->PreDraw();
 
+    // 天球描画
+    pSkydome_->Draw();
+    // プレーヤー描画
+    pPlayer_->Draw();
+    // ボス描画
+    pBoss_->Draw();
+
     // 描画前処理(Sprite)
     SpriteCommon::GetInstance()->PreDraw();
 
@@ -204,13 +204,6 @@ void GamePlayScene::Draw()
     //for (auto& obj : object3ds) {
     //	obj->Draw();
     //}
-
-    // プレーヤー描画
-	pPlayer_->Draw();
-    // ボス描画
-    pBoss_->Draw();
-    // 天球描画
-    pSkydome_->Draw();
 
     // ↑ ↑ ↑ ↑ Draw を書き込む ↑ ↑ ↑ ↑
 

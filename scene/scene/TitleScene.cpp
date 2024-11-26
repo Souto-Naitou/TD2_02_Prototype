@@ -1,5 +1,9 @@
 #include "TitleScene.h"
 
+#include <scene/Transition/SceneTransitionManager.h>
+#include <scene/Transition/TransFadeInOut.h>
+#include <ImGuiDebugManager/DebugManager.h>
+
 void TitleScene::Initialize()
 {
 	// --- カメラ ---
@@ -17,6 +21,13 @@ void TitleScene::Initialize()
 		sprites.push_back(sprite);
 	}
 	sceneManager_ = SceneManager::GetInstance();
+    debugManager_ = DebugManager::GetInstance();
+	ModelManager::GetInstance()->LoadModel("Boss/boss.obj");
+	ModelManager::GetInstance()->LoadModel("test/obj/plane.obj");
+	ModelManager::GetInstance()->LoadModel("test/axis.obj");
+	ModelManager::GetInstance()->LoadModel("skydome/tenkyurs.obj");
+	ModelManager::GetInstance()->LoadModel("plane.obj");
+	ModelManager::GetInstance()->LoadModel("bunny.obj");
 }
 
 void TitleScene::Finalize()
@@ -31,6 +42,8 @@ void TitleScene::Finalize()
 
 void TitleScene::Update()
 {
+    // デバッグウィンドウ
+	debugManager_->DrawUI();
 	//カメラの更新
 	camera->Update();
 
@@ -54,7 +67,10 @@ void TitleScene::Update()
 	// ENTERキーを押したら
 	if (Input::GetInstance()->TriggerKey(DIK_RETURN)) {
 		// 次のシーンを生成
-		SceneManager::GetInstance()->ChangeScene("GAMEPLAY");
+        auto fadeInOut = std::make_unique<TransFadeInOut>();
+        SceneTransitionManager::GetInstance()->ChangeScene("GAMEPLAY", std::move(fadeInOut));
+
+		//SceneManager::GetInstance()->ChangeScene("GAMEPLAY");
 	}
 }
 
