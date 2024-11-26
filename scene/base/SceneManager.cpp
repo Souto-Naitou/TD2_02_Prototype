@@ -1,6 +1,8 @@
 #include "SceneManager.h"
 #include <cassert>
 #include <ModelManager.h>
+#include <Input.h>
+#include <ImGuiDebugManager/DebugManager.h>
 
 SceneManager* SceneManager::instance = nullptr;
 
@@ -27,6 +29,11 @@ void SceneManager::Update()
     if (!easingManager_) easingManager_ = EasingManager::GetInstance();
 
     easingManager_->DrawUI();
+    if (Input::GetInstance()->TriggerKey(DIK_F3))
+    {
+        DebugManager::GetInstance()->SetDisplay(!DebugManager::GetInstance()->GetDisplay());
+        easingManager_->SetDisplay(!easingManager_->GetDisplay());
+    }
 
     // --- シーン切り替え機構 ---
     if (nextScene_) {
