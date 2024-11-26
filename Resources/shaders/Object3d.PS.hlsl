@@ -3,8 +3,8 @@
 struct Material
 {
     float4 color;
-    int32_t enableLighting;
-    float32_t4x4 uvTransform;
+    int enableLighting;
+    float4x4 uvTransform;
 };
 ConstantBuffer<Material> gMaterial : register(b0);
 
