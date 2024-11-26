@@ -1,5 +1,6 @@
 #include "SceneManager.h"
 #include <cassert>
+#include <ModelManager.h>
 
 SceneManager* SceneManager::instance = nullptr;
 
@@ -49,6 +50,7 @@ void SceneManager::Update()
     // --- 実行中のシーンを更新 ---
     scene_->Update();
     sceneTransitionManager_->Update();
+    ModelManager::GetInstance()->UploadModel();
 }
 
 void SceneManager::Draw()

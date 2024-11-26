@@ -22,6 +22,7 @@ private:
     uint32_t screenHeight_ = 720;
 
     float opacity_ = 0.0f;
+    bool isChangedScene_ = false;
 
     std::unique_ptr<Easing> easing_;
     uint32_t countPhase_ = 0;

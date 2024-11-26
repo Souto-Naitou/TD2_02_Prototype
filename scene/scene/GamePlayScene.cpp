@@ -24,8 +24,6 @@ void GamePlayScene::Initialize()
     }
 
     // --- 3Dオブジェクト ---
-    ModelManager::GetInstance()->LoadModel("test/obj/plane.obj");
-    ModelManager::GetInstance()->LoadModel("test/axis.obj");
 
     for (uint32_t i = 0; i < 2; ++i) {
         Object3d* object = new Object3d();

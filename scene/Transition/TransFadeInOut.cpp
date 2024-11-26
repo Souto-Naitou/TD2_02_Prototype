@@ -2,6 +2,7 @@
 #include <TextureManager.h>
 #include <ImGuiDebugManager/DebugManager.h>
 #include <ImGuiTemplates/ImGuiTemplates.h>
+#include <SceneManager.h>
 #include <WinApp.h>
 
 void TransFadeInOut::Initialize(const std::string& _sceneName)
@@ -15,7 +16,7 @@ void TransFadeInOut::Initialize(const std::string& _sceneName)
 
     sprite_ = std::make_unique<Sprite>();
     sprite_->Initialize("white32x32.png", {}, { 0,0,0,0 });
-    sprite_->SetColor({ 0,0,0,1 });
+    sprite_->SetColor({ 0,0,0,0.5 });
     sprite_->SetSize({ screenWidth_, screenHeight_ });
     timer_.Start();
     easing_->Start();
@@ -36,14 +37,19 @@ void TransFadeInOut::Update()
         easing_->Start();
         countPhase_++;
     }
+    if (!isChangedScene_ && countPhase_ == 1)
+    {
+        isChangedScene_ = true;
+        SceneManager::GetInstance()->ChangeScene(sceneName_);
+    }
 
     if (countPhase_ == 0)
     {
-        opacity_ = 1.0f - easing_->Update();
+        opacity_ = easing_->Update();
     }
     else if (countPhase_ == 1)
     {
-        opacity_ = easing_->Update();
+        opacity_ = 1.0f - easing_->Update();
     }
 
     sprite_->SetColor(Vector4(0, 0, 0, opacity_));

@@ -22,6 +22,11 @@ void TitleScene::Initialize()
 	}
 	sceneManager_ = SceneManager::GetInstance();
     debugManager_ = DebugManager::GetInstance();
+	//ModelManager::GetInstance()->LoadModel("Boss/boss.obj");
+	//ModelManager::GetInstance()->LoadModel("test/obj/plane.obj");
+	//ModelManager::GetInstance()->LoadModel("test/axis.obj");
+	//ModelManager::GetInstance()->LoadModel("skydome/tenkyurs.obj");
+	//ModelManager::GetInstance()->LoadModel("plane.obj");
 }
 
 void TitleScene::Finalize()
