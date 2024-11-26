@@ -6,10 +6,10 @@
 void BossMoon::Initialize()
 {
 	// --- 3Dオブジェクト ---
-	ModelManager::GetInstance()->LoadModel("plane.obj");
+	ModelManager::GetInstance()->LoadModel("bossAttack/moon/moon.obj");
 
 	object_ = std::make_unique<Object3d>();
-	object_->Initialize("plane.obj");
+	object_->Initialize("moon.obj");
 
 	// 仮置き
 	object_->SetSize({ 3.0f,3.0f,3.0f });

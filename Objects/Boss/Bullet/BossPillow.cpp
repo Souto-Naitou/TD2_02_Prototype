@@ -9,10 +9,10 @@
 void BossPillow::Initialize()
 {
 	// --- 3Dオブジェクト ---
-	ModelManager::GetInstance()->LoadModel("cube.obj");
+	ModelManager::GetInstance()->LoadModel("bossAttack/pillow/pillow.obj");
 
 	object_ = std::make_unique<Object3d>();
-	object_->Initialize("cube.obj");
+	object_->Initialize("pillow.obj");
 
 	// 仮置き
 	object_->SetSize({ 0.2f,0.2f,0.2f });
@@ -57,7 +57,7 @@ void BossPillow::Update()
 	velocity_.Lerp(velocity_, toPlayer, 0.05f);
 
 	position_ += velocity_ * 0.1f;
-	rotation_.y += 1.0f;
+	rotation_.y += 0.5f;
 
 	aabb_.min = position_ - object_->GetSize();
 	aabb_.max = position_ + object_->GetSize();

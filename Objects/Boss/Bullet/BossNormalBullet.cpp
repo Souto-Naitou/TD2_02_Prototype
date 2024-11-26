@@ -9,10 +9,10 @@
 void BossNormalBullet::Initialize()
 {
 	// --- 3Dオブジェクト ---
-	ModelManager::GetInstance()->LoadModel("cube.obj");
+	ModelManager::GetInstance()->LoadModel("bossAttack/default/default.obj");
 
 	object_ = std::make_unique<Object3d>();
-	object_->Initialize("cube.obj");
+	object_->Initialize("default.obj");
 
 	// 仮置き
 	object_->SetSize({ 0.2f,0.2f,0.5f });

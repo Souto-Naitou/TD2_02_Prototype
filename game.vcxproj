@@ -197,6 +197,8 @@ call .PostBuild.bat</Command>
     <ClCompile Include="scene\base\SceneManager.cpp" />
     <ClCompile Include="scene\scene\GamePlayScene.cpp" />
     <ClCompile Include="scene\scene\TitleScene.cpp" />
+    <ClCompile Include="StanEmitter.cpp" />
+    <ClCompile Include="StanParticle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include=".Externals\Timer\Timer.h" />
@@ -226,6 +228,8 @@ call .PostBuild.bat</Command>
     <ClInclude Include="scene\base\SceneManager.h" />
     <ClInclude Include="scene\scene\GamePlayScene.h" />
     <ClInclude Include="scene\scene\TitleScene.h" />
+    <ClInclude Include="StanEmitter.h" />
+    <ClInclude Include="StanParticle.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include=".engine\externals\DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">

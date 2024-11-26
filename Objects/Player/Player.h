@@ -3,6 +3,7 @@
 #include "../.GameObject/GameObject.h"
 #include "Collision/Collider/Collider.h"
 #include "Bullet/PlayerBullet.h"
+#include "../../StanEmitter.h"
 
 #include <Framework.h>
 #include <Object3d.h>
@@ -119,6 +120,10 @@ private: // メンバ変数
     const float kMaxHp_ = 10;
 
     bool isHit_ = false;
+
+
+    // パーティクル
+    StanEmitter* pStanEmit_ = nullptr;
 
 private:
     /// <summary>
