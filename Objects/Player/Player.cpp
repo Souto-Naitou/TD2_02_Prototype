@@ -60,10 +60,10 @@ void Player::Finalize()
 {
     // 各解放処理
 
-	for (auto& bullet : bullets_) {
-		bullet->SetIsDead(true);
-		bullet->Finalize();
-	}
+    for (auto& bullet : bullets_) {
+        bullet->SetIsDead(true);
+        bullet->Finalize();
+    }
 
     bullets_.remove_if([](PlayerBullet* bullet) {
         if (bullet->IsDead()) {
@@ -262,7 +262,7 @@ void Player::Draw()
 
     for (uint32_t i = 0; i < 2; ++i)
     {
-       	sprites[i]->Draw();
+        sprites[i]->Draw();
     }
 
     pStanEmit_->Draw();

@@ -40,7 +40,7 @@ private: // 衝突判定
     void OnCollisionTrigger(const Collider* _other);
 
 public: // ゲッター
-    
+
     Vector3 GetPosition() { return position_; }
 
     bool IsStan() { return isStan_; }
@@ -82,12 +82,12 @@ private: // メンバ変数
     bool cursorLock_ = false;
 
 
-	CollisionManager* collisionManager_ = nullptr;
-	Collider collider_;
-	AABB aabb_;
+    CollisionManager* collisionManager_ = nullptr;
+    Collider collider_;
+    AABB aabb_;
 
-	// 速度
-	Vector3 velocity_{};
+    // 速度
+    Vector3 velocity_{};
 
     // 状態異常
     // スタン
@@ -95,7 +95,7 @@ private: // メンバ変数
     const int kStanTime_ = 60 * 3;
     const int kStanCount_ = 1;
     int stanTimer_ = kStanTime_;
-    
+
     // 視野狭まる
     bool isNarrow_ = false;
     bool isClose_ = true;
