@@ -5,7 +5,7 @@
 
 #pragma comment(lib, "dxguid.lib")
 #pragma comment(lib, "dxcompiler.lib")
-#pragma comment(lib, "00_01.lib")
+#pragma comment(lib, "gameEngine.lib")
 #pragma comment(lib, "easing.lib")
 
 ///////////////////////////////////////////////////////////
