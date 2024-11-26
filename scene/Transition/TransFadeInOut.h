@@ -1,19 +1,22 @@
 #pragma once
 
-#include "SCT_Base.h"
+#include "scene/Transition/TransBase.h"
 #include <string>
 #include <Sprite.h>
 
 
-class SCT_FadeInOut : public SCT_Base
+class TransFadeInOut : public TransBase
 {
 public:
+    ~TransFadeInOut();
     void Initialize(const std::string& _sceneName) override;
     void Update() override;
     void Draw() override;
     void Finalize() override;
+    void DebugWindow() override;
 
 private:
+
     std::string sceneName_;
-    Sprite sprite_;
+    std::unique_ptr<Sprite> sprite_;
 };

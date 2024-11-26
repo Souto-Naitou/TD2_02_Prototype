@@ -52,11 +52,8 @@
     <Filter Include="Helper\DebugManager">
       <UniqueIdentifier>{1ea51b53-5364-4568-8a2c-e627b9a53247}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scene\Derivative">
-      <UniqueIdentifier>{4190a67c-0f63-43ab-bff5-0977467150b4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\Derivative\FadeInOut">
-      <UniqueIdentifier>{4ac487d7-cc78-4d08-b930-798358466659}</UniqueIdentifier>
+    <Filter Include="Scene\Scene\Transition">
+      <UniqueIdentifier>{e1c7f58e-8e0d-4621-9d11-c0f031aafe66}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -135,11 +132,11 @@
     <ClCompile Include="Objects\Boss\Bullet\BossMoon.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="scene\Transition\SceneChangeWithTransition.cpp">
-      <Filter>Scene\Derivative\FadeInOut</Filter>
+    <ClCompile Include="scene\Transition\TransFadeInOut.cpp">
+      <Filter>Scene\Scene\Transition</Filter>
     </ClCompile>
-    <ClCompile Include="scene\Transition\SCT_FadeInOut.cpp">
-      <Filter>Scene\Derivative\FadeInOut</Filter>
+    <ClCompile Include="scene\Transition\SceneTransitionManager.cpp">
+      <Filter>Scene\Scene\Transition</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -221,14 +218,14 @@
     <ClInclude Include="Objects\Boss\Bullet\BossMoon.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="scene\Transition\SceneChangeWithTransition.h">
-      <Filter>Scene\Derivative\FadeInOut</Filter>
+    <ClInclude Include="scene\Transition\TransFadeInOut.h">
+      <Filter>Scene\Scene\Transition</Filter>
     </ClInclude>
-    <ClInclude Include="scene\Transition\SCT_FadeInOut.h">
-      <Filter>Scene\Derivative\FadeInOut</Filter>
+    <ClInclude Include="scene\Transition\SceneTransitionManager.h">
+      <Filter>Scene\Scene\Transition</Filter>
     </ClInclude>
-    <ClInclude Include="scene\Transition\SCT_Base.h">
-      <Filter>Scene\Derivative\FadeInOut</Filter>
+    <ClInclude Include="scene\Transition\TransBase.h">
+      <Filter>Scene\Scene\Transition</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

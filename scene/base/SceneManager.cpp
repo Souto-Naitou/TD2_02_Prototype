@@ -22,6 +22,8 @@ void SceneManager::Finalize()
 
 void SceneManager::Update()
 {
+	if (!sceneTransitionManager_) sceneTransitionManager_ = SceneTransitionManager::GetInstance();
+
 	// --- シーン切り替え機構 ---
 	if (nextScene_) {
 		// 旧シーン終了
@@ -43,12 +45,14 @@ void SceneManager::Update()
 
 	// --- 実行中のシーンを更新 ---
 	scene_->Update();
+	sceneTransitionManager_->Update();
 }
 
 void SceneManager::Draw()
 {
 	// --- 実行中のシーンを描画 ---
 	scene_->Draw();
+	sceneTransitionManager_->Draw();
 }
 
 void SceneManager::ChangeScene(const std::string& sceneName)

@@ -1,5 +1,8 @@
 #include "TitleScene.h"
 
+#include <scene/Transition/SceneTransitionManager.h>
+#include <scene/Transition/TransFadeInOut.h>
+
 void TitleScene::Initialize()
 {
 	// --- カメラ ---
@@ -54,7 +57,10 @@ void TitleScene::Update()
 	// ENTERキーを押したら
 	if (Input::GetInstance()->TriggerKey(DIK_RETURN)) {
 		// 次のシーンを生成
-		SceneManager::GetInstance()->ChangeScene("GAMEPLAY");
+        auto fadeInOut = std::make_unique<TransFadeInOut>();
+        SceneTransitionManager::GetInstance()->ChangeScene("GAMEPLAY", std::move(fadeInOut));
+
+		//SceneManager::GetInstance()->ChangeScene("GAMEPLAY");
 	}
 }
 

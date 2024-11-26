@@ -1,6 +1,6 @@
 #pragma once
 #include <BaseScene.h>
-
+#include <scene/Transition/SceneTransitionManager.h>
 #include <AbstractSceneFactory.h>
 
 // シーン管理
@@ -29,7 +29,7 @@ public:
 	// 描画処理
 	void Draw();
 
-	// 次のシーンを予約	
+	// 次のシーンを予約
 	void ChangeScene(const std::string& sceneName);
 
 	// シーンファクトリーを設定
@@ -44,5 +44,8 @@ private:
 
 	// シーンファクトリー
 	AbstractSceneFactory* sceneFactory_ = nullptr;
+
+	// シーン遷移管理
+	SceneTransitionManager* sceneTransitionManager_ = nullptr;
 };
 
