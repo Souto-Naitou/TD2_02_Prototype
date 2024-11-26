@@ -29,8 +29,7 @@ void Player::Initialize()
 
     this->RegisterDebugWindow();
 
-    Easing::EaseType(EaseOutBack);
-    easing_ = std::make_unique<Easing>("CloseEye");
+    easing_ = std::make_unique<Easing>("CloseEye", Easing::EaseType::EaseOutBack);
     easing_->Initialize();
 
     // 状態異常タイムセット
@@ -61,10 +60,10 @@ void Player::Finalize()
 {
     // 各解放処理
 
-	for (auto& bullet : bullets_) {
-		bullet->SetIsDead(true);
-		bullet->Finalize();
-	}
+    for (auto& bullet : bullets_) {
+        bullet->SetIsDead(true);
+        bullet->Finalize();
+    }
 
     bullets_.remove_if([](PlayerBullet* bullet) {
         if (bullet->IsDead()) {
@@ -90,7 +89,7 @@ void Player::Finalize()
 
 void Player::Update()
 {
-    for (uint32_t i = 0; i < 2; ++i) 
+    for (uint32_t i = 0; i < 2; ++i)
     {
         if (i == 0)
         {
@@ -162,7 +161,7 @@ void Player::Update()
             isInertia_ = false;
         }
     }
-   
+
     if (!isStan_)
     {
         // 移動処理
@@ -202,7 +201,7 @@ void Player::Update()
 
 #endif // _DEBUG
 
-      
+
 
     }
     else if(isStan_)
@@ -256,14 +255,14 @@ void Player::Draw()
 
 
     // 弾描画
-    for (auto& bullet : bullets_) 
+    for (auto& bullet : bullets_)
     {
         bullet->Draw();
     }
 
     for (uint32_t i = 0; i < 2; ++i)
     {
-       	sprites[i]->Draw();
+        sprites[i]->Draw();
     }
 
     pStanEmit_->Draw();
