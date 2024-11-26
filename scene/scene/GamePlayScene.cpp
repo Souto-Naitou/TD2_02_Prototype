@@ -47,7 +47,6 @@ void GamePlayScene::Initialize()
     pBoss_ = std::make_unique<Boss>();
     pBoss_->Initialize();
 
-
 	// プレイヤー
 	pPlayer_ = std::make_unique<Player>();
 	pPlayer_->Initialize();
@@ -137,15 +136,45 @@ void GamePlayScene::Update()
 	// プレーヤーの更新処理
 	pPlayer_->Update();
 
+    if (pPlayer_->IsStan())
+    {
+        pBoss_->SetIsStan(false);
+    }
+    if (pPlayer_->IsNarrow())
+    {
+        pBoss_->SetIsNarrow(false);
+    }
+    if (pPlayer_->IsInertia())
+    {
+        pBoss_->SetIsInertia(false);
+    }
+
 	// ボスにプレイヤーの位置をセット
 	pBoss_->SetPlayerPosition(pPlayer_->GetPosition());
 
     // ボスの更新処理
     pBoss_->Update();
 
+    if (pBoss_->IsStan())
+    {
+        pPlayer_->SetIsStan(true);
+    }
+    if (pBoss_->IsNarrow())
+    {
+        pPlayer_->SetIsNarrow(true);
+    }
+    if (pBoss_->IsInertia())
+    {
+        pPlayer_->SetIsInertia(true);
+    }
+
+    pPlayer_->SetIsHit(pBoss_->IsHit());
+
     // 天球の更新処理
     pSkydome_->Update();
 
+
+    collisionManager_->CheckAllCollision();
 }
 
 void GamePlayScene::Draw()

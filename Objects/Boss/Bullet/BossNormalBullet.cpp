@@ -9,16 +9,29 @@
 void BossNormalBullet::Initialize()
 {
 	// --- 3Dオブジェクト ---
-	ModelManager::GetInstance()->LoadModel("cube.obj");
+	ModelManager::GetInstance()->LoadModel("bossAttack/default/default.obj");
 
 	object_ = std::make_unique<Object3d>();
-	object_->Initialize("cube.obj");
+	object_->Initialize("default.obj");
 
 	// 仮置き
 	object_->SetSize({ 0.2f,0.2f,0.5f });
 
 
 	object_->SetPosition(position_);
+
+
+	collisionManager_ = CollisionManager::GetInstance();
+
+	objectName_ = "BossNormal";
+
+	collider_.SetOwner(this);
+	collider_.SetColliderID(objectName_);
+	collider_.SetShapeData(&aabb_);
+	collider_.SetAttribute(collisionManager_->GetNewAttribute(collider_.GetColliderID()));
+	collider_.SetShape(Shape::AABB);
+	collider_.SetOnCollisionTrigger(std::bind(&BossNormalBullet::OnCollisionTrigger, this, std::placeholders::_1));
+	collisionManager_->RegisterCollider(&collider_);
 }
 
 void BossNormalBullet::Finalize()
@@ -27,7 +40,8 @@ void BossNormalBullet::Finalize()
 	//isDead_ = true;
 	//object_.reset();
 
-	ModelManager::GetInstance()->Finalize();
+	collisionManager_->DeleteCollider(&collider_);
+	isStan_ = false;
 }
 
 void BossNormalBullet::Update()
@@ -58,7 +72,9 @@ void BossNormalBullet::Update()
 
 	position_ += velocity_ * 0.1f;
 
-
+	aabb_.min = position_ - object_->GetSize();
+	aabb_.max = position_ + object_->GetSize();
+	collider_.SetPosition(position_);
 
 	//時間経過でデス
 	if (--deathTimer_ <= 0) {
@@ -69,4 +85,13 @@ void BossNormalBullet::Update()
 void BossNormalBullet::Draw()
 {
 	object_->Draw();
+}
+
+void BossNormalBullet::OnCollisionTrigger(const Collider* _other)
+{
+	if (_other->GetColliderID() == "Player")
+	{
+		isStan_ = true;
+	}
+	isDead_ = true;
 }

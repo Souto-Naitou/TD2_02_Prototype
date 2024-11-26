@@ -1,7 +1,7 @@
 #include "Boss.h"
 
 #include <ModelManager.h>
-#include "Collision/CollisionManager/CollisionManager.h"
+#include "ImGuiDebugManager/DebugManager.h"
 #include <fstream>
 
 #include "State/BossStateFirst.h"
@@ -18,10 +18,13 @@
 
 void Boss::Initialize()
 {
-    CollisionManager* collisionManager = CollisionManager::GetInstance();
-    CSVLoader* csvLoader = CSVLoader::GetInstance();
 
-    objectName_ = "Boss";
+    CSVLoader* csvLoader = CSVLoader::GetInstance();
+    DebugManager* pDebugManager = DebugManager::GetInstance();
+
+    pDebugManager->SetComponent("Boss", std::bind(&Boss::DebugWindow, this));
+
+
 
     csvData_ = csvLoader->LoadFile("Boss.csv");
 
@@ -42,24 +45,34 @@ void Boss::Initialize()
     easing_ = std::make_unique<Easing>("TEST");
     easing_->Initialize();
 
-    collider_.SetOwner(this);
-    collider_.SetColliderID(objectName_);
-    collider_.SetShapeData(&aabb_);
-    collider_.SetAttribute(collisionManager->GetNewAttribute(collider_.GetColliderID()));
-    collider_.SetShape(Shape::AABB);
-    collisionManager->RegisterCollider(&collider_);
-
     this->RegisterDebugWindow();
 
     // HPマックスにする
-    hitPoint_ = kMaxHitPoint;
+    hp_ = kMaxHitPoint;
 
     // ステート
     ChangeState(std::make_unique<BossStateFirst>(this));
+
+
+    collisionManager_ = CollisionManager::GetInstance();
+
+    objectName_ = "Boss";
+
+    collider_.SetOwner(this);
+    collider_.SetColliderID(objectName_);
+    collider_.SetShapeData(&aabb_);
+    collider_.SetShape(Shape::AABB);
+    collider_.SetAttribute(collisionManager_->GetNewAttribute(collider_.GetColliderID()));
+    collider_.SetOnCollisionTrigger(std::bind(&Boss::OnCollision, this));
+    collisionManager_->RegisterCollider(&collider_);
 }
 
 void Boss::Update()
 {
+
+    // ステート(フラグ取得の関係で上に移動)
+    pState_->Attack();
+
     // デスフラグの立った弾を削除
     DeleteBullet();
 
@@ -83,51 +96,6 @@ void Boss::Update()
 
     OutputCSV();
 
-    // ステート
-    pState_->Attack();
-
-    // 通常弾更新
-    for (auto& bullet : pNormalBullets_) {
-        bullet->Update();
-    }
-
-    // 枕弾更新
-    for (auto& bullet : pPillowBullets_) {
-        bullet->Update();
-    }
-
-    // 枕弾更新
-    for (auto& bullet : pMoonBullets_) {
-        bullet->Update();
-    }
-
-#ifdef _DEBUG
-
-    ImGui::Begin("Easing Parameters", nullptr);
-
-    ImGui::Text("Select Boss State");
-    if (ImGui::RadioButton("BossStateFirst", selectState_ == 0)) {
-        selectState_ = 0;
-        ChangeState(std::make_unique<BossStateFirst>(this));
-    }
-    if (ImGui::RadioButton("BossStateSecond", selectState_ == 1)) {
-        selectState_ = 1;
-        ChangeState(std::make_unique<BossStateSecond>(this));
-    }
-    if (ImGui::RadioButton("BossStateThird", selectState_ == 2)) {
-        selectState_ = 2;
-        ChangeState(std::make_unique<BossStateThird>(this));
-    }
-    if (ImGui::RadioButton("BossStateFourth", selectState_ == 3)) {
-        selectState_ = 3;
-        ChangeState(std::make_unique<BossStateFourth>(this));
-    }
-
-    ImGui::End();
-
-#endif // _DEBUG
-
-
 }
 
 void Boss::Draw()
@@ -146,6 +114,11 @@ void Boss::Draw()
 
     // 月描画
     for (auto& bullet : pMoonBullets_) {
+        bullet->Draw();
+    }
+
+    // 歌描画
+    for (auto& bullet : pSongBullets_) {
         bullet->Draw();
     }
 }
@@ -170,7 +143,14 @@ void Boss::Finalize()
         bullet->Finalize();
     }
 
+    // 歌終了
+    for (auto& bullet : pSongBullets_) {
+        bullet->SetIsDead(true);
+        bullet->Finalize();
+    }
+
     DeleteBullet();
+    collisionManager_->DeleteCollider(&collider_);
 }
 
 void Boss::NormalAttack()
@@ -181,7 +161,9 @@ void Boss::NormalAttack()
     newBullet->SetPosition(position_);
     newBullet->SetPlayerPosition(playerPosition_);
     newBullet->Initialize();
+    collider_.SetMask(collisionManager_->GetNewMask(collider_.GetColliderID(), "BossNormal", "BossMoon"));
     newBullet->SetVelocity(bltVelocity_);
+
 
     // 通常弾を登録する
     pNormalBullets_.push_back(newBullet);
@@ -203,7 +185,6 @@ void Boss::LoadNormalAttackPopData()
 
 void Boss::UpdateNormalAttackPopCommands()
 {
-    CollisionManager::GetInstance()->DeleteCollider(&collider_);
 
     this->UnregisterDebugWindow();
 
@@ -256,7 +237,20 @@ void Boss::UpdateNormalAttackPopCommands()
             break;
         }
     }
+
+    // すべての行を読み終えた場合にリセット
+    if (normalAttackPopCommands.eof()) {
+        ResetNormalAttackPopCommands(); // リセット処理
+    }
 }
+
+void Boss::ResetNormalAttackPopCommands()
+{
+    // ストリームの状態をリセットして、最初の位置に戻す
+    normalAttackPopCommands.clear(); // ストリーム状態フラグをクリア
+    normalAttackPopCommands.seekg(0, std::ios::beg); // ストリームの読み取り位置を先頭に設定
+}
+
 
 void Boss::PillowAttack()
 {
@@ -266,7 +260,9 @@ void Boss::PillowAttack()
     newBullet->SetPosition(position_);
     newBullet->SetPlayerPosition(playerPosition_);
     newBullet->Initialize();
+    collider_.SetMask(collisionManager_->GetNewMask(collider_.GetColliderID(), "BossPillow", "BossMoon"));
     newBullet->SetVelocity(bltVelocity_);
+
 
     // 枕弾を登録する
     pPillowBullets_.push_back(newBullet);
@@ -288,6 +284,7 @@ void Boss::LoadPillowPopData()
 
 void Boss::UpdatePillowPopCommands()
 {
+
     //待機処理
     if (isPillowWaiting_) {
         pillowWaitingTimer_--;
@@ -338,6 +335,18 @@ void Boss::UpdatePillowPopCommands()
             break;
         }
     }
+
+    // すべての行を読み終えた場合にリセット
+    if (pillowAttackPopCommands.eof()) {
+        ResetPillowAttackPopCommands(); // リセット処理
+    }
+}
+
+void Boss::ResetPillowAttackPopCommands()
+{
+    // ストリームの状態をリセットして、最初の位置に戻す
+    pillowAttackPopCommands.clear(); // ストリーム状態フラグをクリア
+    pillowAttackPopCommands.seekg(0, std::ios::beg); // ストリームの読み取り位置を先頭に設定
 }
 
 void Boss::MoonAttack()
@@ -347,7 +356,9 @@ void Boss::MoonAttack()
 
     newBullet->SetPosition(position_);
     newBullet->SetRotation(moonRotate_);
+    newBullet->SetPlayerPosition(playerPosition_);
     newBullet->Initialize();
+    collider_.SetMask(collisionManager_->GetNewMask(collider_.GetColliderID(), "BossMoon"));
     newBullet->SetVelocity(bltVelocity_);
 
     // 枕弾を登録する
@@ -370,6 +381,7 @@ void Boss::LoadMoonPopData()
 
 void Boss::UpdateMoonPopCommands()
 {
+
     //待機処理
     if (isMoonWaiting_) {
         moonWaitingTimer_--;
@@ -442,15 +454,121 @@ void Boss::UpdateMoonPopCommands()
             break;
         }
     }
+
+    // すべての行を読み終えた場合にリセット
+    if (moonAttackPopCommands.eof()) {
+        ResetMoonPopCommands(); // リセット処理
+    }
 }
+
+void Boss::ResetMoonPopCommands()
+{
+    // ストリームの状態をリセットして、最初の位置に戻す
+    moonAttackPopCommands.clear(); // ストリーム状態フラグをクリア
+    moonAttackPopCommands.seekg(0, std::ios::beg); // ストリームの読み取り位置を先頭に設定
+}
+
+void Boss::SongAttack()
+{
+    // 歌を生成し、初期化
+    BossSong* newBullet = new BossSong();
+
+    newBullet->SetPosition(position_);
+    newBullet->Initialize();
+
+    // 歌を登録する
+    pSongBullets_.push_back(newBullet);
+}
+
+void Boss::LoadSongPopData()
+{
+    //ファイルを開く
+    std::ifstream file;
+    file.open("Resources/CSV/BossSongPop.csv");
+    assert(file.is_open());
+
+    //ファイルの内容を文字列ストリームにコピー
+    songAttackPopCommands << file.rdbuf();
+
+    //ファイルを閉じる
+    file.close();
+}
+
+void Boss::UpdateSongPopCommands()
+{
+    //待機処理
+    if (isSongWaiting_) {
+        songWaitingTimer_--;
+
+        if (songWaitingTimer_ <= 0) {
+            //待機完了
+            isSongWaiting_ = false;
+        }
+        return;
+    }
+
+
+    //1行分の文字列を入れる変数
+    std::string line;
+
+    //コマンドループ
+    while (getline(songAttackPopCommands, line)) {
+        //1行分の文字列を入れる変数
+        std::istringstream line_stream(line);
+
+        std::string word;
+        // ,区切りで行の先頭列を取得
+        getline(line_stream, word, ',');
+
+        // "//"から始まる行はコメント
+        if (word.find("//") == 0) {
+            //コメント行を飛ばす
+            continue;
+        }
+
+
+        // WAITコマンド
+        if (word.find("WAIT") == 0) {
+
+            getline(line_stream, word, ',');
+
+            // 待ち時間
+            int32_t waitTime = atoi(word.c_str());
+
+            //待機時間
+            isSongWaiting_ = true;
+            songWaitingTimer_ = waitTime;
+
+            // 歌攻撃発生
+            SongAttack();
+
+            //コマンドループを抜ける
+            break;
+        }
+    }
+
+    // すべての行を読み終えた場合にリセット
+    if (songAttackPopCommands.eof()) {
+        ResetSongPopCommands(); // リセット処理
+    }
+}
+
+void Boss::ResetSongPopCommands()
+{
+    // ストリームの状態をリセットして、最初の位置に戻す
+    songAttackPopCommands.clear(); // ストリーム状態フラグをクリア
+    songAttackPopCommands.seekg(0, std::ios::beg); // ストリームの読み取り位置を先頭に設定
+}
+
+
 
 void Boss::DeleteBullet()
 {
     // デスフラグの立った通常弾を削除
     pNormalBullets_.remove_if([](BossNormalBullet* bullet) {
         if (bullet->IsDead()) {
+            bullet->Finalize();
             delete bullet;
-            //bullet->Finalize();
             return true;
         }
         return false;
@@ -459,8 +577,8 @@ void Boss::DeleteBullet()
     // デスフラグの立った枕弾を削除
     pPillowBullets_.remove_if([](BossPillow* bullet) {
         if (bullet->IsDead()) {
+            bullet->Finalize();
             delete bullet;
-            //bullet->Finalize();
             return true;
         }
         return false;
@@ -469,8 +587,18 @@ void Boss::DeleteBullet()
     // デスフラグの立った月を削除
     pMoonBullets_.remove_if([](BossMoon* bullet) {
         if (bullet->IsDead()) {
+            bullet->Finalize();
             delete bullet;
-            //bullet->Finalize();
+            return true;
+        }
+        return false;
+        });
+
+    // デスフラグの立った歌を削除
+    pSongBullets_.remove_if([](BossSong* bullet) {
+        if (bullet->IsDead()) {
+            bullet->Finalize();
+            delete bullet;
             return true;
         }
         return false;
@@ -482,10 +610,9 @@ void Boss::ChangeState(std::unique_ptr<BaseBossState> _pState)
     pState_ = std::move(_pState);
 }
 
-void Boss::RunSetMask()
+void Boss::OnCollision()
 {
-    /// マスクの設定 (自分(指定されたid)は当たらない)
-    collider_.SetMask(CollisionManager::GetInstance()->GetNewMask(collider_.GetColliderID()));
+    hp_ -= 1;
 }
 
 void Boss::DebugWindow()
@@ -498,6 +625,25 @@ void Boss::DebugWindow()
     };
 
     ImGuiTemplate::VariableTable("Boss",pFunc);
+
+    ImGui::Text("Select Boss State");
+    if (ImGui::RadioButton("BossStateFirst", selectState_ == 0)) {
+        selectState_ = 0;
+        ChangeState(std::make_unique<BossStateFirst>(this));
+    }
+    if (ImGui::RadioButton("BossStateSecond", selectState_ == 1)) {
+        selectState_ = 1;
+        ChangeState(std::make_unique<BossStateSecond>(this));
+    }
+    if (ImGui::RadioButton("BossStateThird", selectState_ == 2)) {
+        selectState_ = 2;
+        ChangeState(std::make_unique<BossStateThird>(this));
+    }
+    if (ImGui::RadioButton("BossStateFourth", selectState_ == 3)) {
+        selectState_ = 3;
+        ChangeState(std::make_unique<BossStateFourth>(this));
+    }
+
 }
 
 void Boss::OutputCSV()

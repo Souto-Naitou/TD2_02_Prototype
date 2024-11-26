@@ -1,6 +1,8 @@
 #pragma once
 
 #include "../../.GameObject/GameObject.h"
+#include "Collision/Collider/Collider.h"
+#include "Collision/CollisionManager/CollisionManager.h"
 #include <Object3d.h>
 #include <memory>
 
@@ -24,9 +26,16 @@ public:
 	// 描画処理
 	void Draw() override;
 
+
+private: // 衝突判定
+
+	void OnCollisionTrigger(const Collider* _other);
+
 public: // ゲッター
 
 	bool IsDead() const { return isDead_; }
+
+	bool IsStan() const { return isStan_; }
 
 public: // セッター
 
@@ -37,6 +46,7 @@ public: // セッター
 	Vector3 SetPosition(const Vector3 _position) { return position_ = _position; }
 
 	Vector3 SetVelocity(const Vector3 _velocity) { return velocity_ = _velocity; }
+
 
 private: // メンバ変数
 
@@ -58,5 +68,12 @@ private: // メンバ変数
 	//デスグラフ
 	bool isDead_ = false;
 
+	CollisionManager* collisionManager_ = nullptr;
+	Collider collider_;
+	AABB aabb_;
+
+
+	// 状態異常付与フラグ
+	bool isStan_ = false;
 };
 

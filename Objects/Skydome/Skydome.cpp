@@ -5,7 +5,7 @@
 void Skydome::Initialize()
 {
     /// モデルの読み込みと登録
-    ModelManager::GetInstance()->LoadModel("skydome/tenkyurs.obj");
+    ModelManager::GetInstance()->LoadModel("skydome/skydome.obj");
 
     /// Transformの初期化
     scale_ ={ 30.0f, 30.0f, 30.0f };
@@ -14,7 +14,7 @@ void Skydome::Initialize()
 
     object_ = std::make_unique<Object3d>();
 
-    object_->Initialize("tenkyurs.obj");
+    object_->Initialize("skydome.obj");
     object_->SetSize(scale_);
     object_->SetRotate(rotation_);
     object_->SetPosition(position_);

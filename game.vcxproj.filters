@@ -132,6 +132,15 @@
     <ClCompile Include="Objects\Boss\Bullet\BossMoon.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Objects\Boss\Bullet\BossSong.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="StanParticle.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="StanEmitter.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
     <ClCompile Include="scene\Transition\TransFadeInOut.cpp">
       <Filter>Scene\Scene\Transition</Filter>
     </ClCompile>
@@ -226,6 +235,15 @@
     </ClInclude>
     <ClInclude Include="scene\Transition\TransBase.h">
       <Filter>Scene\Scene\Transition</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Boss\Bullet\BossSong.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="StanParticle.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="StanEmitter.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

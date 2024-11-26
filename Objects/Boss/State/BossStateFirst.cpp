@@ -20,7 +20,20 @@ void BossStateFirst::Attack()
 	// PillowAttack();
 	pBoss_->UpdatePillowPopCommands();
 
-	if (pBoss_->GetBossHP() < 120) {
+	// 通常弾更新
+	for (auto& bullet : pBoss_->GetNormalBullets()) 
+	{
+		bullet->Update();
+	}
+
+	// 枕弾更新
+	for (auto& bullet : pBoss_->GetPillows())
+	{
+		bullet->Update();
+	}
+
+	if (pBoss_->GetBossHP() < 120) 
+	{
 
 		pBoss_->ChangeState(std::make_unique<BossStateSecond>(pBoss_));
 

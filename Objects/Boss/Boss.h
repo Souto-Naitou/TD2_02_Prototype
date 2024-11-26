@@ -4,11 +4,13 @@
 #include "Bullet/BossNormalBullet.h"
 #include "Bullet/BossPillow.h"
 #include "Bullet/BossMoon.h"
+#include "Bullet/BossSong.h"
 #include "State/BaseBossState.h"
 #include <Object3d.h>
 #include <memory>
 #include <Easing.h>
 #include "Collision/Collider/Collider.h"
+#include "Collision/CollisionManager/CollisionManager.h"
 #include "Helper/Shape.h"
 #include "CSVLoader.h"
 
@@ -34,6 +36,9 @@ public:
     void LoadNormalAttackPopData();
     // 通常攻撃発生のコマンド更新
     void UpdateNormalAttackPopCommands();
+    // リセット
+    void ResetNormalAttackPopCommands();
+
 
     // 枕攻撃
     void PillowAttack();
@@ -43,6 +48,8 @@ public:
     void LoadPillowPopData();
     // 枕攻撃発生のコマンド更新
     void UpdatePillowPopCommands();
+    // リセット
+    void ResetPillowAttackPopCommands();
 
 
     // 月攻撃
@@ -53,6 +60,19 @@ public:
     void LoadMoonPopData();
     // 月攻撃発生のコマンド更新
     void UpdateMoonPopCommands();
+    // リセット
+    void ResetMoonPopCommands();
+
+    // 歌攻撃
+    void SongAttack();
+    // 歌攻撃発生コマンド
+    std::stringstream songAttackPopCommands;
+    // 歌攻撃発生データの読み込み
+    void LoadSongPopData();
+    // 歌攻撃発生のコマンド更新
+    void UpdateSongPopCommands();
+    // リセット
+    void ResetSongPopCommands();
 
     // 弾削除
     void DeleteBullet();
@@ -60,10 +80,35 @@ public:
     // ステートパターン
     void ChangeState(std::unique_ptr<BaseBossState> _pState);
 
+private: //衝突判定
+
+    void OnCollision();
+
 public: // ゲッター
 
     // ボスHP取得
-    float GetBossHP() { return hitPoint_; }
+    float GetBossHP() { return hp_; }
+
+    // 通常弾取得
+    const std::list<BossNormalBullet*>& GetNormalBullets() const { return pNormalBullets_; }
+
+    // 枕取得
+    const std::list<BossPillow*>& GetPillows() const { return pPillowBullets_; }
+
+    // 歌取得
+    const std::list<BossSong*>& GetSongs() const { return pSongBullets_; }
+
+    // 月取得
+    const std::list<BossMoon*>& GetMoons() const { return pMoonBullets_; }
+
+    // スタンフラグ取得
+    bool IsStan() { return isStan_; }
+    // ジャマーフラグ取得
+    bool IsNarrow() { return isNarrow_; }
+    // 慣性フラグ取得
+    bool IsInertia() { return isInertia_; }
+
+    bool IsHit() { return isHit_; }
 
 public: // セッター
 
@@ -71,9 +116,16 @@ public: // セッター
     void SetPlayerPosition(Vector3 _playerPosition) { playerPosition_ = _playerPosition; }
 
     // ボスHP
-    void SetBossHP(float _hitPoint) { hitPoint_ = _hitPoint; }
+    void SetBossHP(float _hitPoint) { hp_ = _hitPoint; }
 
-    void RunSetMask();
+    // スタン
+    void SetIsStan(bool _isStan) { isStan_ = _isStan; }
+    // ジャマー
+    void SetIsNarrow(bool _isNarrow) { isNarrow_ = _isNarrow; }
+    // 慣性
+    void SetIsInertia(bool _isInertia) { isInertia_ = _isInertia; }
+
+    void SetIsHit(bool _isHit) { isHit_ = _isHit; }
 
 private:
     std::unique_ptr<Object3d> object_ = nullptr;
@@ -88,7 +140,6 @@ private:
 
     // HP
     const float kMaxHitPoint = 160.0f;
-    float hitPoint_ = kMaxHitPoint;
 
     // プレーヤーの位置
     Vector3 playerPosition_{};
@@ -121,9 +172,24 @@ private:
     bool isMoonWaiting_ = true;
     // 月待機タイマー
     int32_t moonWaitingTimer_ = 9;
+    bool isHit_ = false;
+
+    // 歌弾
+    std::list<BossSong*> pSongBullets_;
+    // 歌待機中フラグ
+    bool isSongWaiting_ = true;
+    // 歌待機タイマー
+    int32_t songWaitingTimer_ = 50;
 
     // ステート
     std::unique_ptr<BaseBossState> pState_ = nullptr;
+
+    CollisionManager* collisionManager_ = nullptr;
+
+    // 異常状態フラグ
+    bool isStan_ = false;
+    bool isNarrow_ = false;
+    bool isInertia_ = false;
 
 #ifdef _DEBUG
 
