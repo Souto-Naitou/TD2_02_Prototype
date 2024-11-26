@@ -7,8 +7,6 @@
 
 #include <Timer/Timer.h>
 
-#include <ImGuiTemplates/ImGuiTemplates.h>
-
 class DebugManager
 {
 public:
@@ -60,6 +58,9 @@ public:
     void DrawUI();
     void ChangeFont();
     void SetDisplay(bool _isEnable) { onDisplay_ = _isEnable; }
+    bool GetDisplay() const { return onDisplay_; }
+
+    void PushLog(const std::string& _log) { textLog_ += _log; }
 
 private:
     DebugManager();
@@ -71,11 +72,13 @@ private:
     double          fps_                = 0.0;
     unsigned int    frameCount_         = 0u;
     bool            onDisplay_          = true;
+    std::string     textLog_            = "";
 
 private:
     void DebugWindowOverall();
     void MeasureFPS();
     void Window_ObjectList();
+    void Window_Log();
     std::list<std::tuple<std::string,std::string,const std::function<void(void)>,bool>>::iterator
         GetInsertIterator(std::string _parentName);
 };
