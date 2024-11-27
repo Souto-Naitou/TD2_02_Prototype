@@ -1,4 +1,8 @@
 #include "GamePlayScene.h"
+
+#include <scene/Transition/SceneTransitionManager.h>
+#include <scene/Transition/TransFadeInOut.h>
+
 #include "Helper/ImGuiDebugManager/DebugManager.h"
 
 void GamePlayScene::Initialize()
@@ -175,6 +179,27 @@ void GamePlayScene::Update()
 
 
     collisionManager_->CheckAllCollision();
+
+
+    // --- シーン移行処理 ---
+    // BossのHPが0になったら
+    if (pBoss_->GetBossHP() <= 0) {
+        // 次のシーンを生成
+        auto fadeInOut = std::make_unique<TransFadeInOut>();
+        SceneTransitionManager::GetInstance()->ChangeScene("GAMECLEAR", std::move(fadeInOut));
+
+        SceneManager::GetInstance()->ChangeScene("GAMECLEAR");
+    }
+
+    // PlayerのHPが0になったら
+    if (pPlayer_->GetHP() <= 0)
+    {
+        // 次のシーンを生成
+        /*auto fadeInOut = std::make_unique<TransFadeInOut>();
+        SceneTransitionManager::GetInstance()->ChangeScene("GAMEPLAY", std::move(fadeInOut));*/
+
+        SceneManager::GetInstance()->ChangeScene("GAMEOVER");
+    }
 }
 
 void GamePlayScene::Draw()

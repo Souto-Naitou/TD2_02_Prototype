@@ -246,8 +246,11 @@ void Player::Update()
     }
     CameraFollow();
 
-    // 攻撃
-    Attack();
+    //  スタンしてなかったら攻撃
+    if (!isStan_)
+    {
+        Attack();
+    }
 
     // 視野狭まる
     Narrow();
