@@ -37,5 +37,7 @@ private: // メンバ変数
 
 	SceneManager* sceneManager_;
 	std::unique_ptr<Skydome>    pSkydome_ = nullptr;      // 天球
+
+    float theta = 0.0f;
 };
 
