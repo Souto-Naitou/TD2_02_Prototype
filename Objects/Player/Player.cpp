@@ -61,6 +61,12 @@ void Player::Initialize()
     // パーティクル
     pStanEmit_ = new StanEmitter();
     pStanEmit_->Initialize();
+
+    // HPBar
+    hpBar_ = std::make_unique<HPBar>();
+    hpBar_->Initialize();
+    hpBar_->LoadBarSprite("playerHP.png", {30.0f, 800.0f}, {0.0f, 1.0f});
+    hpBar_->SetScale({ 0.35f, 0.8f, 1.0f });
 }
 
 void Player::Finalize()
@@ -147,6 +153,7 @@ void Player::Update()
         SetCursorPos(1920 / 2, 1080 / 2);
     }
 
+    hpBar_->Update();
     object_->Update();
 
     Vector3 playerForward = { std::sinf(rotation_.y), 0.f, std::cosf(rotation_.y) };
@@ -237,6 +244,9 @@ void Player::Update()
     /// モデルに座標をセット
     object_->SetPosition(position_);
 
+    /// HPバーの位置をセット
+    hpBar_->SetRatio(hp_ / kMaxHp_);
+
     // マウス移動
     rotation_.x -= mousePosDiff_.y * 0.001f;
     rotation_.y -= mousePosDiff_.x * 0.001f;
@@ -281,7 +291,6 @@ void Player::Draw()
 {
     object_->Draw();
 
-
     // 弾描画
     for (auto& bullet : bullets_)
     {
@@ -310,6 +319,7 @@ void Player::Draw2d()
 
     pStanEmit_->Draw();
 
+    hpBar_->Draw2D();
 }
 
 void Player::Attack()
@@ -444,7 +454,6 @@ void Player::Inertia()
     inertiaRotate_.y = rotation_.y;
     object_->SetRotate(inertiaRotate_);
 }
-
 
 void Player::OnCollisionTrigger(const Collider* _other)
 {

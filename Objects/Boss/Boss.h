@@ -13,6 +13,7 @@
 #include "Collision/CollisionManager/CollisionManager.h"
 #include "Helper/Shape.h"
 #include "CSVLoader.h"
+#include <Objects/HPBar/HPBar.h>
 
 /// <summary>
 /// ボス
@@ -28,6 +29,7 @@ public:
     void Draw()         override;
     void Finalize()     override;
 
+    void Draw2D();
     // 通常攻撃
     void NormalAttack();
     // 通常攻撃発生コマンド
@@ -142,6 +144,7 @@ private: /// メンバ変数
     std::unique_ptr<Timer> pTimer_ = nullptr;
     Vector3 destPosition_ = {};
     double kRelollTime = 0.0;
+    std::unique_ptr<HPBar> hpBar_ = nullptr;
 
 private:
     void DebugWindow() override;

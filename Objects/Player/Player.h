@@ -9,6 +9,7 @@
 #include <Object3d.h>
 #include <Sprite.h>
 #include <Easing.h>
+#include <Objects/HPBar/HPBar.h>
 
 class Player : public GameObject
 {
@@ -28,10 +29,6 @@ public:
 
     // 描画処理
     void Draw() override;
-
-    void RegisterDebugWindow() override;
-
-    void UnregisterDebugWindow() override;
 
     void Draw2d();
 
@@ -77,6 +74,8 @@ private: // メンバ変数
     std::vector<Sprite*>        sprites                 = {}; // 2Dスプライト
 
     std::unique_ptr<Easing>     easing_                 = nullptr;
+
+    std::unique_ptr<HPBar>      hpBar_                  = nullptr; // HPバー
 
     Vector3                     moveVelocity_           = {}; // 移動速度
     float                       moveSpeed_              = 0.05f;
@@ -160,6 +159,10 @@ private:
     /// カーソル移動処理
     /// </summary>
     void CalcCursorMove();
+
+    void RegisterDebugWindow() override;
+
+    void UnregisterDebugWindow() override;
 
 private: /// 他クラスのやつ
     Camera* mainCamera_ = nullptr;

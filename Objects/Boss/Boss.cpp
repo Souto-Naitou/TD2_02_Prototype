@@ -67,6 +67,11 @@ void Boss::Initialize()
     collider_.SetOnCollisionTrigger(std::bind(&Boss::OnCollision, this));
     collisionManager_->RegisterCollider(&collider_);
 
+    hpBar_ = std::make_unique<HPBar>();
+    hpBar_->Initialize();
+    hpBar_->LoadBarSprite("BossHP.png", { 800.0f, 40.0f }, {0.5f, 0.5f});
+    hpBar_->SetScale({ 1.0f, 0.8f, 1.0f });
+
     pTimer_->Start();
 }
 
@@ -88,6 +93,8 @@ void Boss::Update()
     collider_.SetPosition(position_);
 
     OutputCSV();
+
+    hpBar_->Update();
 
 }
 
@@ -146,6 +153,11 @@ void Boss::Finalize()
     collisionManager_->DeleteCollider(&collider_);
 
     DebugManager::GetInstance()->DeleteComponent("Boss");
+}
+
+void Boss::Draw2D()
+{
+    hpBar_->Draw2D();
 }
 
 void Boss::NormalAttack()
