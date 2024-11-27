@@ -55,6 +55,12 @@
     <Filter Include="Scene\Scene\Transition">
       <UniqueIdentifier>{e1c7f58e-8e0d-4621-9d11-c0f031aafe66}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Feature">
+      <UniqueIdentifier>{8434211b-81a0-4795-8a4a-2cb497b55598}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Feature\RandomGenerator">
+      <UniqueIdentifier>{d8f54c51-edda-437d-8575-7f590624d160}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -152,6 +158,9 @@
     </ClCompile>
     <ClCompile Include="scene\scene\GameOverScene.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Feature\RandomGenerator\RandomGenerator.cpp">
+      <Filter>Feature\RandomGenerator</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -256,6 +265,9 @@
     </ClInclude>
     <ClInclude Include="scene\scene\GameOverScene.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Feature\RandomGenerator\RandomGenerator.h">
+      <Filter>Feature\RandomGenerator</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

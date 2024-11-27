@@ -173,6 +173,7 @@ call .PostBuild.bat</Command>
   <ItemGroup>
     <ClCompile Include="scene\scene\GameClearScene.cpp" />
     <ClCompile Include="scene\scene\GameOverScene.cpp" />
+    <ClCompile Include="Feature\RandomGenerator\RandomGenerator.cpp" />
     <ClCompile Include="Objects\Boss\Bullet\BossSong.cpp" />
     <ClCompile Include="Objects\Boss\State\BaseBossState.cpp" />
     <ClCompile Include="Objects\Boss\Bullet\BossMoon.cpp" />
@@ -208,6 +209,7 @@ call .PostBuild.bat</Command>
     <ClInclude Include=".Externals\Timer\Timer.h" />
     <ClInclude Include="scene\scene\GameClearScene.h" />
     <ClInclude Include="scene\scene\GameOverScene.h" />
+    <ClInclude Include="Feature\RandomGenerator\RandomGenerator.h" />
     <ClInclude Include="Objects\Boss\Bullet\BossSong.h" />
     <ClInclude Include="Collision\Collider\Collider.h" />
     <ClInclude Include="Collision\CollisionManager\CollisionManager.h" />

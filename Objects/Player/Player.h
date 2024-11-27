@@ -83,8 +83,8 @@ private: // メンバ変数
     int                         countCoolDownFrame_     = 0; // 弾のクールタイム
 
     Vector3 cameraRotate_ = { 0.3f, 0.0f, 0.0f };
-    Vector3 cameraDistance_ = { 0.0f, 2.5f, -5.5f };
-    float camFollowMultiply_ = 0.1f;
+    Vector3 cameraDistance_ = { 0.0f, 0.75f, -5.5f };
+    float camFollowMultiply_ = 0.8f;
 
     Vector2 mousePosDiff_;
     bool cursorVisible_ = true;

@@ -237,7 +237,12 @@ void Player::Update()
     /// モデルに座標をセット
     object_->SetPosition(position_);
 
+    // マウス移動
+    rotation_.x -= mousePosDiff_.y * 0.001f;
     rotation_.y -= mousePosDiff_.x * 0.001f;
+    if (rotation_.x > 1.57f) rotation_.x = 1.57f;
+    if (rotation_.x < -1.57f) rotation_.x = -1.57f;
+
     if (!isInertia_)
     {
         object_->SetRotate(rotation_);
@@ -293,6 +298,8 @@ void Player::Draw2d()
         sprites[i]->Draw();
     }
 
+    pStanEmit_->Draw();
+
 }
 
 void Player::Attack()
@@ -300,7 +307,12 @@ void Player::Attack()
     if (Input::GetInstance()->PushKey(DIK_SPACE))
     {
         /// プレイヤーの向きに合わせて弾の速度を変更
-        Vector3 bulletVelocity = { std::sinf(rotation_.y), 0.f, std::cosf(rotation_.y) };;
+        //Vector3 bulletVelocity = { std::sinf(rotation_.y), std::cosf(rotation_.x), std::cosf(rotation_.y)};;
+        Vector3 bulletVelocity = {
+            std::cosf(rotation_.x) * std::sinf(rotation_.y),    // x
+            std::sinf(-rotation_.x),                             // y
+            std::cosf(rotation_.x) * std::cosf(rotation_.y)     // z
+        };
 
         if (countCoolDownFrame_ <= 0)
         {
@@ -444,6 +456,7 @@ void Player::CameraFollow()
     Vector3 camPos_target = Transform(cameraDistance_, playerWorld);
     Vector3 camPos_current = mainCamera_->GetTranslate();
 
+    cameraRotate_.x = rotation_.x;
     cameraRotate_.y = rotation_.y;
 
     mainCamera_->SetRotate(cameraRotate_);
