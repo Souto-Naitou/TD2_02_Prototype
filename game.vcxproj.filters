@@ -141,10 +141,10 @@
     <ClCompile Include="Objects\Boss\Bullet\BossSong.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="StanParticle.cpp">
+    <ClCompile Include="Objects\Particle\StanParticle.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="StanEmitter.cpp">
+    <ClCompile Include="Objects\Particle\StanEmitter.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="scene\Transition\TransFadeInOut.cpp">
@@ -248,10 +248,10 @@
     <ClInclude Include="Objects\Boss\Bullet\BossSong.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="StanParticle.h">
+    <ClInclude Include="Objects\Particle\StanParticle.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="StanEmitter.h">
+    <ClInclude Include="Objects\Particle\StanEmitter.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Feature\RandomGenerator\RandomGenerator.h">

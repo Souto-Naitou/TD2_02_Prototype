@@ -198,6 +198,8 @@ void GamePlayScene::Draw()
 
     // ↓ ↓ ↓ ↓ Draw を書き込む ↓ ↓ ↓ ↓
 
+    pPlayer_->Draw2d();
+
     //for (uint32_t i = 0; i < 1; ++i) {
     //	sprites[i]->Draw();
     //}

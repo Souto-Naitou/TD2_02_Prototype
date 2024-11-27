@@ -48,7 +48,7 @@ void BossStateThird::Attack()
 		bullet->Update();
 	}
 
-	if (pBoss_->GetBossHP() < 40) {
+	if (pBoss_->GetBossHP() < 20) {
 
 		pBoss_->ChangeState(std::make_unique<BossStateFourth>(pBoss_));
 

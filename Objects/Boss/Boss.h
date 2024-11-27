@@ -144,7 +144,7 @@ private:
     void UpdateRandomMovement();
 
     // HP
-    const float kMaxHitPoint = 160.0f;
+    const float kMaxHitPoint = 80.0f;
 
     // プレーヤーの位置
     Vector3 playerPosition_{};

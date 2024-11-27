@@ -34,7 +34,7 @@ private:
 	Vector3 pos_{};
 
 	int timer_ = 0;
-	int interval_ = 12;
+	int interval_ = 20;
 
 };
 

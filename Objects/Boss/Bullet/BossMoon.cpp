@@ -52,6 +52,11 @@ void BossMoon::Initialize()
 	wholeCollider_.SetOnCollisionTrigger(std::bind(&BossMoon::WholeOnCollisionTrigger, this, std::placeholders::_1));
 	collisionManager_->RegisterCollider(&wholeCollider_);
 	wholeCollider_.SetMask(collisionManager_->GetNewMask(wholeCollider_.GetColliderID(), "Boss"));
+
+	// 敵弾から自キャラへのベクトルを計算
+	toPlayer_ = playerPosition_ - position_;
+
+	
 }
 
 void BossMoon::Update()
@@ -111,9 +116,21 @@ void BossMoon::Update()
 	aabbWhole_.max.z = position_.z + object_->GetSize().z / 2.5f;
 	wholeCollider_.SetPosition(position_);
 
-	position_ += velocity_;
 
-	//isHPRock_ = false;
+	// ベクトルを正規化する
+	toPlayer_ = Normalize(toPlayer_);
+	velocity_ = Normalize(velocity_);
+	// 球面線形補間により、今の速度と自キャラへのベクトルを内挿し、新たな速度とする
+	velocity_.Lerp(velocity_, toPlayer_, 0.05f);
+
+	// Y軸周り角度(θy)
+	rotation_.y = std::atan2(velocity_.x, velocity_.z);
+	double velocityXZ = sqrt(pow(velocity_.x, 2) + pow(velocity_.z, 2));
+
+	// X軸周り角度(θx)
+	rotation_.x = (float)std::atan2(-velocity_.y, velocityXZ);
+
+	position_ += velocity_ * 0.1f;
 
 	//時間経過でデス
 	if (--deathTimer_ <= 0) {
