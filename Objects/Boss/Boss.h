@@ -155,6 +155,7 @@ private:
     const float kMaxHitPoint = 80.0f;
     // 死んだ瞬間のフラグ
     bool isBossDeadMoment_ = false;
+    bool isDead_ = false;
 
     // プレーヤーの位置
     Vector3 playerPosition_{};

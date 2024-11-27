@@ -90,6 +90,7 @@ void Boss::Update()
 
     aabb_.min = position_ - object_->GetSize();
     aabb_.max = position_ + object_->GetSize();
+    aabb_.max.y += 1.0f;
     collider_.SetPosition(position_);
 
     OutputCSV();
@@ -624,12 +625,18 @@ void Boss::OnCollision()
     }
     else
     {
-        isBossDeadMoment_ = true;
+        if (isDead_ == false)
+        {
+            isBossDeadMoment_ = true;
+        }
+        isDead_ = true;
     }
 }
 
 void Boss::DebugWindow()
 {
+#ifdef _DEBUG
+
     auto pFunc = [&]() {
         ImGuiTemplate::VariableTableRow("Position", position_);
         ImGuiTemplate::VariableTableRow("Scale", scale_);
@@ -659,6 +666,7 @@ void Boss::DebugWindow()
         ChangeState(std::make_unique<BossStateFourth>(this));
     }
 
+#endif // _DEBUG
 }
 
 void Boss::OutputCSV()
