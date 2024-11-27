@@ -70,7 +70,7 @@ void Boss::Initialize()
     hpBar_ = std::make_unique<HPBar>();
     hpBar_->Initialize();
     hpBar_->LoadBarSprite("BossHP.png", { 800.0f, 40.0f }, {0.5f, 0.5f});
-    hpBar_->SetScale({ 1.0f, 0.8f, 1.0f });
+    hpBar_->SetScale({ 640.0f, 30.0f });
 
     pTimer_->Start();
 }
@@ -93,6 +93,8 @@ void Boss::Update()
     collider_.SetPosition(position_);
 
     OutputCSV();
+
+    hpBar_->SetRatio(hp_ / kMaxHitPoint);
 
     hpBar_->Update();
 

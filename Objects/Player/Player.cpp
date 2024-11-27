@@ -66,7 +66,7 @@ void Player::Initialize()
     hpBar_ = std::make_unique<HPBar>();
     hpBar_->Initialize();
     hpBar_->LoadBarSprite("playerHP.png", {30.0f, 800.0f}, {0.0f, 1.0f});
-    hpBar_->SetScale({ 0.35f, 0.8f, 1.0f });
+    hpBar_->SetScale({ 320.0f, 15.0f});
 }
 
 void Player::Finalize()

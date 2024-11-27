@@ -41,8 +41,7 @@ public:
 
 public:
     void SetRatio(float _ratio) { ratio_ = _ratio; }
-    void SetRotation(const Vector3& _rotation) { rotation_ = _rotation; }
-    void SetPosition(const Vector3& _position) { position_ = _position; }
+
 
 private:
     std::unique_ptr<Sprite> barSprite_ = nullptr;

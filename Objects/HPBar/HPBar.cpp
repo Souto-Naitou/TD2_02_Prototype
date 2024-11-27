@@ -11,7 +11,9 @@ void HPBar::Finalize()
 
 void HPBar::Update()
 {
-
+    Vector2 newScale = scale_.xy();
+    newScale.x *= ratio_;
+    barSprite_->SetSize(newScale);
     barSprite_->Update();
 }
 
