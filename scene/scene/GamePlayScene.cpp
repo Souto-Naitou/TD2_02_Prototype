@@ -47,9 +47,9 @@ void GamePlayScene::Initialize()
     pBoss_ = std::make_unique<Boss>();
     pBoss_->Initialize();
 
-	// プレイヤー
-	pPlayer_ = std::make_unique<Player>();
-	pPlayer_->Initialize();
+    // プレイヤー
+    pPlayer_ = std::make_unique<Player>();
+    pPlayer_->Initialize();
     pPlayer_->SetCamera(camera);
 
     // 天球
@@ -57,8 +57,8 @@ void GamePlayScene::Initialize()
     pSkydome_->Initialize();
 
     // --- オーディオ ---
-	//soundDataSet = Audio::GetInstance()->LoadWav("fanfare.wav");
-	//Audio::GetInstance()->PlayWave(soundDataSet, false, 0.02f);
+    //soundDataSet = Audio::GetInstance()->LoadWav("fanfare.wav");
+    //Audio::GetInstance()->PlayWave(soundDataSet, false, 0.02f);
 
     //soundDataSet2 = Audio::GetInstance()->LoadWav("test/xxx.wav");
     //Audio::GetInstance()->PlayWave(soundDataSet2, false, 0.01f);
@@ -79,7 +79,7 @@ void GamePlayScene::Finalize()
     //Audio::GetInstance()->SoundUnload(Audio::GetInstance()->GetXAudio2(), &soundDataSet);
     //Audio::GetInstance()->SoundUnload(Audio::GetInstance()->GetXAudio2(), &soundDataSet2);
 
-	pPlayer_->Finalize();
+    pPlayer_->Finalize();
     pBoss_->Finalize();
     pSkydome_->Finalize();
 }
@@ -133,8 +133,8 @@ void GamePlayScene::Update()
 
 #pragma endregion 3Dオブジェクト
 
-	// プレーヤーの更新処理
-	pPlayer_->Update();
+    // プレーヤーの更新処理
+    pPlayer_->Update();
 
     if (pPlayer_->IsStan())
     {
@@ -149,8 +149,8 @@ void GamePlayScene::Update()
         pBoss_->SetIsInertia(false);
     }
 
-	// ボスにプレイヤーの位置をセット
-	pBoss_->SetPlayerPosition(pPlayer_->GetPosition());
+    // ボスにプレイヤーの位置をセット
+    pBoss_->SetPlayerPosition(pPlayer_->GetPosition());
 
     // ボスの更新処理
     pBoss_->Update();

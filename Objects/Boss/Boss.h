@@ -63,6 +63,7 @@ public:
     // リセット
     void ResetMoonPopCommands();
 
+
     // 歌攻撃
     void SongAttack();
     // 歌攻撃発生コマンド
@@ -80,11 +81,11 @@ public:
     // ステートパターン
     void ChangeState(std::unique_ptr<BaseBossState> _pState);
 
-private: //衝突判定
+private: /// 衝突判定
 
     void OnCollision();
 
-public: // ゲッター
+public: /// ゲッター
 
     // ボスHP取得
     float GetBossHP() { return hp_; }
@@ -102,15 +103,15 @@ public: // ゲッター
     const std::list<BossMoon*>& GetMoons() const { return pMoonBullets_; }
 
     // スタンフラグ取得
-    bool IsStan() { return isStan_; }
+    bool IsStan() const { return isStan_; }
     // ジャマーフラグ取得
-    bool IsNarrow() { return isNarrow_; }
+    bool IsNarrow() const { return isNarrow_; }
     // 慣性フラグ取得
-    bool IsInertia() { return isInertia_; }
+    bool IsInertia() const { return isInertia_; }
 
-    bool IsHit() { return isHit_; }
+    bool IsHit() const { return isHit_; }
 
-public: // セッター
+public: /// セッター
 
     // プレイヤー位置
     void SetPlayerPosition(Vector3 _playerPosition) { playerPosition_ = _playerPosition; }
@@ -127,16 +128,21 @@ public: // セッター
 
     void SetIsHit(bool _isHit) { isHit_ = _isHit; }
 
-private:
+private: /// メンバ変数
     std::unique_ptr<Object3d> object_ = nullptr;
     std::unique_ptr<Easing> easing_ = nullptr;
     Collider collider_;
     AABB aabb_;
     CSVData* csvData_ = nullptr;
+    std::unique_ptr<Timer> pTimer_ = nullptr;
+    Vector3 destPosition_ = {};
+    double kRelollTime = 0.0;
+
 
 private:
     void DebugWindow() override;
     void OutputCSV();
+    void UpdateRandomMovement();
 
     // HP
     const float kMaxHitPoint = 160.0f;

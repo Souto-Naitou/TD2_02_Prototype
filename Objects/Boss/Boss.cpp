@@ -3,6 +3,7 @@
 #include <ModelManager.h>
 #include "ImGuiDebugManager/DebugManager.h"
 #include <fstream>
+#include "Feature/RandomGenerator/RandomGenerator.h"
 
 #include "State/BossStateFirst.h"
 #include "State/BossStateSecond.h"
@@ -16,15 +17,14 @@
 
 #endif // _DEBUG
 
-
 void Boss::Initialize()
 {
-
+    /// インスタンスの初期化
     CSVLoader* csvLoader = CSVLoader::GetInstance();
     DebugManager* pDebugManager = DebugManager::GetInstance();
+    pTimer_ = std::make_unique<Timer>();
 
     pDebugManager->SetComponent("Boss", std::bind(&Boss::DebugWindow, this));
-
 
 
     csvData_ = csvLoader->LoadFile("Boss.csv");
@@ -66,17 +66,19 @@ void Boss::Initialize()
     collider_.SetAttribute(collisionManager_->GetNewAttribute(collider_.GetColliderID()));
     collider_.SetOnCollisionTrigger(std::bind(&Boss::OnCollision, this));
     collisionManager_->RegisterCollider(&collider_);
+
+    pTimer_->Start();
 }
 
 void Boss::Update()
 {
-
     // ステート(フラグ取得の関係で上に移動)
     pState_->Attack();
 
     // デスフラグの立った弾を削除
     DeleteBullet();
 
+    UpdateRandomMovement();
 
     Vector3 point1 = { -2.0f, 0.0f, 5.0f };
     Vector3 point2 = { 2.0f, 0.0f, 5.0f };
@@ -251,7 +253,6 @@ void Boss::ResetNormalAttackPopCommands()
     normalAttackPopCommands.clear(); // ストリーム状態フラグをクリア
     normalAttackPopCommands.seekg(0, std::ios::beg); // ストリームの読み取り位置を先頭に設定
 }
-
 
 void Boss::PillowAttack()
 {
@@ -561,8 +562,6 @@ void Boss::ResetSongPopCommands()
     songAttackPopCommands.seekg(0, std::ios::beg); // ストリームの読み取り位置を先頭に設定
 }
 
-
-
 void Boss::DeleteBullet()
 {
     // デスフラグの立った通常弾を削除
@@ -726,4 +725,9 @@ void Boss::OutputCSV()
 
 
     csvLoader->SaveFile();
+}
+
+void Boss::UpdateRandomMovement()
+{
+    if (pTimer_->GetNow() > 30.0);
 }
