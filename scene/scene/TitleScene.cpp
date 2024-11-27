@@ -22,12 +22,17 @@ void TitleScene::Initialize()
 	}
 	sceneManager_ = SceneManager::GetInstance();
     debugManager_ = DebugManager::GetInstance();
+
+    /// 必要なモデルの読み込み
 	ModelManager::GetInstance()->LoadModel("Boss/boss.obj");
 	ModelManager::GetInstance()->LoadModel("test/obj/plane.obj");
 	ModelManager::GetInstance()->LoadModel("test/axis.obj");
-	ModelManager::GetInstance()->LoadModel("skydome/tenkyurs.obj");
-	ModelManager::GetInstance()->LoadModel("plane.obj");
-	ModelManager::GetInstance()->LoadModel("bunny.obj");
+	ModelManager::GetInstance()->LoadModel("skydome/skydome.obj");
+	ModelManager::GetInstance()->LoadModel("bossAttack/pillow/pillow.obj");
+	ModelManager::GetInstance()->LoadModel("bossAttack/default/default.obj");
+    ModelManager::GetInstance()->LoadModel("player/player.obj");
+
+
 }
 
 void TitleScene::Finalize()

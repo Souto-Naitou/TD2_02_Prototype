@@ -57,7 +57,7 @@ void BossPillow::Update()
 	velocity_.Lerp(velocity_, toPlayer, 0.05f);
 
 	position_ += velocity_ * 0.1f;
-	rotation_.y += 0.5f;
+	rotation_.y += kRotationSpeed_;
 
 	aabb_.min = position_ - object_->GetSize();
 	aabb_.max = position_ + object_->GetSize();

@@ -8,13 +8,14 @@ void Skydome::Initialize()
     ModelManager::GetInstance()->LoadModel("skydome/skydome.obj");
 
     /// Transformの初期化
-    scale_ ={ 30.0f, 30.0f, 30.0f };
+    scale_ ={ 300.0f, 300.0f, 300.0f };
     position_ = { 0.0f, 0.0f, 0.0f };
     rotation_ = { 0.0f, 0.0f, 0.0f };
 
     object_ = std::make_unique<Object3d>();
 
     object_->Initialize("skydome.obj");
+    object_->SetEnableLighting(false);
     object_->SetSize(scale_);
     object_->SetRotate(rotation_);
     object_->SetPosition(position_);
