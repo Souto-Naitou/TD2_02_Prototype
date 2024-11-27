@@ -428,7 +428,7 @@ void Player::Inertia()
 
 void Player::OnCollisionTrigger(const Collider* _other)
 {
-    if (_other->GetColliderID() != "BossMoon" && !isHit_)
+    if (_other->GetColliderID() != "BossMoon" && !isHit_ && hp_ > 0)
     {
         hp_ -= 1;
     }

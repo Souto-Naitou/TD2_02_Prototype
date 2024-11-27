@@ -613,7 +613,10 @@ void Boss::ChangeState(std::unique_ptr<BaseBossState> _pState)
 
 void Boss::OnCollision()
 {
-    hp_ -= 1;
+    if (hp_ > 0)
+    {
+        hp_ -= 1;
+    }
 }
 
 void Boss::DebugWindow()
