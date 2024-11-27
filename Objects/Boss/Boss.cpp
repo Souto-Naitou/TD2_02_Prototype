@@ -80,16 +80,6 @@ void Boss::Update()
 
     UpdateRandomMovement();
 
-    Vector3 point1 = { -2.0f, 0.0f, 5.0f };
-    Vector3 point2 = { 2.0f, 0.0f, 5.0f };
-
-    if (easing_->GetIsEnd())
-    {
-        easing_->Reset();
-    }
-
-    position_.Lerp(point1, point2, easing_->Update());
-
     object_->SetPosition(position_);
     object_->Update();
 
@@ -622,6 +612,8 @@ void Boss::DebugWindow()
         ImGuiTemplate::VariableTableRow("Scale", scale_);
         ImGuiTemplate::VariableTableRow("Rotation", rotation_);
         ImGuiTemplate::VariableTableRow("HP", hp_);
+        ImGuiTemplate::VariableTableRow("DestPosition", destPosition_);
+        ImGuiTemplate::VariableTableRow("moveTimer", pTimer_->GetNow());
     };
 
     ImGuiTemplate::VariableTable("Boss",pFunc);
@@ -729,5 +721,16 @@ void Boss::OutputCSV()
 
 void Boss::UpdateRandomMovement()
 {
-    if (pTimer_->GetNow() > 30.0);
+    if (pTimer_->GetNow() > 5.0)
+    {
+        Vector3 pos0 = Vector3(-10.0f, 0, -10.0f);
+        Vector3 pos1 = Vector3(10.0f, 0, 10.0f);
+
+        // 乱数生成
+        destPosition_ = RandomGenerator::GetRandom(pos0, pos1);
+        pTimer_->Reset();
+        pTimer_->Start();
+    }
+
+    position_.Lerp(position_, destPosition_, 0.01f);
 }

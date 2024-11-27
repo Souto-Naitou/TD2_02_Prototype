@@ -14,8 +14,6 @@ public:
     virtual void    Draw()          = 0;
     virtual void    Finalize()      = 0;
 
-    virtual void    RegisterDebugWindow();
-    virtual void    UnregisterDebugWindow();
 
 
 public: /// Getter
@@ -40,5 +38,7 @@ protected: /// Member
     float   hp_;
 
 protected: /// Functions
-    virtual void DebugWindow() {};
+    virtual void    DebugWindow() {};
+    virtual void    RegisterDebugWindow();
+    virtual void    UnregisterDebugWindow();
 };

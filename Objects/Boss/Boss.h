@@ -138,7 +138,6 @@ private: /// メンバ変数
     Vector3 destPosition_ = {};
     double kRelollTime = 0.0;
 
-
 private:
     void DebugWindow() override;
     void OutputCSV();

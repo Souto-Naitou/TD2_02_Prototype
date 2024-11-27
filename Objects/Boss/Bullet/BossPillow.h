@@ -48,6 +48,9 @@ public: // セッター
 
 	Vector3 SetVelocity(const Vector3 _velocity) { return velocity_ = _velocity; }
 
+private:
+	const float kRotationSpeed_ = 0.1f;
+
 private: // メンバ変数
 
 	// 3Dオブジェクト
@@ -60,7 +63,7 @@ private: // メンバ変数
 	Vector3 velocity_{};
 
 	//寿命<frm>
-	static const int32_t kLifeTime = 60 * 2;
+	static const int32_t kLifeTime = 60 * 5;
 
 	//デスタイマー
 	int32_t deathTimer_ = kLifeTime;

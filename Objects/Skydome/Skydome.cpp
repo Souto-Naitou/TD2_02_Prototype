@@ -8,7 +8,7 @@ void Skydome::Initialize()
     ModelManager::GetInstance()->LoadModel("skydome/skydome.obj");
 
     /// Transformの初期化
-    scale_ ={ 30.0f, 30.0f, 30.0f };
+    scale_ ={ 300.0f, 300.0f, 300.0f };
     position_ = { 0.0f, 0.0f, 0.0f };
     rotation_ = { 0.0f, 0.0f, 0.0f };
 
