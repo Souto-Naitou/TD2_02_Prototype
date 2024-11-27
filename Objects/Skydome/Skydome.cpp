@@ -15,7 +15,7 @@ void Skydome::Initialize()
     object_ = std::make_unique<Object3d>();
 
     object_->Initialize("skydome.obj");
-    object_->SetEnableLighting(false);
+  //  object_->SetEnableLighting(false);
     object_->SetSize(scale_);
     object_->SetRotate(rotation_);
     object_->SetPosition(position_);
