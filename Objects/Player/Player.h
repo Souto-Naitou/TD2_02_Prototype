@@ -35,6 +35,9 @@ public:
     // 視野狭まる
     void Narrow();
 
+    // 慣性付く
+    void Inertia();
+
 private: // 衝突判定
 
     void OnCollisionTrigger(const Collider* _other);
@@ -115,6 +118,10 @@ private: // メンバ変数
     const int kInertiaCount_ = 1;
     int inertiaTimer_ = kInertiaTime_;
     const Vector3 kMaxVel_ = {0.2f,0.2f,0.2f};
+    Vector3 inertiaRotate_{};
+    bool isLShake_ = false;
+    bool isRShake_ = false;
+    int shakeTimer_ = 10;
 
     // MaxHP
     const float kMaxHp_ = 10;
