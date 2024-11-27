@@ -291,6 +291,16 @@ void Player::Draw()
     pStanEmit_->Draw();
 }
 
+void Player::RegisterDebugWindow()
+{
+    DebugManager::GetInstance()->SetComponent("Player", std::bind(&Player::DebugWindow, this));
+}
+
+void Player::UnregisterDebugWindow()
+{
+    DebugManager::GetInstance()->DeleteComponent("Player");
+}
+
 void Player::Draw2d()
 {
     for (uint32_t i = 0; i < 2; ++i)
