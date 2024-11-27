@@ -96,6 +96,10 @@ void Player::Finalize()
     pStanEmit_->Finalize();
 
     collisionManager_->DeleteCollider(&collider_);
+
+#ifndef _DEBUG
+    ShowCursor(1);
+#endif // !_DEBUG
 }
 
 void Player::Update()
@@ -132,6 +136,8 @@ void Player::Update()
         return false;
         });
 
+#ifdef _DEBUG
+
     if (Input::GetInstance()->TriggerKey(DIK_AT))
     {
         cursorVisible_ = !cursorVisible_;
@@ -147,11 +153,24 @@ void Player::Update()
         }
     }
 
+#endif // _DEBUG
+
+#ifndef _DEBUG
+
+    if (!cursorLock_)
+    {
+        ShowCursor(0);
+        cursorLock_ = true;
+    }
+
+    CalcCursorMove();
     if (cursorLock_)
     {
-        CalcCursorMove();
         SetCursorPos(1920 / 2, 1080 / 2);
     }
+
+#endif // !_DEBUG
+
 
     hpBar_->Update();
     object_->Update();

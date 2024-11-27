@@ -117,15 +117,17 @@ void DebugManager::Window_ObjectList()
 
 void DebugManager::Window_Log()
 {
+#ifdef _DEBUG
     if (ImGui::Begin("Log"))
     {
         ImGui::BeginChild("LogChild", ImVec2(300, 0), ImGuiChildFlags_Border);
 
-        ImGui::InputTextMultiline("##Log", textLog_.data(), textLog_.size(), ImVec2(-1, -1), ImGuiInputTextFlags_ReadOnly);
+        ImGui::InputTextMultiline("##Log", textLog_.data(), textLog_.size(), ImVec2(-1, -1), #ImGuiInputTextFlags_ReadOnly);
 
         ImGui::EndChild();
     }
     ImGui::End();
+#endif // _DEBUG
 }
 
 std::list<std::tuple<std::string, std::string, const std::function<void(void)>, bool>>::iterator

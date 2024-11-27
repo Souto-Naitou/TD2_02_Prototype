@@ -635,6 +635,8 @@ void Boss::OnCollision()
 
 void Boss::DebugWindow()
 {
+#ifdef _DEBUG
+
     auto pFunc = [&]() {
         ImGuiTemplate::VariableTableRow("Position", position_);
         ImGuiTemplate::VariableTableRow("Scale", scale_);
@@ -664,6 +666,7 @@ void Boss::DebugWindow()
         ChangeState(std::make_unique<BossStateFourth>(this));
     }
 
+#endif // _DEBUG
 }
 
 void Boss::OutputCSV()
