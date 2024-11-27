@@ -3,7 +3,7 @@
 #include "../.GameObject/GameObject.h"
 #include "Collision/Collider/Collider.h"
 #include "Bullet/PlayerBullet.h"
-#include "../../StanEmitter.h"
+#include "../Particle/StanEmitter.h"
 
 #include <Framework.h>
 #include <Object3d.h>

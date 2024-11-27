@@ -221,19 +221,19 @@ void Player::Update()
     // 移動制限 (前後左右のみだからカメラはみ出るかも)
     if (position_.x <= 0)
     {
-        position_.x = max(position_.x, -20);
+        position_.x = max(position_.x, -18);
     }
     else if (position_.x >= 0)
     {
-        position_.x = min(position_.x, 20);
+        position_.x = min(position_.x, 18);
     }
     if (position_.z <= 0)
     {
-        position_.z = max(position_.z, -20);
+        position_.z = max(position_.z, -18);
     }
     else if (position_.z >= 0)
     {
-        position_.z = min(position_.z, 20);
+        position_.z = min(position_.z, 18);
     }
 
     /// モデルに座標をセット

@@ -197,8 +197,8 @@ call .PostBuild.bat</Command>
     <ClCompile Include="scene\base\SceneManager.cpp" />
     <ClCompile Include="scene\scene\GamePlayScene.cpp" />
     <ClCompile Include="scene\scene\TitleScene.cpp" />
-    <ClCompile Include="StanEmitter.cpp" />
-    <ClCompile Include="StanParticle.cpp" />
+    <ClCompile Include="Objects\Particle\StanEmitter.cpp" />
+    <ClCompile Include="Objects\Particle\StanParticle.cpp" />
     <ClCompile Include="scene\Transition\SceneTransitionManager.cpp" />
     <ClCompile Include="scene\Transition\TransFadeInOut.cpp" />
   </ItemGroup>
@@ -230,8 +230,8 @@ call .PostBuild.bat</Command>
     <ClInclude Include="scene\base\SceneManager.h" />
     <ClInclude Include="scene\scene\GamePlayScene.h" />
     <ClInclude Include="scene\scene\TitleScene.h" />
-    <ClInclude Include="StanEmitter.h" />
-    <ClInclude Include="StanParticle.h" />
+    <ClInclude Include="Objects\Particle\StanEmitter.h" />
+    <ClInclude Include="Objects\Particle\StanParticle.h" />
     <ClInclude Include="scene\Transition\SceneTransitionManager.h" />
     <ClInclude Include="scene\Transition\TransBase.h" />
     <ClInclude Include="scene\Transition\TransFadeInOut.h" />
