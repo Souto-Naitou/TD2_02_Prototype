@@ -1,6 +1,7 @@
 #include "CollisionManager.h"
 #include "Helper/Shape.h"
 #include "Helper/ImGuiDebugManager/DebugManager.h"
+#include <Helper/ImGuiTemplates/ImGuiTemplates.h>
 
 #include <Vector3.h>
 #include <Matrix4x4.h>

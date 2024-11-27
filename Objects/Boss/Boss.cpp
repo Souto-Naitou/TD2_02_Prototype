@@ -29,15 +29,14 @@ void Boss::Initialize()
 
     csvData_ = csvLoader->LoadFile("Boss.csv");
 
-    /// モデルの読み込みと登録
-    ModelManager::GetInstance()->LoadModel("Boss/boss.obj");
-
     /// Transformの初期化
     scale_ = { 0.5f, 0.5f, 0.5f };
     position_ = { 0.0f, 0.0f, 10.0f };
     rotation_ = { 0.0f, 0.0f, 0.0f };
 
     object_ = std::make_unique<Object3d>();
+
+    ModelManager::GetInstance()->LoadModel("Boss/boss.obj");
 
     object_->Initialize("boss.obj");
     object_->SetSize(scale_);

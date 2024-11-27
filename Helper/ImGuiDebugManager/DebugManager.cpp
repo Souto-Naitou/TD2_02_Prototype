@@ -1,4 +1,5 @@
 #include "helper/ImGuiDebugManager/DebugManager.h"
+#include <ImGuiTemplates/ImGuiTemplates.h>
 
 
 #ifdef _DEBUG
@@ -114,6 +115,19 @@ void DebugManager::Window_ObjectList()
 #endif // DEBUG
 }
 
+void DebugManager::Window_Log()
+{
+    if (ImGui::Begin("Log"))
+    {
+        ImGui::BeginChild("LogChild", ImVec2(300, 0), ImGuiChildFlags_Border);
+
+        ImGui::InputTextMultiline("##Log", textLog_.data(), textLog_.size(), ImVec2(-1, -1), ImGuiInputTextFlags_ReadOnly);
+
+        ImGui::EndChild();
+    }
+    ImGui::End();
+}
+
 std::list<std::tuple<std::string, std::string, const std::function<void(void)>, bool>>::iterator
     DebugManager::GetInsertIterator(std::string _parentName)
 {
@@ -176,6 +190,8 @@ void DebugManager::DrawUI()
     MeasureFPS();
 
     DebugWindowOverall();
+
+    Window_Log();
 
     // 登録されていないなら早期リターン
     if (componentList_.size() == 0) return;
