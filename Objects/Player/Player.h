@@ -29,6 +29,10 @@ public:
     // 描画処理
     void Draw() override;
 
+    void RegisterDebugWindow() override;
+
+    void UnregisterDebugWindow() override;
+
     void Draw2d();
 
     // 攻撃
