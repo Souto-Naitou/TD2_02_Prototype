@@ -194,6 +194,7 @@ void GamePlayScene::Draw()
 
     // 描画前処理(Sprite)
     SpriteCommon::GetInstance()->PreDraw();
+    pPlayer_->Draw2d();
 
     // ↓ ↓ ↓ ↓ Draw を書き込む ↓ ↓ ↓ ↓
 
