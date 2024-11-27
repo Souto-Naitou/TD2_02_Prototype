@@ -47,6 +47,10 @@ void TitleScene::Initialize()
 		object->SetSize(size);
 		object3ds.push_back(object);
 	}
+
+	// 天球
+	pSkydome_ = std::make_unique<Skydome>();
+	pSkydome_->Initialize();
 }
 
 void TitleScene::Finalize()
@@ -60,6 +64,8 @@ void TitleScene::Finalize()
 		delete sprite;
 	}
 	Audio::GetInstance()->SoundUnload(Audio::GetInstance()->GetXAudio2(), &soundData);
+
+	pSkydome_->Finalize();
 }
 
 void TitleScene::Update()
@@ -86,6 +92,10 @@ void TitleScene::Update()
 		obj->Update();
 	}
 
+	// 天球の更新処理
+	pSkydome_->Update();
+
+
 	// --- シーン移行処理 ---
 	// ENTERキーを押したら
 	if (Input::GetInstance()->TriggerKey(DIK_SPACE)) {
@@ -104,6 +114,9 @@ void TitleScene::Draw()
 	for (auto& obj : object3ds) {
 		obj->Draw();
 	}
+
+	// 天球描画
+	pSkydome_->Draw();
 
 	// 描画前処理(Sprite)
 	SpriteCommon::GetInstance()->PreDraw();

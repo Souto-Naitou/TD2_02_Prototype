@@ -6,6 +6,8 @@
 #include <Object3d.h>
 #include <thread>
 
+#include "../../Objects/Skydome/Skydome.h"
+
 class TitleScene : public BaseScene
 {
 public:
@@ -33,4 +35,5 @@ private: // メンバ変数
 	std::vector<Object3d*> object3ds;
 
 	SceneManager* sceneManager_;
+	std::unique_ptr<Skydome>    pSkydome_ = nullptr;      // 天球
 };
