@@ -321,7 +321,6 @@ void Player::Attack()
 {
     if (Input::GetInstance()->PushKey(DIK_SPACE))
     {
-        Audio::GetInstance()->Audio::PlayWave(soundBullet_, false, 0.02f);
         /// プレイヤーの向きに合わせて弾の速度を変更
         //Vector3 bulletVelocity = { std::sinf(rotation_.y), std::cosf(rotation_.x), std::cosf(rotation_.y)};;
         Vector3 bulletVelocity = {
@@ -332,6 +331,7 @@ void Player::Attack()
 
         if (countCoolDownFrame_ <= 0)
         {
+            Audio::GetInstance()->Audio::PlayWave(soundBullet_, false, 0.02f);
             // 弾を生成し、初期化
             PlayerBullet* newBullet = new PlayerBullet();
 
