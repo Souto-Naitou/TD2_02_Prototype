@@ -9,6 +9,7 @@
 
 #include <ImGuiTemplates/ImGuiTemplates.h>
 
+
 class DebugManager
 {
 public:
