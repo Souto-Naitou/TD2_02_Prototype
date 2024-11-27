@@ -81,8 +81,6 @@ void Player::Finalize()
         return false;
         });
 
-    ModelManager::GetInstance()->Finalize();
-
     this->UnregisterDebugWindow();
 
     for (Sprite* sprite : sprites) {
@@ -409,7 +407,7 @@ void Player::Inertia()
     {
         inertiaRotate_.z -= 0.05f;
     }
-  
+
     if (inertiaTimer_ < 0)
     {
         inertiaRotate_ = { 0.0f,0.0f,0.0f };

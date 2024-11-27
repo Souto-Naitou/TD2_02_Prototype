@@ -152,6 +152,8 @@ void Boss::Finalize()
 
     DeleteBullet();
     collisionManager_->DeleteCollider(&collider_);
+
+    DebugManager::GetInstance()->DeleteComponent("Boss");
 }
 
 void Boss::NormalAttack()

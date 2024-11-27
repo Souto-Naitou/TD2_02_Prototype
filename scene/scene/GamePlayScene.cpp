@@ -79,8 +79,6 @@ void GamePlayScene::Finalize()
     for (Sprite* sprite : sprites) {
         delete sprite;
     }
-    Object3dCommon::GetInstance()->Finalize();
-    ModelManager::GetInstance()->Finalize();
     //Audio::GetInstance()->SoundUnload(Audio::GetInstance()->GetXAudio2(), &soundDataSet);
     //Audio::GetInstance()->SoundUnload(Audio::GetInstance()->GetXAudio2(), &soundDataSet2);
 
