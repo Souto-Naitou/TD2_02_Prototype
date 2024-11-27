@@ -122,7 +122,7 @@ void DebugManager::Window_Log()
     {
         ImGui::BeginChild("LogChild", ImVec2(300, 0), ImGuiChildFlags_Border);
 
-        ImGui::InputTextMultiline("##Log", textLog_.data(), textLog_.size(), ImVec2(-1, -1), #ImGuiInputTextFlags_ReadOnly);
+        ImGui::InputTextMultiline("##Log", textLog_.data(), textLog_.size(), ImVec2(-1, -1), ImGuiInputTextFlags_ReadOnly);
 
         ImGui::EndChild();
     }
