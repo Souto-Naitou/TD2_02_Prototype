@@ -81,7 +81,7 @@ void BossPillow::OnCollisionTrigger(const Collider* _other)
 {
 	if (_other->GetColliderID() == "Player")
 	{
-		//isNarrow_ = true;
+		isNarrow_ = true;
 	}
 	isDead_ = true;
 }

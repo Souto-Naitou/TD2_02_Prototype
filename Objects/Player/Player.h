@@ -29,6 +29,8 @@ public:
     // 描画処理
     void Draw() override;
 
+    void Draw2d();
+
     // 攻撃
     void Attack();
 

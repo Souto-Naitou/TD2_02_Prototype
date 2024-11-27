@@ -282,12 +282,16 @@ void Player::Draw()
         bullet->Draw();
     }
 
+    pStanEmit_->Draw();
+}
+
+void Player::Draw2d()
+{
     for (uint32_t i = 0; i < 2; ++i)
     {
         sprites[i]->Draw();
     }
 
-    pStanEmit_->Draw();
 }
 
 void Player::Attack()
