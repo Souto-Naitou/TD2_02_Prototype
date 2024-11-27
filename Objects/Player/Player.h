@@ -51,6 +51,8 @@ public: // ゲッター
     bool IsStan() { return isStan_; }
     bool IsNarrow() { return isNarrow_; }
     bool IsInertia() { return isInertia_; }
+    // 死んだ瞬間のフラグ
+    bool IsDeadMoment() { return isDeadMoment_; }
 
 public: // セッター
 
@@ -60,6 +62,8 @@ public: // セッター
     void SetIsNarrow(bool _isNarrow) { isNarrow_ = _isNarrow; }
     void SetIsInertia(bool _isInertia) { isInertia_ = _isInertia; }
     void SetIsHit(bool _isHit) { isHit_ = _isHit; }
+    // 死んだ瞬間のフラグ
+    void SetIsDeadMoment(bool _isMoment) { isDeadMoment_ = _isMoment; }
 
 private: // メンバ変数
 
@@ -127,6 +131,9 @@ private: // メンバ変数
 
     // MaxHP
     const float kMaxHp_ = 10;
+
+    // 死んだ瞬間のフラグ
+    bool isDeadMoment_ = false;
 
     bool isHit_ = false;
 

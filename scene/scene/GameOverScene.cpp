@@ -13,13 +13,13 @@ void GameOverScene::Initialize()
 	Object3dCommon::GetInstance()->SetDefaultCamera(camera);
 
 	// --- スプライト ---
-	/*std::string textureFile[] = { "monsterBall.png" };
+	std::string textureFile[] = { "monsterBall.png" };
 	for (uint32_t i = 0; i < 1; ++i) {
 		Sprite* sprite = new Sprite();
 		sprite->Initialize(textureFile[i], { 0,0 }, { 1,1,1,1 }, { 0,0 });
 
 		sprites.push_back(sprite);
-	}*/
+	}
 	sceneManager_ = SceneManager::GetInstance();
 	debugManager_ = DebugManager::GetInstance();
 	//ModelManager::GetInstance()->LoadModel("Boss/boss.obj");
@@ -67,7 +67,6 @@ void GameOverScene::Update()
 		auto fadeInOut = std::make_unique<TransFadeInOut>();
 		SceneTransitionManager::GetInstance()->ChangeScene("TITLE", std::move(fadeInOut));
 
-		//SceneManager::GetInstance()->ChangeScene("TITLE");
 	}
 }
 
@@ -81,9 +80,9 @@ void GameOverScene::Draw()
 
 	// ↓ ↓ ↓ ↓ Draw を書き込む ↓ ↓ ↓ ↓
 
-	/*for (uint32_t i = 0; i < 1; ++i) {
+	for (uint32_t i = 0; i < 1; ++i) {
 		sprites[i]->Draw();
-	}*/
+	}
 
 	// ↑ ↑ ↑ ↑ Draw を書き込む ↑ ↑ ↑ ↑
 }

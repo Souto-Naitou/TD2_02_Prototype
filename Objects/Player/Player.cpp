@@ -245,7 +245,7 @@ void Player::Update()
     CameraFollow();
 
     //  スタンしてなかったら攻撃
-    if (!isStan_)
+    if (!isStan_ && hp_ > 0)
     {
         Attack();
     }
@@ -429,6 +429,10 @@ void Player::OnCollisionTrigger(const Collider* _other)
     if (_other->GetColliderID() != "BossMoon" && !isHit_ && hp_ > 0)
     {
         hp_ -= 1;
+    }
+    if (hp_ <= 0)
+    {
+        isDeadMoment_ = true;
     }
 }
 

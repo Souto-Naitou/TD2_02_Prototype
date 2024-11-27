@@ -619,6 +619,10 @@ void Boss::OnCollision()
     {
         hp_ -= 1;
     }
+    else
+    {
+        isBossDeadMoment_ = true;
+    }
 }
 
 void Boss::DebugWindow()

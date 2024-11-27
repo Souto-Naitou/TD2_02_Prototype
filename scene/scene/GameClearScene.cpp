@@ -67,7 +67,6 @@ void GameClearScene::Update()
 		auto fadeInOut = std::make_unique<TransFadeInOut>();
 		SceneTransitionManager::GetInstance()->ChangeScene("TITLE", std::move(fadeInOut));
 
-		//SceneManager::GetInstance()->ChangeScene("TITLE");
 	}
 }
 

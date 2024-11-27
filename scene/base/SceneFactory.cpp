@@ -16,7 +16,7 @@ BaseScene* SceneFactory::CreateScene(const std::string& sceneName)
 	if (sceneName == "GAMEPLAY") {
 		newScene = new GamePlayScene();
 	}
-	if (sceneName == "GAMECLAE") {
+	if (sceneName == "GAMECLEAR") {
 		newScene = new GameClearScene();
 	}
 	if (sceneName == "GAMEOVER") {

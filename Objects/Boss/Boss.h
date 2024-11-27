@@ -110,6 +110,9 @@ public: // ゲッター
 
     bool IsHit() { return isHit_; }
 
+    // 死んだ瞬間のフラグ
+    bool IsBossDeadMoment() { return isBossDeadMoment_; }
+
 public: // セッター
 
     // プレイヤー位置
@@ -126,6 +129,8 @@ public: // セッター
     void SetIsInertia(bool _isInertia) { isInertia_ = _isInertia; }
 
     void SetIsHit(bool _isHit) { isHit_ = _isHit; }
+    // 死んだ瞬間のフラグ
+    void SetIsBossDeadMoment(bool _isMoment) { isBossDeadMoment_ = _isMoment; }
 
 private:
     std::unique_ptr<Object3d> object_ = nullptr;
@@ -140,6 +145,8 @@ private:
 
     // HP
     const float kMaxHitPoint = 80.0f;
+    // 死んだ瞬間のフラグ
+    bool isBossDeadMoment_ = false;
 
     // プレーヤーの位置
     Vector3 playerPosition_{};

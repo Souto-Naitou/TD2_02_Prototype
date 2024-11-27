@@ -181,8 +181,8 @@ void GamePlayScene::Update()
 
 
     // --- シーン移行処理 ---
-    // BossのHPが0になったら
-    if (pBoss_->GetBossHP() == 0) {
+    // Bossが死んだ瞬間
+    if (pBoss_->IsBossDeadMoment()) {
         // 次のシーンを生成
         auto fadeInOut = std::make_unique<TransFadeInOut>();
         SceneTransitionManager::GetInstance()->ChangeScene("GAMECLEAR", std::move(fadeInOut));
@@ -190,8 +190,8 @@ void GamePlayScene::Update()
         //SceneManager::GetInstance()->ChangeScene("GAMECLEAR");
     }
 
-    // PlayerのHPが0になったら
-    if (pPlayer_->GetHP() == 0)
+    // Playerが死んだ瞬間
+    if (pPlayer_->IsDeadMoment())
     {
         // 次のシーンを生成
         auto fadeInOut = std::make_unique<TransFadeInOut>();
@@ -199,13 +199,9 @@ void GamePlayScene::Update()
 
         //SceneManager::GetInstance()->ChangeScene("GAMEOVER");
     }
- if (Input::GetInstance()->TriggerKey(DIK_RETURN)) {
-		// 次のシーンを生成
-        auto fadeInOut = std::make_unique<TransFadeInOut>();
-        SceneTransitionManager::GetInstance()->ChangeScene("TITLE", std::move(fadeInOut));
 
-		//SceneManager::GetInstance()->ChangeScene("GAMEPLAY");
-	}  
+    pPlayer_->SetIsDeadMoment(false);
+    pBoss_->SetIsBossDeadMoment(false);
 }
 
 void GamePlayScene::Draw()
