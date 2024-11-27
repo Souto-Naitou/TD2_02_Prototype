@@ -2,6 +2,13 @@
 
 #include "Collision/CollisionManager/CollisionManager.h"
 
+#ifdef _DEBUG
+
+#include "imgui.h"
+#include <Helper/ImGuiTemplates/ImGuiTemplates.h>
+
+#endif // _DEBUG
+
 void Player::Initialize()
 {
     // --- 3Dオブジェクト ---

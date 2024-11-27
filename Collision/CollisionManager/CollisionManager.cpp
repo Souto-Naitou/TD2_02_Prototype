@@ -8,6 +8,13 @@
 #include <cmath>
 #include <algorithm>
 
+#ifdef _DEBUG
+
+#include "imgui.h"
+#include <Helper/ImGuiTemplates/ImGuiTemplates.h>
+
+#endif // _DEBUG
+
 void CollisionManager::Initialize()
 {
     DebugManager::GetInstance()->SetComponent("[Window]", "CollisionManager", std::bind(&CollisionManager::DebugWindow, this));
