@@ -62,6 +62,9 @@ void Player::Initialize()
     pStanEmit_ = new StanEmitter();
     pStanEmit_->Initialize();
 
+    soundBullet_ = Audio::GetInstance()->LoadWav("playerShot.wav");
+
+
     // HPBar
     hpBar_ = std::make_unique<HPBar>();
     hpBar_->Initialize();
@@ -94,6 +97,8 @@ void Player::Finalize()
     }
 
     pStanEmit_->Finalize();
+
+    Audio::GetInstance()->SoundUnload(Audio::GetInstance()->GetXAudio2(), &soundBullet_);
 
     collisionManager_->DeleteCollider(&collider_);
 
@@ -355,6 +360,7 @@ void Player::Attack()
 
         if (countCoolDownFrame_ <= 0)
         {
+            Audio::GetInstance()->Audio::PlayWave(soundBullet_, false, 0.02f);
             // 弾を生成し、初期化
             PlayerBullet* newBullet = new PlayerBullet();
 

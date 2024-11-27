@@ -73,6 +73,9 @@ void Boss::Initialize()
     hpBar_->SetScale({ 640.0f, 30.0f });
 
     pTimer_->Start();
+
+    soundBullet_ = Audio::GetInstance()->LoadWav("bossAttack.wav");
+    soundSong_ = Audio::GetInstance()->LoadWav("voice.wav");
 }
 
 void Boss::Update()
@@ -152,6 +155,9 @@ void Boss::Finalize()
         bullet->Finalize();
     }
 
+    Audio::GetInstance()->SoundUnload(Audio::GetInstance()->GetXAudio2(), &soundBullet_);
+    Audio::GetInstance()->SoundUnload(Audio::GetInstance()->GetXAudio2(), &soundSong_);
+
     DeleteBullet();
     collisionManager_->DeleteCollider(&collider_);
 
@@ -174,6 +180,7 @@ void Boss::NormalAttack()
     collider_.SetMask(collisionManager_->GetNewMask(collider_.GetColliderID(), "BossNormal", "BossMoon"));
     newBullet->SetVelocity(bltVelocity_);
 
+    Audio::GetInstance()->Audio::PlayWave(soundBullet_, false, 0.2f);
 
     // 通常弾を登録する
     pNormalBullets_.push_back(newBullet);
@@ -272,6 +279,7 @@ void Boss::PillowAttack()
     collider_.SetMask(collisionManager_->GetNewMask(collider_.GetColliderID(), "BossPillow", "BossMoon"));
     newBullet->SetVelocity(bltVelocity_);
 
+    Audio::GetInstance()->Audio::PlayWave(soundBullet_, false, 0.2f);
 
     // 枕弾を登録する
     pPillowBullets_.push_back(newBullet);
@@ -369,6 +377,8 @@ void Boss::MoonAttack()
     newBullet->Initialize();
     collider_.SetMask(collisionManager_->GetNewMask(collider_.GetColliderID(), "BossMoon"));
     newBullet->SetVelocity(bltVelocity_);
+
+    Audio::GetInstance()->Audio::PlayWave(soundBullet_, false, 0.2f);
 
     // 枕弾を登録する
     pMoonBullets_.push_back(newBullet);
@@ -484,6 +494,8 @@ void Boss::SongAttack()
 
     newBullet->SetPosition(position_);
     newBullet->Initialize();
+
+    Audio::GetInstance()->Audio::PlayWave(soundSong_, false, 0.2f);
 
     // 歌を登録する
     pSongBullets_.push_back(newBullet);

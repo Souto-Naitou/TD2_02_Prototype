@@ -77,6 +77,9 @@ private: // メンバ変数
 
     std::unique_ptr<HPBar>      hpBar_                  = nullptr; // HPバー
 
+    // サウンド
+    SoundData soundBullet_;
+
     Vector3                     moveVelocity_           = {}; // 移動速度
     float                       moveSpeed_              = 0.05f;
 

@@ -9,6 +9,7 @@
 #include <Object3d.h>
 #include <memory>
 #include <Easing.h>
+#include <Framework.h>
 #include "Collision/Collider/Collider.h"
 #include "Collision/CollisionManager/CollisionManager.h"
 #include "Helper/Shape.h"
@@ -145,6 +146,9 @@ private: /// メンバ変数
     Vector3 destPosition_ = {};
     double kRelollTime = 0.0;
     std::unique_ptr<HPBar> hpBar_ = nullptr;
+    // サウンド
+    SoundData soundBullet_;
+    SoundData soundSong_;
 
 private:
     void DebugWindow() override;
