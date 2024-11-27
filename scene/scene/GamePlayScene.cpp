@@ -20,7 +20,7 @@ void GamePlayScene::Initialize()
 
 
     // --- スプライト ---
-    std::string textureFile[] = { "test/uvChecker.png","monsterBall.png" };
+    std::string textureFile[] = { "gameUI.png"};
     for (uint32_t i = 0; i < 1; ++i) {
         Sprite* sprite = new Sprite();
         sprite->Initialize(textureFile[i], { 0,0 }, { 1,1,1,1 }, { 0,0 });
@@ -97,14 +97,9 @@ void GamePlayScene::Update()
 #pragma region スプライト
 
     for (uint32_t i = 0; i < 1; ++i) {
-        Vector2 position = { 200.0f * i, 0.0f };
-        sprites[i]->SetPosition(position);
 
-        float rotation = sprites[i]->GetRotate();
-        sprites[i]->SetRotate(rotation);
-
-        //Vector2 size = { 200.0f,200.0f };
-        //sprites[i]->SetSize(size);
+        Vector2 size = { 1600.0f,900.0f };
+        sprites[i]->SetSize(size);
 
         Vector4 color = sprites[i]->GetColor();
         sprites[i]->SetColor(color);
@@ -187,7 +182,6 @@ void GamePlayScene::Update()
         auto fadeInOut = std::make_unique<TransFadeInOut>();
         SceneTransitionManager::GetInstance()->ChangeScene("GAMECLEAR", std::move(fadeInOut));
 
-        //SceneManager::GetInstance()->ChangeScene("GAMECLEAR");
     }
 
     // Playerが死んだ瞬間
@@ -197,8 +191,17 @@ void GamePlayScene::Update()
         auto fadeInOut = std::make_unique<TransFadeInOut>();
         SceneTransitionManager::GetInstance()->ChangeScene("GAMEOVER", std::move(fadeInOut));
 
-        //SceneManager::GetInstance()->ChangeScene("GAMEOVER");
     }
+
+#ifdef _DEBUG
+    if (Input::GetInstance()->TriggerKey(DIK_RETURN)) {
+        // 次のシーンを生成
+        auto fadeInOut = std::make_unique<TransFadeInOut>();
+        SceneTransitionManager::GetInstance()->ChangeScene("GAMECLEAR", std::move(fadeInOut));
+
+    }
+#endif // _DEBUG
+
 
     pPlayer_->SetIsDeadMoment(false);
     pBoss_->SetIsBossDeadMoment(false);
@@ -221,15 +224,14 @@ void GamePlayScene::Draw()
 
     // 描画前処理(Sprite)
     SpriteCommon::GetInstance()->PreDraw();
-    pPlayer_->Draw2d();
-
+   
     // ↓ ↓ ↓ ↓ Draw を書き込む ↓ ↓ ↓ ↓
 
     pPlayer_->Draw2d();
 
-    //for (uint32_t i = 0; i < 1; ++i) {
-    //	sprites[i]->Draw();
-    //}
+    for (uint32_t i = 0; i < 1; ++i) {
+    	sprites[i]->Draw();
+    }
 
     //for (auto& obj : object3ds) {
     //	obj->Draw();

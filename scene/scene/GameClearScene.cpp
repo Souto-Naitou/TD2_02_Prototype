@@ -13,8 +13,8 @@ void GameClearScene::Initialize()
 	Object3dCommon::GetInstance()->SetDefaultCamera(camera);
 
 	// --- スプライト ---
-	std::string textureFile[] = { "test/uvChecker.png" };
-	for (uint32_t i = 0; i < 1; ++i) {
+	std::string textureFile[] = { "gameClear.png" ,"goTitle.png" };
+	for (uint32_t i = 0; i < 2; ++i) {
 		Sprite* sprite = new Sprite();
 		sprite->Initialize(textureFile[i], { 0,0 }, { 1,1,1,1 }, { 0,0 });
 
@@ -44,14 +44,9 @@ void GameClearScene::Update()
 	//カメラの更新
 	camera->Update();
 
-	for (uint32_t i = 0; i < 1; ++i) {
-		Vector2 position = { 200.0f * i, 0.0f };
-		sprites[i]->SetPosition(position);
+	for (uint32_t i = 0; i < 2; ++i) {
 
-		float rotation = sprites[i]->GetRotate();
-		sprites[i]->SetRotate(rotation);
-
-		Vector2 size = { 200.0f,200.0f };
+		Vector2 size = { 1600.0f,900.0f };
 		sprites[i]->SetSize(size);
 
 		Vector4 color = sprites[i]->GetColor();
@@ -62,7 +57,7 @@ void GameClearScene::Update()
 
 	// --- シーン移行処理 ---
 	// ENTERキーを押したら
-	if (Input::GetInstance()->TriggerKey(DIK_RETURN)) {
+	if (Input::GetInstance()->TriggerKey(DIK_SPACE)) {
 		// 次のシーンを生成
 		auto fadeInOut = std::make_unique<TransFadeInOut>();
 		SceneTransitionManager::GetInstance()->ChangeScene("TITLE", std::move(fadeInOut));
@@ -80,7 +75,7 @@ void GameClearScene::Draw()
 
 	// ↓ ↓ ↓ ↓ Draw を書き込む ↓ ↓ ↓ ↓
 
-	for (uint32_t i = 0; i < 1; ++i) {
+	for (uint32_t i = 0; i < 2; ++i) {
 		sprites[i]->Draw();
 	}
 
