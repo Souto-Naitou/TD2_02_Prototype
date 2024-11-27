@@ -19,17 +19,21 @@ BossStateFourth::BossStateFourth(Boss* _pBoss) : BaseBossState("State Fourth", _
 
 void BossStateFourth::Attack()
 {
-	// NormalAttack();
-	pBoss_->UpdateNormalAttackPopCommands();
+	// ボスが生きてる時だけ攻撃
+	if (pBoss_->GetBossHP() > 0)
+	{
+		// NormalAttack();
+		pBoss_->UpdateNormalAttackPopCommands();
 
-	// PillowAttack();
-	pBoss_->UpdatePillowPopCommands();
+		// PillowAttack();
+		pBoss_->UpdatePillowPopCommands();
 
-	// SongAttack();
-	pBoss_->UpdateSongPopCommands();
+		// SongAttack();
+		pBoss_->UpdateSongPopCommands();
 
-	// NormalAttack();
-	pBoss_->UpdateMoonPopCommands();
+		// NormalAttack();
+		pBoss_->UpdateMoonPopCommands();
+	}
 
 	// 通常弾更新
 	for (auto& bullet : pBoss_->GetNormalBullets())

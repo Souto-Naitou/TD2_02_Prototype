@@ -153,6 +153,12 @@
     <ClCompile Include="scene\Transition\SceneTransitionManager.cpp">
       <Filter>Scene\Scene\Transition</Filter>
     </ClCompile>
+    <ClCompile Include="scene\scene\GameClearScene.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="scene\scene\GameOverScene.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
     <ClCompile Include="Feature\RandomGenerator\RandomGenerator.cpp">
       <Filter>Feature\RandomGenerator</Filter>
     </ClCompile>
@@ -252,6 +258,12 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Objects\Particle\StanEmitter.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\scene\GameClearScene.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\scene\GameOverScene.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Feature\RandomGenerator\RandomGenerator.h">

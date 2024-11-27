@@ -1,8 +1,13 @@
 #include "GamePlayScene.h"
+
+#include <scene/Transition/SceneTransitionManager.h>
+#include <scene/Transition/TransFadeInOut.h>
+
 #include "Helper/ImGuiDebugManager/DebugManager.h"
 
 void GamePlayScene::Initialize()
 {
+    //sceneManager_ = SceneManager::GetInstance();
     debugManager_ = DebugManager::GetInstance();
     collisionManager_ = CollisionManager::GetInstance();
     collisionManager_->Initialize();
@@ -74,8 +79,6 @@ void GamePlayScene::Finalize()
     for (Sprite* sprite : sprites) {
         delete sprite;
     }
-    Object3dCommon::GetInstance()->Finalize();
-    ModelManager::GetInstance()->Finalize();
     //Audio::GetInstance()->SoundUnload(Audio::GetInstance()->GetXAudio2(), &soundDataSet);
     //Audio::GetInstance()->SoundUnload(Audio::GetInstance()->GetXAudio2(), &soundDataSet2);
 
@@ -175,6 +178,30 @@ void GamePlayScene::Update()
 
 
     collisionManager_->CheckAllCollision();
+
+
+    // --- シーン移行処理 ---
+    // Bossが死んだ瞬間
+    if (pBoss_->IsBossDeadMoment()) {
+        // 次のシーンを生成
+        auto fadeInOut = std::make_unique<TransFadeInOut>();
+        SceneTransitionManager::GetInstance()->ChangeScene("GAMECLEAR", std::move(fadeInOut));
+
+        //SceneManager::GetInstance()->ChangeScene("GAMECLEAR");
+    }
+
+    // Playerが死んだ瞬間
+    if (pPlayer_->IsDeadMoment())
+    {
+        // 次のシーンを生成
+        auto fadeInOut = std::make_unique<TransFadeInOut>();
+        SceneTransitionManager::GetInstance()->ChangeScene("GAMEOVER", std::move(fadeInOut));
+
+        //SceneManager::GetInstance()->ChangeScene("GAMEOVER");
+    }
+
+    pPlayer_->SetIsDeadMoment(false);
+    pBoss_->SetIsBossDeadMoment(false);
 }
 
 void GamePlayScene::Draw()

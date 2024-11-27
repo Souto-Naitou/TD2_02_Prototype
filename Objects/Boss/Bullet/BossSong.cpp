@@ -9,10 +9,10 @@
 void BossSong::Initialize()
 {
 	// --- 3Dオブジェクト ---
-	ModelManager::GetInstance()->LoadModel("plane.obj");
+	ModelManager::GetInstance()->LoadModel("bossAttack/voiceShock/voiceShock.obj");
 
 	object_ = std::make_unique<Object3d>();
-	object_->Initialize("plane.obj");
+	object_->Initialize("voiceShock.obj");
 
 	// 仮置き
 	object_->SetSize({ 0.2f,0.2f,0.5f });

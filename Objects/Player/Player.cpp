@@ -81,8 +81,6 @@ void Player::Finalize()
         return false;
         });
 
-    ModelManager::GetInstance()->Finalize();
-
     this->UnregisterDebugWindow();
 
     for (Sprite* sprite : sprites) {
@@ -251,8 +249,11 @@ void Player::Update()
     }
     CameraFollow();
 
-    // 攻撃
-    Attack();
+    //  スタンしてなかったら攻撃
+    if (!isStan_ && hp_ > 0)
+    {
+        Attack();
+    }
 
     // 視野狭まる
     Narrow();
@@ -418,7 +419,7 @@ void Player::Inertia()
     {
         inertiaRotate_.z -= 0.05f;
     }
-  
+
     if (inertiaTimer_ < 0)
     {
         inertiaRotate_ = { 0.0f,0.0f,0.0f };
@@ -437,9 +438,13 @@ void Player::Inertia()
 
 void Player::OnCollisionTrigger(const Collider* _other)
 {
-    if (_other->GetColliderID() != "BossMoon" && !isHit_)
+    if (_other->GetColliderID() != "BossMoon" && !isHit_ && hp_ > 0)
     {
         hp_ -= 1;
+    }
+    if (hp_ <= 0)
+    {
+        isDeadMoment_ = true;
     }
 }
 

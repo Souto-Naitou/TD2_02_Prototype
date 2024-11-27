@@ -144,6 +144,8 @@ void Boss::Finalize()
 
     DeleteBullet();
     collisionManager_->DeleteCollider(&collider_);
+
+    DebugManager::GetInstance()->DeleteComponent("Boss");
 }
 
 void Boss::NormalAttack()
@@ -602,7 +604,14 @@ void Boss::ChangeState(std::unique_ptr<BaseBossState> _pState)
 
 void Boss::OnCollision()
 {
-    hp_ -= 1;
+    if (hp_ > 0)
+    {
+        hp_ -= 1;
+    }
+    else
+    {
+        isBossDeadMoment_ = true;
+    }
 }
 
 void Boss::DebugWindow()
