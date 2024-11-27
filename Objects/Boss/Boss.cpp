@@ -12,7 +12,7 @@
 #ifdef _DEBUG
 
 #include "imgui.h"
-#include <ImGuiTemplates/ImGuiTemplates.h>
+#include <Helper/ImGuiTemplates/ImGuiTemplates.h>
 
 #endif // _DEBUG
 

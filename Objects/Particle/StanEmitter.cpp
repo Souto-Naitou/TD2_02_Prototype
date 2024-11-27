@@ -70,10 +70,11 @@ void StanEmitter::Draw()
 
 void StanEmitter::Emit()
 {
-	pos_.x = float(rand() % int(size_.x) + int(playerPos_.x - size_.x / 2));
-	pos_.y = float(rand() % int(size_.y) + int(playerPos_.y - size_.y / 2));
-	pos_.z = playerPos_.z;
+	pos_.x = float(rand() % int(size_.x) + int(playerPos_.x*10 - size_.x / 2));
+	pos_.y = float(rand() % int(size_.y) + int(playerPos_.y*10 - size_.y / 2));
 	
+	pos_ /= 10;
+	pos_.z = playerPos_.z;
 
 	// 弾を生成し、初期化
 	StanParticle* newParticle = new StanParticle();

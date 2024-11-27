@@ -32,7 +32,7 @@ void BossStateFirst::Attack()
 		bullet->Update();
 	}
 
-	if (pBoss_->GetBossHP() < 120) 
+	if (pBoss_->GetBossHP() < 60) 
 	{
 
 		pBoss_->ChangeState(std::make_unique<BossStateSecond>(pBoss_));

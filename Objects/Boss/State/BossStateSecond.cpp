@@ -36,7 +36,7 @@ void BossStateSecond::Attack()
 	}
 
 
-	if (pBoss_->GetBossHP() < 80) 
+	if (pBoss_->GetBossHP() < 40) 
 	{
 
 		pBoss_->ChangeState(std::make_unique<BossStateThird>(pBoss_));

@@ -60,6 +60,9 @@ private: // メンバ変数
 	// 速度
 	Vector3 velocity_{};
 
+	// プレーヤーに向けて
+	Vector3 toPlayer_{};
+
 	//寿命<frm>
 	static const int32_t kLifeTime = 60 * 3;
 

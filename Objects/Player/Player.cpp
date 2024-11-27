@@ -3,6 +3,13 @@
 
 #include "Collision/CollisionManager/CollisionManager.h"
 
+#ifdef _DEBUG
+
+#include "imgui.h"
+#include <Helper/ImGuiTemplates/ImGuiTemplates.h>
+
+#endif // _DEBUG
+
 void Player::Initialize()
 {
     // --- 3Dオブジェクト ---
@@ -153,13 +160,7 @@ void Player::Update()
     }
     else
     {
-        inertiaTimer_ -= kInertiaCount_;
-
-        if (inertiaTimer_ < 0)
-        {
-            inertiaTimer_ = kInertiaTime_;
-            isInertia_ = false;
-        }
+        Inertia();
     }
 
     if (!isStan_)
@@ -217,11 +218,32 @@ void Player::Update()
 
     position_ += moveVelocity_;
 
+    // 移動制限 (前後左右のみだからカメラはみ出るかも)
+    if (position_.x <= 0)
+    {
+        position_.x = max(position_.x, -18);
+    }
+    else if (position_.x >= 0)
+    {
+        position_.x = min(position_.x, 18);
+    }
+    if (position_.z <= 0)
+    {
+        position_.z = max(position_.z, -18);
+    }
+    else if (position_.z >= 0)
+    {
+        position_.z = min(position_.z, 18);
+    }
+
     /// モデルに座標をセット
     object_->SetPosition(position_);
 
     rotation_.y -= mousePosDiff_.x * 0.001f;
-    object_->SetRotate(rotation_);
+    if (!isInertia_)
+    {
+        object_->SetRotate(rotation_);
+    }
     CameraFollow();
 
     // 攻撃
@@ -260,12 +282,16 @@ void Player::Draw()
         bullet->Draw();
     }
 
+    pStanEmit_->Draw();
+}
+
+void Player::Draw2d()
+{
     for (uint32_t i = 0; i < 2; ++i)
     {
         sprites[i]->Draw();
     }
 
-    pStanEmit_->Draw();
 }
 
 void Player::Attack()
@@ -334,6 +360,66 @@ void Player::Narrow()
             }
         }
     }
+}
+
+void Player::Inertia()
+{
+    inertiaTimer_ -= kInertiaCount_;
+
+    if (inertiaTimer_ <= 270)
+    {
+        // 揺らすタイマー
+        shakeTimer_ -= kInertiaCount_;
+
+        if (shakeTimer_ <= 0)
+        {
+            if (!isLShake_ && !isRShake_)
+            {
+                // 1/4円分揺れる
+                shakeTimer_ = 10;
+            }
+            else
+            {
+                // 半円分揺れる
+                shakeTimer_ = 20;
+            }
+
+            // 揺れる向き切り替える
+            if (!isLShake_)
+            {
+                isLShake_ = true;
+                isRShake_ = false;
+            }
+            else
+            {
+                isLShake_ = false;
+                isRShake_ = true;
+            }
+        }
+    }
+    // 揺らす
+    if (isLShake_)
+    {
+        inertiaRotate_.z += 0.05f;
+    }
+    if(isRShake_)
+    {
+        inertiaRotate_.z -= 0.05f;
+    }
+  
+    if (inertiaTimer_ < 0)
+    {
+        inertiaRotate_ = { 0.0f,0.0f,0.0f };
+        isLShake_ = false;
+        isRShake_ = false;
+        shakeTimer_ = 10;
+        inertiaTimer_ = kInertiaTime_;
+        isInertia_ = false;
+    }
+
+    inertiaRotate_.x = rotation_.x;
+    inertiaRotate_.y = rotation_.y;
+    object_->SetRotate(inertiaRotate_);
 }
 
 
