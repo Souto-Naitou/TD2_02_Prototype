@@ -39,7 +39,6 @@ void GameOverScene::Finalize()
 		delete sprite;
 	}
 	Audio::GetInstance()->SoundUnload(Audio::GetInstance()->GetXAudio2(), &soundData);
-
 	pSkydome_->Finalize();
 }
 
@@ -51,19 +50,18 @@ void GameOverScene::Update()
 	camera->Update();
 
 	for (uint32_t i = 0; i < 2; ++i) {
-		
+
 		sprites[i]->Update();
 
 		Vector2 size = { 1600.0f,900.0f };
 		sprites[i]->SetSize(size);
 
 		Vector4 color = sprites[i]->GetColor();
-		sprites[i]->SetColor(color);	
+		sprites[i]->SetColor(color);
 	}
 
 	// 天球の更新処理
 	pSkydome_->Update();
-
 
 	// --- シーン移行処理 ---
 	// ENTERキーを押したら
@@ -71,7 +69,6 @@ void GameOverScene::Update()
 		// 次のシーンを生成
 		auto fadeInOut = std::make_unique<TransFadeInOut>();
 		SceneTransitionManager::GetInstance()->ChangeScene("TITLE", std::move(fadeInOut));
-
 	}
 }
 

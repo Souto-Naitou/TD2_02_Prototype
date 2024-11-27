@@ -67,6 +67,11 @@ void Boss::Initialize()
     collider_.SetOnCollisionTrigger(std::bind(&Boss::OnCollision, this));
     collisionManager_->RegisterCollider(&collider_);
 
+    hpBar_ = std::make_unique<HPBar>();
+    hpBar_->Initialize();
+    hpBar_->LoadBarSprite("BossHP.png", { 800.0f, 40.0f }, {0.5f, 0.5f});
+    hpBar_->SetScale({ 640.0f, 30.0f });
+
     pTimer_->Start();
 
     soundBullet_ = Audio::GetInstance()->LoadWav("bossAttack.wav");
@@ -88,9 +93,14 @@ void Boss::Update()
 
     aabb_.min = position_ - object_->GetSize();
     aabb_.max = position_ + object_->GetSize();
+    aabb_.max.y += 1.0f;
     collider_.SetPosition(position_);
 
     OutputCSV();
+
+    hpBar_->SetRatio(hp_ / kMaxHitPoint);
+
+    hpBar_->Update();
 
 }
 
@@ -152,6 +162,11 @@ void Boss::Finalize()
     collisionManager_->DeleteCollider(&collider_);
 
     DebugManager::GetInstance()->DeleteComponent("Boss");
+}
+
+void Boss::Draw2D()
+{
+    hpBar_->Draw2D();
 }
 
 void Boss::NormalAttack()
@@ -622,12 +637,18 @@ void Boss::OnCollision()
     }
     else
     {
-        isBossDeadMoment_ = true;
+        if (isDead_ == false)
+        {
+            isBossDeadMoment_ = true;
+        }
+        isDead_ = true;
     }
 }
 
 void Boss::DebugWindow()
 {
+#ifdef _DEBUG
+
     auto pFunc = [&]() {
         ImGuiTemplate::VariableTableRow("Position", position_);
         ImGuiTemplate::VariableTableRow("Scale", scale_);
@@ -657,6 +678,7 @@ void Boss::DebugWindow()
         ChangeState(std::make_unique<BossStateFourth>(this));
     }
 
+#endif // _DEBUG
 }
 
 void Boss::OutputCSV()

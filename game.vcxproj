@@ -171,6 +171,7 @@ call .PostBuild.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Objects\HPBar\HPBar.cpp" />
     <ClCompile Include="scene\scene\GameClearScene.cpp" />
     <ClCompile Include="scene\scene\GameOverScene.cpp" />
     <ClCompile Include="Feature\RandomGenerator\RandomGenerator.cpp" />
@@ -207,6 +208,7 @@ call .PostBuild.bat</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include=".Externals\Timer\Timer.h" />
+    <ClInclude Include="Objects\HPBar\HPBar.h" />
     <ClInclude Include="scene\scene\GameClearScene.h" />
     <ClInclude Include="scene\scene\GameOverScene.h" />
     <ClInclude Include="Feature\RandomGenerator\RandomGenerator.h" />

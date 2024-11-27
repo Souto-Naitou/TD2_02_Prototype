@@ -226,6 +226,7 @@ void GamePlayScene::Draw()
     // ↓ ↓ ↓ ↓ Draw を書き込む ↓ ↓ ↓ ↓
 
     pPlayer_->Draw2d();
+    pBoss_->Draw2D();
 
     for (uint32_t i = 0; i < 1; ++i) {
     	sprites[i]->Draw();

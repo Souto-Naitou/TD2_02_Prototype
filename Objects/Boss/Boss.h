@@ -14,6 +14,7 @@
 #include "Collision/CollisionManager/CollisionManager.h"
 #include "Helper/Shape.h"
 #include "CSVLoader.h"
+#include <Objects/HPBar/HPBar.h>
 
 /// <summary>
 /// ボス
@@ -29,6 +30,7 @@ public:
     void Draw()         override;
     void Finalize()     override;
 
+    void Draw2D();
     // 通常攻撃
     void NormalAttack();
     // 通常攻撃発生コマンド
@@ -143,6 +145,7 @@ private: /// メンバ変数
     std::unique_ptr<Timer> pTimer_ = nullptr;
     Vector3 destPosition_ = {};
     double kRelollTime = 0.0;
+    std::unique_ptr<HPBar> hpBar_ = nullptr;
     // サウンド
     SoundData soundBullet_;
     SoundData soundSong_;
@@ -156,6 +159,7 @@ private:
     const float kMaxHitPoint = 80.0f;
     // 死んだ瞬間のフラグ
     bool isBossDeadMoment_ = false;
+    bool isDead_ = false;
 
     // プレーヤーの位置
     Vector3 playerPosition_{};

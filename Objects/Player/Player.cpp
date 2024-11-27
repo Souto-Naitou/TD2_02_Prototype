@@ -64,6 +64,12 @@ void Player::Initialize()
 
     soundBullet_ = Audio::GetInstance()->LoadWav("playerShot.wav");
 
+
+    // HPBar
+    hpBar_ = std::make_unique<HPBar>();
+    hpBar_->Initialize();
+    hpBar_->LoadBarSprite("playerHP.png", {30.0f, 800.0f}, {0.0f, 1.0f});
+    hpBar_->SetScale({ 320.0f, 15.0f});
 }
 
 void Player::Finalize()
@@ -95,6 +101,10 @@ void Player::Finalize()
     Audio::GetInstance()->SoundUnload(Audio::GetInstance()->GetXAudio2(), &soundBullet_);
 
     collisionManager_->DeleteCollider(&collider_);
+
+#ifndef _DEBUG
+    ShowCursor(1);
+#endif // !_DEBUG
 }
 
 void Player::Update()
@@ -131,6 +141,8 @@ void Player::Update()
         return false;
         });
 
+#ifdef _DEBUG
+
     if (Input::GetInstance()->TriggerKey(DIK_AT))
     {
         cursorVisible_ = !cursorVisible_;
@@ -146,12 +158,26 @@ void Player::Update()
         }
     }
 
+#endif // _DEBUG
+
+#ifndef _DEBUG
+
+    if (!cursorLock_)
+    {
+        ShowCursor(0);
+        cursorLock_ = true;
+    }
+
+    CalcCursorMove();
     if (cursorLock_)
     {
-        CalcCursorMove();
         SetCursorPos(1920 / 2, 1080 / 2);
     }
 
+#endif // !_DEBUG
+
+
+    hpBar_->Update();
     object_->Update();
 
     Vector3 playerForward = { std::sinf(rotation_.y), 0.f, std::cosf(rotation_.y) };
@@ -242,6 +268,9 @@ void Player::Update()
     /// モデルに座標をセット
     object_->SetPosition(position_);
 
+    /// HPバーの位置をセット
+    hpBar_->SetRatio(hp_ / kMaxHp_);
+
     // マウス移動
     rotation_.x -= mousePosDiff_.y * 0.001f;
     rotation_.y -= mousePosDiff_.x * 0.001f;
@@ -286,7 +315,6 @@ void Player::Draw()
 {
     object_->Draw();
 
-
     // 弾描画
     for (auto& bullet : bullets_)
     {
@@ -315,6 +343,7 @@ void Player::Draw2d()
 
     pStanEmit_->Draw();
 
+    hpBar_->Draw2D();
 }
 
 void Player::Attack()
@@ -450,7 +479,6 @@ void Player::Inertia()
     inertiaRotate_.y = rotation_.y;
     object_->SetRotate(inertiaRotate_);
 }
-
 
 void Player::OnCollisionTrigger(const Collider* _other)
 {

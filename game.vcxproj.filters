@@ -61,6 +61,9 @@
     <Filter Include="Feature\RandomGenerator">
       <UniqueIdentifier>{d8f54c51-edda-437d-8575-7f590624d160}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\HPBar">
+      <UniqueIdentifier>{981476a5-1f47-4dbb-8668-0ff7d8664bca}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -161,6 +164,9 @@
     </ClCompile>
     <ClCompile Include="Feature\RandomGenerator\RandomGenerator.cpp">
       <Filter>Feature\RandomGenerator</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\HPBar\HPBar.cpp">
+      <Filter>Object\HPBar</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -268,6 +274,9 @@
     </ClInclude>
     <ClInclude Include="Feature\RandomGenerator\RandomGenerator.h">
       <Filter>Feature\RandomGenerator</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\HPBar\HPBar.h">
+      <Filter>Object\HPBar</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
