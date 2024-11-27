@@ -63,10 +63,6 @@ void GameOverScene::Update()
 	// 天球の更新処理
 	pSkydome_->Update();
 
-    theta += 0.01f * 3.1415f;
-
-
-
 	// --- シーン移行処理 ---
 	// ENTERキーを押したら
 	if (Input::GetInstance()->TriggerKey(DIK_SPACE)) {
