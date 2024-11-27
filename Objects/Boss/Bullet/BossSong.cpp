@@ -32,6 +32,7 @@ void BossSong::Update()
 {
 	object_->Update();
 
+	position_.z  += 1.0f;
 	object_->SetPosition(position_);
 	object_->SetSize(scale_);
 

@@ -16,7 +16,7 @@ void Player::Initialize()
     ModelManager::GetInstance()->LoadModel("player/player.obj");
 
     // --- スプライト ---
-    std::string textureFile[] = { "test/uvChecker.png","test/uvChecker.png" };
+    std::string textureFile[] = { "narrow.png","narrow.png" };
     for (uint32_t i = 0; i < 2; ++i) {
         Sprite* sprite = new Sprite();
         sprite->Initialize(textureFile[0], topClosePos_, { 1,1,1,1 }, { 0,0 });
