@@ -90,6 +90,7 @@ void Boss::Update()
 
     aabb_.min = position_ - object_->GetSize();
     aabb_.max = position_ + object_->GetSize();
+    aabb_.max.y += 1.0f;
     collider_.SetPosition(position_);
 
     OutputCSV();
@@ -624,7 +625,11 @@ void Boss::OnCollision()
     }
     else
     {
-        isBossDeadMoment_ = true;
+        if (isDead_ == false)
+        {
+            isBossDeadMoment_ = true;
+        }
+        isDead_ = true;
     }
 }
 
