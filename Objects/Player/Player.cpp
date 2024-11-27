@@ -61,6 +61,9 @@ void Player::Initialize()
     // パーティクル
     pStanEmit_ = new StanEmitter();
     pStanEmit_->Initialize();
+
+    soundBullet_ = Audio::GetInstance()->LoadWav("playerShot.wav");
+
 }
 
 void Player::Finalize()
@@ -88,6 +91,8 @@ void Player::Finalize()
     }
 
     pStanEmit_->Finalize();
+
+    Audio::GetInstance()->SoundUnload(Audio::GetInstance()->GetXAudio2(), &soundBullet_);
 
     collisionManager_->DeleteCollider(&collider_);
 }
@@ -316,6 +321,7 @@ void Player::Attack()
 {
     if (Input::GetInstance()->PushKey(DIK_SPACE))
     {
+        Audio::GetInstance()->Audio::PlayWave(soundBullet_, false, 0.02f);
         /// プレイヤーの向きに合わせて弾の速度を変更
         //Vector3 bulletVelocity = { std::sinf(rotation_.y), std::cosf(rotation_.x), std::cosf(rotation_.y)};;
         Vector3 bulletVelocity = {

@@ -29,6 +29,8 @@ private: /// メンバ変数
     Camera*                     camera              = nullptr;      // カメラ
     CollisionManager*           collisionManager_   = nullptr;      // 衝突判定マネージャ
     SceneManager*               sceneManager_       = nullptr;      // シーンマネージャ
+    // サウンド
+    SoundData soundData;
 
     // 2Dスプライト
     std::vector<Sprite*>        sprites             = {};           // 2Dスプライト

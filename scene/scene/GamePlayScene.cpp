@@ -62,11 +62,9 @@ void GamePlayScene::Initialize()
     pSkydome_->Initialize();
 
     // --- オーディオ ---
-    //soundDataSet = Audio::GetInstance()->LoadWav("fanfare.wav");
-    //Audio::GetInstance()->PlayWave(soundDataSet, false, 0.02f);
+    //soundData = Audio::GetInstance()->LoadWav("BGM.wav");
 
-    //soundDataSet2 = Audio::GetInstance()->LoadWav("test/xxx.wav");
-    //Audio::GetInstance()->PlayWave(soundDataSet2, false, 0.01f);
+   // Audio::GetInstance()->PlayWave(soundData, true, 0.3f);
 }
 
 void GamePlayScene::Finalize()
@@ -79,8 +77,8 @@ void GamePlayScene::Finalize()
     for (Sprite* sprite : sprites) {
         delete sprite;
     }
-    //Audio::GetInstance()->SoundUnload(Audio::GetInstance()->GetXAudio2(), &soundDataSet);
-    //Audio::GetInstance()->SoundUnload(Audio::GetInstance()->GetXAudio2(), &soundDataSet2);
+    Audio::GetInstance()->SoundUnload(Audio::GetInstance()->GetXAudio2(), &soundData);
+    
 
     pPlayer_->Finalize();
     pBoss_->Finalize();

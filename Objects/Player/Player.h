@@ -78,6 +78,9 @@ private: // メンバ変数
 
     std::unique_ptr<Easing>     easing_                 = nullptr;
 
+    // サウンド
+    SoundData soundBullet_;
+
     Vector3                     moveVelocity_           = {}; // 移動速度
     float                       moveSpeed_              = 0.05f;
 

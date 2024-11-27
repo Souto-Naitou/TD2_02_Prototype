@@ -51,6 +51,10 @@ void TitleScene::Initialize()
 	// 天球
 	pSkydome_ = std::make_unique<Skydome>();
 	pSkydome_->Initialize();
+
+	//soundData = Audio::GetInstance()->LoadWav("BGM.wav");
+
+	//Audio::GetInstance()->PlayWave(soundData, true, 0.3f);
 }
 
 void TitleScene::Finalize()
@@ -99,6 +103,7 @@ void TitleScene::Update()
 	// --- シーン移行処理 ---
 	// ENTERキーを押したら
 	if (Input::GetInstance()->TriggerKey(DIK_SPACE)) {
+		
 		// 次のシーンを生成
         auto fadeInOut = std::make_unique<TransFadeInOut>();
         SceneTransitionManager::GetInstance()->ChangeScene("GAMEPLAY", std::move(fadeInOut));
