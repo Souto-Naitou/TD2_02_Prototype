@@ -186,22 +186,28 @@ void GamePlayScene::Update()
     // BossのHPが0になったら
     if (pBoss_->GetBossHP() == 0) {
         // 次のシーンを生成
-        //auto fadeInOut = std::make_unique<TransFadeInOut>();
-        //SceneTransitionManager::GetInstance()->ChangeScene("GAMECLEAR", std::move(fadeInOut));
+        auto fadeInOut = std::make_unique<TransFadeInOut>();
+        SceneTransitionManager::GetInstance()->ChangeScene("GAMECLEAR", std::move(fadeInOut));
 
-        SceneManager::GetInstance()->ChangeScene("GAMECLEAR");
+        //SceneManager::GetInstance()->ChangeScene("GAMECLEAR");
     }
 
     // PlayerのHPが0になったら
     if (pPlayer_->GetHP() == 0)
     {
         // 次のシーンを生成
-        //auto fadeInOut = std::make_unique<TransFadeInOut>();
-        //SceneTransitionManager::GetInstance()->ChangeScene("GAMEOVER", std::move(fadeInOut));
+        auto fadeInOut = std::make_unique<TransFadeInOut>();
+        SceneTransitionManager::GetInstance()->ChangeScene("GAMEOVER", std::move(fadeInOut));
 
-        SceneManager::GetInstance()->ChangeScene("GAMEOVER");
+        //SceneManager::GetInstance()->ChangeScene("GAMEOVER");
     }
-   
+ if (Input::GetInstance()->TriggerKey(DIK_RETURN)) {
+		// 次のシーンを生成
+        auto fadeInOut = std::make_unique<TransFadeInOut>();
+        SceneTransitionManager::GetInstance()->ChangeScene("TITLE", std::move(fadeInOut));
+
+		//SceneManager::GetInstance()->ChangeScene("GAMEPLAY");
+	}  
 }
 
 void GamePlayScene::Draw()
